@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RF04 - Catálogo e Gestão de Planos de Assinatura da Academia FOX FIT">
+  <title>FOX FIT | Planos de Assinatura</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html" class="ativo" aria-current="page">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-gestao-planos">
+        <h1 id="titulo-gestao-planos">Planos de Assinatura</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="grade-planos" aria-label="Vitrine de Planos">
+      <article class="card-plano">
+        <header class="cabecalho-plano">
+          <h3>Plano Mensal Smart</h3>
+          <span class="duracao-plano">Duração: 1 Mês</span>
+        </header>
+
+        <p class="preco-plano">
+          R$ 149,90
+          <small>/ mês</small>
+        </p>
+
+        <ul class="lista-beneficios">
+          <li>Acesso livre à musculação e ergometria</li>
+          <li>Horário livre de segunda a sábado</li>
+          <li>Avaliação física inicial inclusa</li>
+          <li>Sem multa de fidelidade contratual</li>
+        </ul>
+
+        <footer>
+          <a href="matriculas.html?plano=MENSAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
+        </footer>
+      </article>
+
+      <article class="card-plano">
+        <header class="cabecalho-plano">
+          <h3>Plano Trimestral Fit</h3>
+          <span class="duracao-plano">Duração: 3 Meses</span>
+        </header>
+
+        <p class="preco-plano">
+          R$ 129,90
+          <small>/ mês (Total R$ 389,70)</small>
+        </p>
+
+        <ul class="lista-beneficios">
+          <li>Musculação + Aulas Coletivas (Dança e Funcional)</li>
+          <li>1 reavaliação física de bioimpedância</li>
+          <li>Acesso ao aplicativo de treinos FOX FIT</li>
+          <li>Desconto de 13% sobre o valor avulso</li>
+        </ul>
+
+        <footer>
+          <a href="matriculas.html?plano=TRIMESTRAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
+        </footer>
+      </article>
+
+      <article class="card-plano">
+        <header class="cabecalho-plano">
+          <h3>Plano Semestral Performance</h3>
+          <span class="duracao-plano">Duração: 6 Meses</span>
+        </header>
+
+        <p class="preco-plano">
+          R$ 114,90
+          <small>/ mês (Total R$ 689,40)</small>
+        </p>
+
+        <ul class="lista-beneficios">
+          <li>Acesso total: Musculação, Funcional, Cross e Lutas</li>
+          <li>2 avaliações físicas completas por semestre</li>
+          <li>Direito a trancamento de férias por até 15 dias</li>
+          <li>Convidado VIP 2 vezes por mês</li>
+        </ul>
+
+        <footer>
+          <a href="matriculas.html?plano=SEMESTRAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
+        </footer>
+      </article>
+
+      <article class="card-plano">
+        <header class="cabecalho-plano">
+          <h3>Plano Anual Fox VIP</h3>
+          <span class="duracao-plano">Duração: 12 Meses</span>
+        </header>
+
+        <p class="preco-plano">
+          R$ 99,90
+          <small>/ mês (Total R$ 1.198,80)</small>
+        </p>
+
+        <ul class="lista-beneficios">
+          <li>Acesso irrestrito a todas as modalidades e turnos</li>
+          <li>Bioimpedância trimestral e acompanhamento personalizado</li>
+          <li>Trancamento programado de até 30 dias ao ano</li>
+          <li>Acesso liberado para 1 acompanhante aos finais de semana</li>
+        </ul>
+
+        <footer>
+          <a href="matriculas.html?plano=ANUAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
+        </footer>
+      </article>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-formulario-plano">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-formulario-plano">Cadastrar ou Editar Plano de Assinatura</h2>
+        </hgroup>
+      </header>
+
+      <form id="form-plano" class="formulario-padrao" action="planos.html" method="post">
+        <input type="hidden" id="plano-id" name="idPlano" value="">
+
+        <fieldset>
+          <legend>Configuração Comercial do Plano</legend>
+
+          <label for="plano-nome">
+            Nome do Plano
+            <input
+              type="text"
+              id="plano-nome"
+              name="nomePlano"
+              placeholder="Ex.: Plano Anual Fox VIP"
+              required
+            >
+          </label>
+
+          <label for="plano-valor">
+            Valor R$ (Mensal ou Pacote)
+            <input
+              type="number"
+              id="plano-valor"
+              name="valor"
+              placeholder="Ex.: 99.90"
+              step="0.01"
+              min="0"
+              required
+            >
+          </label>
+
+          <label for="plano-duracao">
+            Duração em Meses
+            <input
+              type="number"
+              id="plano-duracao"
+              name="duracaoMeses"
+              placeholder="Ex.: 12"
+              min="1"
+              max="36"
+              required
+            >
+          </label>
+
+          <label for="plano-beneficios" class="campo-completo">
+            Benefícios do Plano (um benefício por linha)
+            <textarea
+              id="plano-beneficios"
+              name="beneficios"
+              placeholder="Descreva os benefícios e modalidades inclusas no plano..."
+              required
+            ></textarea>
+          </label>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-limpar-plano" class="btn btn-secundario">
+              Limpar
+            </button>
+            <button type="submit" id="btn-salvar-plano" class="btn btn-primario">
+              Salvar Plano
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-tabela-planos">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-tabela-planos">Tabela de Planos Ativos</h2>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Listagem de Planos Cadastrados">
+        <table class="tabela-dados" id="tabela-planos">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Modalidade / Nome do Plano</th>
+              <th scope="col">Duração (Meses)</th>
+              <th scope="col">Valor Mensal</th>
+              <th scope="col">Valor Total do Contrato</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-planos">
+            <tr>
+              <th scope="row">#PLN-01</th>
+              <td>Plano Mensal Smart</td>
+              <td>1 mês</td>
+              <td>R$ 149,90</td>
+              <td>R$ 149,90</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="1" aria-label="Editar Plano Mensal Smart">Editar</button>
+                <button type="button" class="btn-excluir" data-id="1" aria-label="Excluir Plano Mensal Smart">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#PLN-02</th>
+              <td>Plano Trimestral Fit</td>
+              <td>3 meses</td>
+              <td>R$ 129,90</td>
+              <td>R$ 389,70</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="2" aria-label="Editar Plano Trimestral Fit">Editar</button>
+                <button type="button" class="btn-excluir" data-id="2" aria-label="Excluir Plano Trimestral Fit">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#PLN-03</th>
+              <td>Plano Semestral Performance</td>
+              <td>6 meses</td>
+              <td>R$ 114,90</td>
+              <td>R$ 689,40</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="3" aria-label="Editar Plano Semestral Performance">Editar</button>
+                <button type="button" class="btn-excluir" data-id="3" aria-label="Excluir Plano Semestral Performance">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#PLN-04</th>
+              <td>Plano Anual Fox VIP</td>
+              <td>12 meses</td>
+              <td>R$ 99,90</td>
+              <td>R$ 1.198,80</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="4" aria-label="Editar Plano Anual Fox VIP">Editar</button>
+                <button type="button" class="btn-excluir" data-id="4" aria-label="Excluir Plano Anual Fox VIP">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">Total de planos configurados no catálogo da academia</td>
+              <td colspan="2">4 planos vigentes</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+
+    <dialog id="modal-editar-plano" class="modal-sistema" popover aria-labelledby="titulo-modal-editar-plano">
+      <article>
+        <header class="cabecalho-modulo">
+          <hgroup>
+            <h2 id="titulo-modal-editar-plano">Editar Plano de Assinatura</h2>
+          </hgroup>
+        </header>
+
+        <form id="form-editar-plano" class="formulario-padrao" action="planos.html" method="post">
+          <input type="hidden" id="edit-plano-id" name="idPlano" value="1">
+
+          <fieldset>
+            <legend>Parâmetros do Plano Selecionado</legend>
+
+            <label for="edit-plano-nome">
+              Nome do Plano
+              <input
+                type="text"
+                id="edit-plano-nome"
+                name="nomePlano"
+                value="Plano Mensal Smart"
+                required
+              >
+            </label>
+
+            <label for="edit-plano-valor">
+              Valor R$ (Mensal)
+              <input
+                type="number"
+                id="edit-plano-valor"
+                name="valor"
+                value="149.90"
+                step="0.01"
+                min="0"
+                required
+              >
+            </label>
+
+            <label for="edit-plano-duracao">
+              Duração em Meses
+              <input
+                type="number"
+                id="edit-plano-duracao"
+                name="duracaoMeses"
+                value="1"
+                min="1"
+                max="36"
+                required
+              >
+            </label>
+
+            <label for="edit-plano-status">
+              Status do Plano
+              <select id="edit-plano-status" name="status" required>
+                <option value="ATIVO" selected>Ativo</option>
+                <option value="INATIVO">Inativo</option>
+              </select>
+            </label>
+
+            <label for="edit-plano-beneficios" class="campo-completo">
+              Benefícios do Plano (um benefício por linha)
+              <textarea
+                id="edit-plano-beneficios"
+                name="beneficios"
+                required
+              >Acesso livre à musculação e ergometria
+Horário livre de segunda a sábado
+Avaliação física inicial inclusa
+Sem multa de fidelidade contratual</textarea>
+            </label>
+
+            <footer class="acoes-formulario">
+              <button type="button" id="btn-fechar-modal-plano" class="btn btn-secundario" popovertarget="modal-editar-plano" popovertargetaction="hide">
+                Cancelar
+              </button>
+              <button type="submit" id="btn-salvar-edicao-plano" class="btn btn-primario">
+                Salvar Alterações
+              </button>
+            </footer>
+          </fieldset>
+        </form>
+      </article>
+    </dialog>
+  </main>
+</body>
+</html>
+

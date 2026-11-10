@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RF01 e RF02 - Cadastro, Edição, Consulta e Exclusão de Alunos da Academia FOX FIT">
+  <title>FOX FIT | Gestão de Alunos</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html" class="ativo" aria-current="page">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-gestao-alunos">
+        <h1 id="titulo-gestao-alunos">Gestão de Alunos</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="barra-ferramentas" aria-label="Pesquisa e Filtros de Alunos">
+      <form id="form-busca-aluno" class="formulario-busca" role="search" action="alunos.html" method="get">
+        <fieldset>
+          <legend>Filtrar e Pesquisar Base de Alunos</legend>
+
+          <label for="busca-aluno-termo">
+            Buscar por Nome ou CPF
+            <input
+              type="search"
+              id="busca-aluno-termo"
+              name="termoBusca"
+              placeholder="Digite o nome ou CPF (000.000.000-00)"
+            >
+          </label>
+
+          <label for="filtro-aluno-status">
+            Status do Aluno
+            <select id="filtro-aluno-status" name="statusFiltro">
+              <option value="TODOS" selected>Todos os Status</option>
+              <option value="ATIVO">Ativo</option>
+              <option value="INATIVO">Inativo</option>
+            </select>
+          </label>
+
+          <button type="submit" id="btn-filtrar-alunos" class="btn btn-primario">
+            Pesquisar
+          </button>
+          <button type="reset" id="btn-limpar-filtro-alunos" class="btn btn-secundario">
+            Redefinir Filtro
+          </button>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-formulario-aluno">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-formulario-aluno">Ficha Cadastral do Aluno</h2>
+        </hgroup>
+      </header>
+
+      <form id="form-aluno" class="formulario-padrao" action="alunos.html" method="post">
+        <input type="hidden" id="aluno-id" name="idAluno" value="">
+
+        <fieldset>
+          <legend>Dados Pessoais e Contato do Aluno</legend>
+
+          <label for="aluno-nome">
+            Nome Completo
+            <input
+              type="text"
+              id="aluno-nome"
+              name="nome"
+              placeholder="Ex.: Lucas Gabriel Moreira"
+              required
+            >
+          </label>
+
+          <label for="aluno-cpf">
+            CPF
+            <input
+              type="text"
+              id="aluno-cpf"
+              name="cpf"
+              placeholder="000.000.000-00"
+              pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
+              maxlength="14"
+              required
+            >
+          </label>
+
+          <label for="aluno-nascimento">
+            Data de Nascimento
+            <input
+              type="date"
+              id="aluno-nascimento"
+              name="dataNascimento"
+              required
+            >
+          </label>
+
+          <label for="aluno-telefone">
+            Telefone / WhatsApp
+            <input
+              type="tel"
+              id="aluno-telefone"
+              name="telefone"
+              placeholder="(11) 99999-0000"
+              required
+            >
+          </label>
+
+          <label for="aluno-email">
+            E-mail
+            <input
+              type="email"
+              id="aluno-email"
+              name="email"
+              placeholder="aluno@email.com.br"
+              required
+            >
+          </label>
+
+          <label for="aluno-endereco">
+            Endereço Completo
+            <input
+              type="text"
+              id="aluno-endereco"
+              name="endereco"
+              placeholder="Rua, Número, Bairro, Cidade - UF"
+              required
+            >
+          </label>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-limpar-aluno" class="btn btn-secundario">
+              Limpar
+            </button>
+            <button type="submit" id="btn-salvar-aluno" class="btn btn-primario">
+              Salvar Aluno
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-listagem-alunos">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-listagem-alunos">Alunos Cadastrados</h2>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Tabela de Alunos Cadastrados">
+        <table class="tabela-dados" id="tabela-alunos">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome Completo</th>
+              <th scope="col">CPF</th>
+              <th scope="col">Nascimento</th>
+              <th scope="col">Telefone</th>
+              <th scope="col">E-mail</th>
+              <th scope="col">Endereço</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-alunos">
+            <tr>
+              <th scope="row">#ALU-001</th>
+              <td>Lucas Gabriel Moreira</td>
+              <td>412.890.348-12</td>
+              <td><time datetime="1996-04-15">15/04/1996</time></td>
+              <td>(11) 98821-4410</td>
+              <td>lucas.moreira@email.com.br</td>
+              <td>Av. Paulista, 1450 - Bela Vista, São Paulo - SP</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="1" aria-label="Editar aluno Lucas Gabriel Moreira">Editar</button>
+                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="1" aria-label="Excluir aluno Lucas Gabriel Moreira">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#ALU-002</th>
+              <td>Mariana Costa Ribeiro</td>
+              <td>389.201.765-09</td>
+              <td><time datetime="1999-08-22">22/08/1999</time></td>
+              <td>(11) 97654-3318</td>
+              <td>mariana.ribeiro@email.com.br</td>
+              <td>Rua Augusta, 820 - Consolação, São Paulo - SP</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="2" aria-label="Editar aluna Mariana Costa Ribeiro">Editar</button>
+                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="2" aria-label="Excluir aluna Mariana Costa Ribeiro">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#ALU-003</th>
+              <td>Rafael Henrique Teixeira</td>
+              <td>275.643.910-44</td>
+              <td><time datetime="1992-11-03">03/11/1992</time></td>
+              <td>(11) 99123-7890</td>
+              <td>rafael.teixeira@email.com.br</td>
+              <td>Rua Vergueiro, 2100 - Vila Mariana, São Paulo - SP</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="3" aria-label="Editar aluno Rafael Henrique Teixeira">Editar</button>
+                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="3" aria-label="Excluir aluno Rafael Henrique Teixeira">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#ALU-004</th>
+              <td>Camila Fernandes Souza</td>
+              <td>518.902.114-80</td>
+              <td><time datetime="2001-02-19">19/02/2001</time></td>
+              <td>(11) 96432-1122</td>
+              <td>camila.souza@email.com.br</td>
+              <td>Alameda Santos, 980 - Jardins, São Paulo - SP</td>
+              <td><span class="badge-status status-inativo">Inativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="4" aria-label="Editar aluna Camila Fernandes Souza">Editar</button>
+                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="4" aria-label="Excluir aluna Camila Fernandes Souza">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7">Total de registros listados na consulta atual</td>
+              <td colspan="2">4 alunos (3 ativos, 1 inativo)</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+
+    <dialog id="modal-editar-aluno" class="modal-sistema" popover aria-labelledby="titulo-modal-editar-aluno">
+      <article>
+        <header class="cabecalho-modulo">
+          <hgroup>
+            <h2 id="titulo-modal-editar-aluno">Editar Ficha Cadastral do Aluno</h2>
+          </hgroup>
+        </header>
+
+        <form id="form-editar-aluno" class="formulario-padrao" action="alunos.html" method="post">
+          <input type="hidden" id="edit-aluno-id" name="idAluno" value="1">
+
+          <fieldset>
+            <legend>Dados do Aluno Selecionado</legend>
+
+            <label for="edit-aluno-nome">
+              Nome Completo
+              <input
+                type="text"
+                id="edit-aluno-nome"
+                name="nome"
+                value="Lucas Gabriel Moreira"
+                required
+              >
+            </label>
+
+            <label for="edit-aluno-cpf">
+              CPF
+              <input
+                type="text"
+                id="edit-aluno-cpf"
+                name="cpf"
+                value="412.890.348-12"
+                maxlength="14"
+                required
+              >
+            </label>
+
+            <label for="edit-aluno-nascimento">
+              Data de Nascimento
+              <input
+                type="date"
+                id="edit-aluno-nascimento"
+                name="dataNascimento"
+                value="1996-04-15"
+                required
+              >
+            </label>
+
+            <label for="edit-aluno-telefone">
+              Telefone / WhatsApp
+              <input
+                type="tel"
+                id="edit-aluno-telefone"
+                name="telefone"
+                value="(11) 98821-4410"
+                required
+              >
+            </label>
+
+            <label for="edit-aluno-email">
+              E-mail
+              <input
+                type="email"
+                id="edit-aluno-email"
+                name="email"
+                value="lucas.moreira@email.com.br"
+                required
+              >
+            </label>
+
+            <label for="edit-aluno-status">
+              Status do Aluno
+              <select id="edit-aluno-status" name="status" required>
+                <option value="ATIVO" selected>Ativo</option>
+                <option value="INATIVO">Inativo</option>
+              </select>
+            </label>
+
+            <label for="edit-aluno-endereco" class="campo-completo">
+              Endereço Completo
+              <input
+                type="text"
+                id="edit-aluno-endereco"
+                name="endereco"
+                value="Av. Paulista, 1450 - Bela Vista, São Paulo - SP"
+                required
+              >
+            </label>
+
+            <footer class="acoes-formulario">
+              <button type="button" id="btn-fechar-modal-aluno" class="btn btn-secundario" popovertarget="modal-editar-aluno" popovertargetaction="hide">
+                Cancelar
+              </button>
+              <button type="submit" id="btn-salvar-edicao-aluno" class="btn btn-primario">
+                Salvar Alterações
+              </button>
+            </footer>
+          </fieldset>
+        </form>
+      </article>
+    </dialog>
+
+    <dialog id="modal-confirmar-exclusao-aluno" class="modal-sistema" popover aria-labelledby="titulo-modal-exclusao">
+      <article>
+        <header class="cabecalho-modulo">
+          <h2 id="titulo-modal-exclusao">Confirmar Exclusão de Registro</h2>
+        </header>
+        <p>Tem certeza que deseja excluir o cadastro selecionado? Esta operação removerá o vínculo ativo na unidade.</p>
+        <footer class="acoes-formulario">
+          <button type="button" id="btn-cancelar-exclusao-aluno" class="btn btn-secundario" popovertarget="modal-confirmar-exclusao-aluno" popovertargetaction="hide">Cancelar</button>
+          <button type="button" id="btn-confirmar-exclusao-aluno" class="btn btn-excluir">Confirmar Exclusão</button>
+        </footer>
+      </article>
+    </dialog>
+  </main>
+</body>
+</html>
+

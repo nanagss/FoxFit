@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fluxos Financeiros, Mensalidades e Controle de Adimplência da Academia FOX FIT">
+  <title>FOX FIT | Fluxo Financeiro e Adimplência</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html" class="ativo" aria-current="page">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-fluxo-financeiro">
+        <h1 id="titulo-fluxo-financeiro">Fluxos Financeiros e Controle de Adimplência</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="grade-indicadores" aria-label="Indicadores Financeiros do Período">
+      <article class="card-indicador">
+        <h2>Total Recebido</h2>
+        <p class="valor-indicador" id="fin-total-recebido">R$ 68.450,00</p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Pendente no Mês</h2>
+        <p class="valor-indicador" id="fin-total-pendente">R$ 8.940,00</p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Total em Atraso (Inadimplência)</h2>
+        <p class="valor-indicador" id="fin-total-atraso">R$ 4.197,20</p>
+      </article>
+    </section>
+
+    <section class="barra-ferramentas" aria-label="Filtros de Competência e Status Financeiro">
+      <form id="form-filtro-financeiro" class="formulario-busca" role="search" action="financeiro.html" method="get">
+        <fieldset>
+          <legend>Filtrar Lançamentos de Mensalidades</legend>
+
+          <label for="fin-filtro-status">
+            Status da Mensalidade
+            <select id="fin-filtro-status" name="statusFinanceiro">
+              <option value="TODOS" selected>Todos</option>
+              <option value="PAGO">Pago</option>
+              <option value="PENDENTE">Pendente</option>
+              <option value="ATRASADO">Atrasado</option>
+            </select>
+          </label>
+
+          <label for="fin-filtro-competencia">
+            Mês de Competência
+            <input
+              type="month"
+              id="fin-filtro-competencia"
+              name="mesCompetencia"
+              value="2026-11"
+            >
+          </label>
+
+          <label for="fin-busca-aluno">
+            Buscar por Aluno ou Matrícula
+            <input
+              type="search"
+              id="fin-busca-aluno"
+              name="termoAluno"
+              placeholder="Nome do aluno ou código #MAT"
+            >
+          </label>
+
+          <button type="submit" id="btn-filtrar-financeiro" class="btn btn-primario">
+            Aplicar Filtros
+          </button>
+          <button type="reset" id="btn-limpar-filtro-financeiro" class="btn btn-secundario">
+            Limpar
+          </button>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-tabela-mensalidades">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-tabela-mensalidades">Controle de Mensalidades e Baixa de Recebimentos</h2>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Tabela de Mensalidades e Pagamentos">
+        <table class="tabela-dados" id="tabela-mensalidades">
+          <thead>
+            <tr>
+              <th scope="col">Aluno</th>
+              <th scope="col">Plano / Matrícula</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Data de Vencimento</th>
+              <th scope="col">Data de Pagamento</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-mensalidades">
+            <tr>
+              <th scope="row">Lucas Gabriel Moreira</th>
+              <td>Plano Anual Fox VIP (#MAT-2026-089)</td>
+              <td>R$ 99,90</td>
+              <td><time datetime="2026-11-08">08/11/2026</time></td>
+              <td><time datetime="2026-11-08">08/11/2026</time></td>
+              <td><span class="badge-status status-pago">Pago</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-pagar" data-id="501" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Lucas Gabriel Moreira">
+                  Confirmar Pagamento 
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Mariana Costa Ribeiro</th>
+              <td>Plano Semestral Performance (#MAT-2026-088)</td>
+              <td>R$ 114,90</td>
+              <td><time datetime="2026-11-07">07/11/2026</time></td>
+              <td><time datetime="2026-11-07">07/11/2026</time></td>
+              <td><span class="badge-status status-pago">Pago</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-pagar" data-id="502" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Mariana Costa Ribeiro">
+                  Confirmar Pagamento 
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Rafael Henrique Teixeira</th>
+              <td>Plano Trimestral Fit (#MAT-2026-087)</td>
+              <td>R$ 129,90</td>
+              <td><time datetime="2026-11-15">15/11/2026</time></td>
+              <td>—</td>
+              <td><span class="badge-status status-pendente">Pendente</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-pagar" data-id="503" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Rafael Henrique Teixeira">
+                  Confirmar Pagamento 
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Camila Fernandes Souza</th>
+              <td>Plano Mensal Smart (#MAT-2026-086)</td>
+              <td>R$ 149,90</td>
+              <td><time datetime="2026-11-05">05/11/2026</time></td>
+              <td>—</td>
+              <td><span class="badge-status status-atrasado">Atrasado</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-pagar" data-id="504" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Camila Fernandes Souza">
+                  Confirmar Pagamento 
+                </button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Bruno Azevedo Martins</th>
+              <td>Plano Mensal Smart (#MAT-2026-085)</td>
+              <td>R$ 149,90</td>
+              <td><time datetime="2026-10-25">25/10/2026</time></td>
+              <td>—</td>
+              <td><span class="badge-status status-atrasado">Atrasado</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-pagar" data-id="505" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Bruno Azevedo Martins">
+                  Confirmar Pagamento 
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">Total consolidado na listagem atual (5 lançamentos)</td>
+              <td colspan="5">R$ 644,50 (R$ 214,80 pagos • R$ 129,90 pendentes • R$ 299,80 em atraso)</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RF05 - Matrícula de Alunos, Renovação e Cancelamento de Contratos na Academia FOX FIT">
+  <title>FOX FIT | Controle de Matrículas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html" class="ativo" aria-current="page">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-controle-matriculas">
+        <h1 id="titulo-controle-matriculas">Controle de Matrículas</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-formulario-matricula">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-formulario-matricula">Nova Matrícula / Contrato de Adesão</h2>
+        </hgroup>
+      </header>
+
+      <form id="form-matricula" class="formulario-padrao" action="matriculas.html" method="post">
+        <input type="hidden" id="mat-id" name="idMatricula" value="">
+
+        <fieldset>
+          <legend>Dados do Vínculo e Condição de Pagamento</legend>
+
+          <label for="mat-aluno">
+            Selecionar Aluno
+            <select id="mat-aluno" name="idAluno" required>
+              <option value="" disabled selected>Escolha um aluno cadastrado</option>
+              <option value="1">Lucas Gabriel Moreira (CPF: 412.890.348-12)</option>
+              <option value="2">Mariana Costa Ribeiro (CPF: 389.201.765-09)</option>
+              <option value="3">Rafael Henrique Teixeira (CPF: 275.643.910-44)</option>
+              <option value="4">Camila Fernandes Souza (CPF: 518.902.114-80)</option>
+              <option value="5">Bruno Azevedo Martins (CPF: 194.820.631-55)</option>
+            </select>
+          </label>
+
+          <label for="mat-plano">
+            Selecionar Plano
+            <select id="mat-plano" name="idPlano" required>
+              <option value="" disabled selected>Escolha o plano de assinatura</option>
+              <option value="1">Plano Mensal Smart — R$ 149,90 (1 Mês)</option>
+              <option value="2">Plano Trimestral Fit — R$ 389,70 (3 Meses)</option>
+              <option value="3">Plano Semestral Performance — R$ 689,40 (6 Meses)</option>
+              <option value="4">Plano Anual Fox VIP — R$ 1.198,80 (12 Meses)</option>
+            </select>
+          </label>
+
+          <label for="mat-inicio">
+            Data de Início da Vigência
+            <input
+              type="date"
+              id="mat-inicio"
+              name="dataInicio"
+              value="2026-11-09"
+              required
+            >
+          </label>
+
+          <label for="mat-vencimento">
+            Data de Vencimento 
+            <input
+              type="date"
+              id="mat-vencimento"
+              name="dataVencimento"
+              value="2026-12-09"
+              readonly
+            >
+          </label>
+
+          <label for="mat-pagamento">
+            Forma de Pagamento
+            <select id="mat-pagamento" name="formaPagamento" required>
+              <option value="" disabled selected>Selecione o meio de pagamento</option>
+              <option value="PIX">PIX</option>
+              <option value="Crédito">Crédito</option>
+              <option value="Débito">Débito</option>
+              <option value="Espécie">Espécie</option>
+            </select>
+          </label>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-limpar-matricula" class="btn btn-secundario">
+              Limpar Campos
+            </button>
+            <button type="submit" id="btn-realizar-matricula" class="btn btn-primario">
+              Realizar Matrícula
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-listagem-matriculas">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-listagem-matriculas">Histórico e Controle de Matrículas</h2>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Tabela de Matrículas Registradas">
+        <table class="tabela-dados" id="tabela-matriculas">
+          <thead>
+            <tr>
+              <th scope="col">Matrícula</th>
+              <th scope="col">Aluno</th>
+              <th scope="col">Plano Contratado</th>
+              <th scope="col">Data de Início</th>
+              <th scope="col">Data de Vencimento</th>
+              <th scope="col">Pagamento</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-matriculas">
+            <tr>
+              <th scope="row">#MAT-2026-089</th>
+              <td>Lucas Gabriel Moreira</td>
+              <td>Plano Anual Fox VIP</td>
+              <td><time datetime="2026-11-08">08/11/2026</time></td>
+              <td><time datetime="2027-11-08">08/11/2027</time></td>
+              <td>Crédito</td>
+              <td><span class="badge-status status-ativo">Ativa</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-renovar" data-id="89" aria-label="Renovar matrícula de Lucas Gabriel Moreira">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="89" aria-label="Cancelar matrícula de Lucas Gabriel Moreira">Cancelar</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#MAT-2026-088</th>
+              <td>Mariana Costa Ribeiro</td>
+              <td>Plano Semestral Performance</td>
+              <td><time datetime="2026-11-07">07/11/2026</time></td>
+              <td><time datetime="2027-05-07">07/05/2027</time></td>
+              <td>PIX</td>
+              <td><span class="badge-status status-ativo">Ativa</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-renovar" data-id="88" aria-label="Renovar matrícula de Mariana Costa Ribeiro">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="88" aria-label="Cancelar matrícula de Mariana Costa Ribeiro">Cancelar</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#MAT-2026-087</th>
+              <td>Rafael Henrique Teixeira</td>
+              <td>Plano Trimestral Fit</td>
+              <td><time datetime="2026-11-06">06/11/2026</time></td>
+              <td><time datetime="2027-02-06">06/02/2027</time></td>
+              <td>Débito</td>
+              <td><span class="badge-status status-ativo">Ativa</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-renovar" data-id="87" aria-label="Renovar matrícula de Rafael Henrique Teixeira">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="87" aria-label="Cancelar matrícula de Rafael Henrique Teixeira">Cancelar</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#MAT-2026-085</th>
+              <td>Bruno Azevedo Martins</td>
+              <td>Plano Mensal Smart</td>
+              <td><time datetime="2026-09-25">25/09/2026</time></td>
+              <td><time datetime="2026-10-25">25/10/2026</time></td>
+              <td>Espécie</td>
+              <td><span class="badge-status status-vencido">Vencida</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-renovar" data-id="85" aria-label="Renovar matrícula de Bruno Azevedo Martins">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="85" aria-label="Cancelar matrícula de Bruno Azevedo Martins">Cancelar</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#MAT-2026-079</th>
+              <td>Camila Fernandes Souza</td>
+              <td>Plano Mensal Smart</td>
+              <td><time datetime="2026-08-10">10/08/2026</time></td>
+              <td><time datetime="2026-09-10">10/09/2026</time></td>
+              <td>PIX</td>
+              <td><span class="badge-status status-cancelado">Cancelada</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-renovar" data-id="79" aria-label="Renovar matrícula de Camila Fernandes Souza">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="79" aria-label="Cancelar matrícula de Camila Fernandes Souza">Cancelar</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">Resumo de contratos listados na unidade</td>
+              <td colspan="2">3 Ativas • 1 Vencida • 1 Cancelada</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+

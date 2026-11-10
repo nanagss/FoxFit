@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesso administrativo ao Sistema de Gestão de Academia FOX FIT">
+  <title>FOX FIT | Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="pagina-acesso">
+  <main class="conteudo-acesso">
+    <section class="painel-autenticacao" aria-labelledby="titulo-login">
+      <article class="coluna-formulario-acesso">
+        <figure class="logo-topo-acesso">
+          <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem-acesso">
+        </figure>
+
+        <header class="cabecalho-autenticacao">
+          <h1 id="titulo-login">Olá,<br>Bem-vindo de volta</h1>
+        </header>
+
+        <form id="form-login" class="formulario-acesso" action="dashboard.html" method="get">
+          <fieldset>
+            <legend>Credenciais de Autenticação</legend>
+
+            <label for="login-email">
+              E-mail Corporativo
+              <input
+                type="email"
+                id="login-email"
+                name="email"
+                placeholder="operador@foxfit.com.br"
+                autocomplete="email"
+                required
+              >
+            </label>
+
+            <label for="login-senha">
+              Senha de Acesso
+              <input
+                type="password"
+                id="login-senha"
+                name="senha"
+                placeholder="••••••••••••"
+                autocomplete="current-password"
+                minlength="6"
+                required
+              >
+            </label>
+
+            <section class="opcoes-acesso" aria-label="Opções de Sessão">
+              <label for="login-lembrar" class="lembrar-acesso">
+                <input type="checkbox" id="login-lembrar" name="lembrar" checked>
+                Lembrar-me
+              </label>
+
+              <button type="button" id="link-recuperar-senha" class="link-botao-acesso" popovertarget="modal-esqueceu-senha">
+                Esqueceu a senha?
+              </button>
+            </section>
+
+            <button type="submit" id="btn-entrar" class="btn btn-primario btn-acesso">
+              Entrar
+            </button>
+          </fieldset>
+        </form>
+
+      </article>
+
+      <aside class="painel-visual-acesso" aria-label="Painel Visual de Gestão Operacional">
+        <svg class="ilustracao-gestao-svg" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de Painel de Gestão e Indicadores">
+          <rect x="24" y="20" width="272" height="176" rx="16" fill="#FFFFFF" />
+          <rect x="24" y="20" width="272" height="34" rx="16" fill="#272727" />
+          <circle cx="44" cy="37" r="5" fill="#F96705" />
+          <circle cx="60" cy="37" r="5" fill="#DEE2E6" />
+          <circle cx="76" cy="37" r="5" fill="#DEE2E6" />
+          <rect x="44" y="70" width="72" height="44" rx="8" fill="#F4F6F8" />
+          <rect x="54" y="80" width="32" height="6" rx="3" fill="#6C757D" />
+          <rect x="54" y="92" width="48" height="12" rx="4" fill="#F96705" />
+          <rect x="126" y="70" width="72" height="44" rx="8" fill="#F4F6F8" />
+          <rect x="136" y="80" width="32" height="6" rx="3" fill="#6C757D" />
+          <rect x="136" y="92" width="48" height="12" rx="4" fill="#272727" />
+          <rect x="44" y="128" width="154" height="50" rx="8" fill="#F4F6F8" />
+          <rect x="60" y="156" width="16" height="14" rx="3" fill="#F96705" />
+          <rect x="86" y="146" width="16" height="24" rx="3" fill="#F96705" />
+          <rect x="112" y="138" width="16" height="32" rx="3" fill="#F96705" />
+          <rect x="138" y="148" width="16" height="22" rx="3" fill="#272727" />
+          <rect x="164" y="134" width="16" height="36" rx="3" fill="#28A745" />
+          <circle cx="246" cy="124" r="34" fill="#F96705" />
+          <path d="M232 124L242 134L262 114" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <article class="destaque-gestao-acesso">
+          <h2>Gestão Completa</h2>
+          <ul class="pilares-gestao-acesso">
+            <li>✓ Relatórios Operacionais e KPIs Consolidados</li>
+            <li>✓ Controle de Matrículas, Planos e Renovação</li>
+            <li>✓ Fluxo Financeiro e Gestão de Adimplência</li>
+          </ul>
+        </article>
+      </aside>
+    </section>
+
+    <dialog id="modal-esqueceu-senha" class="modal-sistema modal-pequeno" popover aria-labelledby="titulo-modal-senha">
+      <article>
+        <header class="cabecalho-modulo">
+          <h2 id="titulo-modal-senha">Redefinição de Senha</h2>
+        </header>
+        <p>
+          Procure o Administrador para redefinir sua senha de acesso.
+        </p>
+        <footer class="acoes-formulario">
+          <button type="button" id="btn-fechar-modal-senha" class="btn btn-primario" popovertarget="modal-esqueceu-senha" popovertargetaction="hide">
+            Entendi
+          </button>
+        </footer>
+      </article>
+    </dialog>
+  </main>
+</body>
+</html>

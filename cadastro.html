@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cadastro e Gestão de Usuários Restrito ao Administrador no Sistema FOX FIT">
+  <title>FOX FIT | Gestão de Usuários</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html" class="ativo" aria-current="page">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="link-voltar-login">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-cadastro">
+        <h1 id="titulo-cadastro">Gestão de Usuários do Sistema</h1>
+        <p>Cadastre usuários da academia, defina o nível de acesso (Administrador ou Operador) e gerencie credenciais.</p>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="modulo-sistema" aria-labelledby="subtitulo-form-operador">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="subtitulo-form-operador">Cadastrar Novo Usuário</h2>
+          <p>Apenas usuários com perfil <strong>Administrador</strong> podem criar contas, definir cargos e redefinir senhas.</p>
+        </hgroup>
+      </header>
+
+      <form id="form-cadastro" class="formulario-padrao" action="cadastro.html" method="post">
+        <input type="hidden" id="cad-id" name="idUsuario" value="">
+
+        <fieldset class="grade-campos-acesso">
+          <legend>Dados Cadastrais e Credenciais do Usuário</legend>
+
+          <section class="coluna-campos-acesso" aria-label="Dados Pessoais do Usuário">
+            <label for="cad-nome">
+              Nome Completo
+              <input
+                type="text"
+                id="cad-nome"
+                name="nomeCompleto"
+                placeholder="Ex.: Carlos Eduardo Almeida"
+                autocomplete="name"
+                required
+              >
+            </label>
+
+            <label for="cad-email">
+              E-mail Corporativo
+              <input
+                type="email"
+                id="cad-email"
+                name="email"
+                placeholder="carlos@foxfit.com.br"
+                autocomplete="email"
+                required
+              >
+            </label>
+
+            <label for="cad-cpf">
+              CPF
+              <input
+                type="text"
+                id="cad-cpf"
+                name="cpf"
+                placeholder="000.000.000-00"
+                pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
+                maxlength="14"
+                required
+              >
+            </label>
+          </section>
+
+          <section class="coluna-campos-acesso" aria-label="Função e Credenciais de Acesso">
+            <label for="cad-cargo">
+              Cargo / Função (Nível de Acesso)
+              <select id="cad-cargo" name="cargo" required>
+                <option value="" disabled selected>Selecione o nível de acesso</option>
+                <option value="OPERADOR">Operador (Recepção / Atendimento)</option>
+                <option value="ADMIN">Administrador (Acesso Total)</option>
+              </select>
+            </label>
+
+            <label for="cad-senha">
+              Senha Inicial
+              <input
+                type="password"
+                id="cad-senha"
+                name="senha"
+                placeholder="Mínimo de 8 caracteres"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+            </label>
+
+            <label for="cad-confirma-senha">
+              Confirmar Senha Inicial
+              <input
+                type="password"
+                id="cad-confirma-senha"
+                name="confirmarSenha"
+                placeholder="Repita a senha informada"
+                autocomplete="new-password"
+                minlength="8"
+                required
+              >
+            </label>
+          </section>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-limpar-operador" class="btn btn-secundario">
+              Limpar
+            </button>
+            <button type="submit" id="btn-criar-conta" class="btn btn-primario">
+              Criar Conta
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-tabela-operadores">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-tabela-operadores">Usuários Cadastrados no Sistema</h2>
+          <p>Relação de colaboradores com acesso ativo e opção rápida para editar dados ou redefinir senha.</p>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Tabela de Usuários Cadastrados">
+        <table class="tabela-dados" id="tabela-operadores">
+          <caption>Contas de usuários gerenciadas pelo Administrador</caption>
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Nome Completo</th>
+              <th scope="col">E-mail Corporativo</th>
+              <th scope="col">CPF</th>
+              <th scope="col">Cargo / Nível</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-operadores">
+            <tr>
+              <th scope="row">#USR-001</th>
+              <td>Fernanda Sousa</td>
+              <td>fernanda.sousa@foxfit.com.br</td>
+              <td>345.890.123-00</td>
+              <td>Administrador</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="1" aria-label="Editar usuária Fernanda Sousa">Editar</button>
+                <button type="button" class="btn-excluir" data-id="1" aria-label="Excluir usuária Fernanda Sousa">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#USR-002</th>
+              <td>Carlos Eduardo Almeida</td>
+              <td>carlos.almeida@foxfit.com.br</td>
+              <td>418.220.910-34</td>
+              <td>Operador</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="2" aria-label="Editar usuário Carlos Eduardo Almeida">Editar</button>
+                <button type="button" class="btn-excluir" data-id="2" aria-label="Excluir usuário Carlos Eduardo Almeida">Excluir</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">#USR-003</th>
+              <td>Beatriz Helena Mendes</td>
+              <td>beatriz.mendes@foxfit.com.br</td>
+              <td>289.401.655-71</td>
+              <td>Operador</td>
+              <td><span class="badge-status status-ativo">Ativo</span></td>
+              <td class="celula-acoes">
+                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="3" aria-label="Editar usuária Beatriz Helena Mendes">Editar</button>
+                <button type="button" class="btn-excluir" data-id="3" aria-label="Excluir usuária Beatriz Helena Mendes">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">Total de usuários credenciados no sistema</td>
+              <td colspan="2">3 usuários ativos</td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+
+    <dialog id="modal-editar-usuario" class="modal-sistema" popover aria-labelledby="titulo-modal-editar-usuario">
+      <article>
+        <header class="cabecalho-modulo">
+          <hgroup>
+            <h2 id="titulo-modal-editar-usuario">Editar Usuário / Redefinir Senha</h2>
+          </hgroup>
+        </header>
+
+        <form id="form-editar-usuario" class="formulario-padrao" action="cadastro.html" method="post">
+          <input type="hidden" id="edit-usuario-id" name="idUsuario" value="2">
+
+          <fieldset>
+            <legend>Informações do Usuário Selecionado</legend>
+
+            <label for="edit-usuario-nome">
+              Nome Completo
+              <input
+                type="text"
+                id="edit-usuario-nome"
+                name="nomeCompleto"
+                value="Carlos Eduardo Almeida"
+                required
+              >
+            </label>
+
+            <label for="edit-usuario-email">
+              E-mail Corporativo
+              <input
+                type="email"
+                id="edit-usuario-email"
+                name="email"
+                value="carlos.almeida@foxfit.com.br"
+                required
+              >
+            </label>
+
+            <label for="edit-usuario-cpf">
+              CPF
+              <input
+                type="text"
+                id="edit-usuario-cpf"
+                name="cpf"
+                value="418.220.910-34"
+                maxlength="14"
+                required
+              >
+            </label>
+
+            <label for="edit-usuario-cargo">
+              Cargo / Função (Nível de Acesso)
+              <select id="edit-usuario-cargo" name="cargo" required>
+                <option value="OPERADOR" selected>Operador (Recepção / Atendimento)</option>
+                <option value="ADMIN">Administrador (Acesso Total)</option>
+              </select>
+            </label>
+
+            <label for="edit-usuario-senha">
+              Nova Senha (Opcional para redefinição)
+              <input
+                type="password"
+                id="edit-usuario-senha"
+                name="novaSenha"
+                placeholder="Deixe em branco para manter a atual"
+                minlength="8"
+              >
+            </label>
+
+            <label for="edit-usuario-status">
+              Status da Conta
+              <select id="edit-usuario-status" name="status" required>
+                <option value="ATIVO" selected>Ativo</option>
+                <option value="INATIVO">Inativo</option>
+              </select>
+            </label>
+
+            <footer class="acoes-formulario">
+              <button type="button" id="btn-fechar-modal-usuario" class="btn btn-secundario" popovertarget="modal-editar-usuario" popovertargetaction="hide">
+                Cancelar
+              </button>
+              <button type="submit" id="btn-salvar-edicao-usuario" class="btn btn-primario">
+                Salvar Alterações
+              </button>
+            </footer>
+          </fieldset>
+        </form>
+      </article>
+    </dialog>
+  </main>
+</body>
+</html>

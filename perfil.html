@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Edição de Perfil e Alteração de Senha do Operador Logado na Academia FOX FIT">
+  <title>FOX FIT | Meu Perfil</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html" class="ativo" aria-current="page">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-meu-perfil">
+        <h1 id="titulo-meu-perfil">Meu Perfil e Credenciais de Acesso</h1>
+     </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-dados-operador">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-dados-operador">Dados Funcionais do Operador</h2>
+          <p>Mantenha seu nome de exibição, e-mail corporativo e telefone sempre atualizados.</p>
+        </hgroup>
+      </header>
+
+      <form id="form-perfil" class="formulario-padrao" action="perfil.html" method="post">
+        <input type="hidden" id="perfil-id" name="idOperador" value="1">
+
+        <fieldset>
+          <legend>Informações Pessoais e Nível de Acesso</legend>
+
+          <label for="perfil-nome">
+            Nome Completo
+            <input
+              type="text"
+              id="perfil-nome"
+              name="nomeCompleto"
+              value="Fernanda Sousa"
+              required
+            >
+          </label>
+
+          <label for="perfil-email">
+            E-mail Corporativo
+            <input
+              type="email"
+              id="perfil-email"
+              name="email"
+              value="fernanda.sousa@foxfit.com.br"
+              required
+            >
+          </label>
+
+          <label for="perfil-telefone">
+            Telefone / Ramal
+            <input
+              type="tel"
+              id="perfil-telefone"
+              name="telefone"
+              value="(11) 99812-4400"
+              required
+            >
+          </label>
+
+          <label for="perfil-cpf">
+            CPF ( Vínculo Imutável )
+            <input
+              type="text"
+              id="perfil-cpf"
+              name="cpf"
+              value="345.890.123-00"
+              readonly
+            >
+          </label>
+
+          <label for="perfil-cargo">
+            Cargo / Função (Definido pelo Administrador)
+            <input
+              type="text"
+              id="perfil-cargo"
+              name="cargo"
+              value="Administradora Geral"
+              readonly
+            >
+          </label>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-restaurar-perfil" class="btn btn-secundario">
+              Restaurar Dados
+            </button>
+            <button type="submit" id="btn-salvar-perfil" class="btn btn-primario">
+              Salvar Alterações do Perfil
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-alterar-senha">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-alterar-senha">Segurança e Alteração de Senha</h2>
+          <p>Para atualizar sua senha de acesso, informe a senha atual e defina uma nova combinação forte.</p>
+        </hgroup>
+      </header>
+
+      <form id="form-alterar-senha" class="formulario-padrao" action="perfil.html" method="post">
+        <fieldset>
+          <legend>Redefinição de Senha Pessoal</legend>
+
+          <label for="perfil-senha-atual">
+            Senha Atual
+            <input
+              type="password"
+              id="perfil-senha-atual"
+              name="senhaAtual"
+              placeholder="Digite sua senha atual"
+              autocomplete="current-password"
+              required
+            >
+          </label>
+
+          <label for="perfil-nova-senha">
+            Nova Senha (Mínimo 8 caracteres)
+            <input
+              type="password"
+              id="perfil-nova-senha"
+              name="novaSenha"
+              placeholder="Digite a nova senha"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+          </label>
+
+          <label for="perfil-confirma-senha">
+            Confirmar Nova Senha
+            <input
+              type="password"
+              id="perfil-confirma-senha"
+              name="confirmarNovaSenha"
+              placeholder="Repita a nova senha"
+              autocomplete="new-password"
+              minlength="8"
+              required
+            >
+          </label>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-limpar-senha" class="btn btn-secundario">
+              Limpar
+            </button>
+            <button type="submit" id="btn-atualizar-senha" class="btn btn-primario">
+              Atualizar Senha
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
+
