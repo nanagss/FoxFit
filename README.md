@@ -105,12 +105,12 @@ FoxFit-main/
 
 O arquivo `database/init.sql` inicializa automaticamente 6 tabelas com chaves estrangeiras, restrições e 3 registros fictícios por tabela:
 
-1. **`usuarios`**: Cadastro de colaboradores do sistema (nome, e-mail, CPF, telefone, senha e status unificado).
-2. **`alunos`**: Cadastro de alunos da academia (dados pessoais, contato e status).
-3. **`professores`**: Corpo técnico de instrutores (CREF, especialidade, turno e telefone).
-4. **`planos`**: Planos comerciais de assinatura (Smart, Fit, VIP) e benefícios inclusos.
-5. **`matriculas`**: Contratos vinculando alunos aos planos, vigência e formas de pagamento.
-6. **`mensalidades`**: Cobranças financeiras, status de pagamento e datas de vencimento.
+1. **`usuarios`**: Usuários do sistema (id_usuario, nome, email, senha_hash, cargo, foto_perfil, ativo).
+2. **`alunos`**: Cadastro de alunos da academia (id_aluno, nome_completo, cpf, contato, endereço, objetivo e status).
+3. **`professores`**: Corpo técnico de instrutores (id_professor, nome_completo, cpf, cref, especialidade, turno, salário).
+4. **`planos`**: Planos comerciais de assinatura (id_plano, nome_plano, duração, valor mensal, taxa de adesão).
+5. **`matriculas`**: Contratos vinculando aluno, plano e professor responsável (id_matricula, vigência, dia vencimento, status).
+6. **`financeiro`**: Mensalidades, despesas e fluxo de caixa (id_lancamento, tipo receita/despesa, categoria, valor, pagamento).
 
 ---
 
