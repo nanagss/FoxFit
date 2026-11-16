@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -37,7 +37,7 @@
     <header class="cabecalho-pagina">
       <section class="titulo-pagina" aria-labelledby="titulo-cadastro">
         <h1 id="titulo-cadastro">Gestão de Usuários do Sistema</h1>
-        <p>Cadastre usuários da academia, defina o nível de acesso (Administrador ou Operador) e gerencie credenciais.</p>
+        <p>Cadastre usuários da academia, dados de contato e gerencie credenciais de acesso.</p>
       </section>
 
       <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
@@ -53,7 +53,7 @@
       <header class="cabecalho-modulo">
         <hgroup>
           <h2 id="subtitulo-form-operador">Cadastrar Novo Usuário</h2>
-          <p>Apenas usuários com perfil <strong>Administrador</strong> podem criar contas, definir cargos e redefinir senhas.</p>
+          <p>Gerencie as contas e credenciais de acesso dos colaboradores ao sistema FOX FIT.</p>
         </hgroup>
       </header>
 
@@ -102,14 +102,16 @@
             </label>
           </section>
 
-          <section class="coluna-campos-acesso" aria-label="Função e Credenciais de Acesso">
-            <label for="cad-cargo">
-              Cargo / Função (Nível de Acesso)
-              <select id="cad-cargo" name="cargo" required>
-                <option value="" disabled selected>Selecione o nível de acesso</option>
-                <option value="OPERADOR">Operador (Recepção / Atendimento)</option>
-                <option value="ADMIN">Administrador (Acesso Total)</option>
-              </select>
+          <section class="coluna-campos-acesso" aria-label="Contato e Credenciais de Acesso">
+            <label for="cad-telefone">
+              Telefone / WhatsApp
+              <input
+                type="tel"
+                id="cad-telefone"
+                name="telefone"
+                placeholder="(11) 99999-0000"
+                required
+              >
             </label>
 
             <label for="cad-senha">
@@ -168,7 +170,7 @@
               <th scope="col">Nome Completo</th>
               <th scope="col">E-mail Corporativo</th>
               <th scope="col">CPF</th>
-              <th scope="col">Cargo / Nível</th>
+              <th scope="col">Telefone</th>
               <th scope="col">Status</th>
               <th scope="col">Ações</th>
             </tr>
@@ -179,7 +181,7 @@
               <td>Fernanda Sousa</td>
               <td>fernanda.sousa@foxfit.com.br</td>
               <td>345.890.123-00</td>
-              <td>Administrador</td>
+              <td>(11) 99812-4400</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
                 <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="1" aria-label="Editar usuária Fernanda Sousa">Editar</button>
@@ -191,7 +193,7 @@
               <td>Carlos Eduardo Almeida</td>
               <td>carlos.almeida@foxfit.com.br</td>
               <td>418.220.910-34</td>
-              <td>Operador</td>
+              <td>(11) 98765-4321</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
                 <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="2" aria-label="Editar usuário Carlos Eduardo Almeida">Editar</button>
@@ -203,7 +205,7 @@
               <td>Beatriz Helena Mendes</td>
               <td>beatriz.mendes@foxfit.com.br</td>
               <td>289.401.655-71</td>
-              <td>Operador</td>
+              <td>(11) 97654-1234</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
                 <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="3" aria-label="Editar usuária Beatriz Helena Mendes">Editar</button>
@@ -269,12 +271,15 @@
               >
             </label>
 
-            <label for="edit-usuario-cargo">
-              Cargo / Função (Nível de Acesso)
-              <select id="edit-usuario-cargo" name="cargo" required>
-                <option value="OPERADOR" selected>Operador (Recepção / Atendimento)</option>
-                <option value="ADMIN">Administrador (Acesso Total)</option>
-              </select>
+            <label for="edit-usuario-telefone">
+              Telefone / WhatsApp
+              <input
+                type="tel"
+                id="edit-usuario-telefone"
+                name="telefone"
+                value="(11) 98765-4321"
+                required
+              >
             </label>
 
             <label for="edit-usuario-senha">
