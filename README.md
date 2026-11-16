@@ -24,7 +24,15 @@ Abra o terminal (PowerShell, CMD ou Bash) e navegue até a raiz do repositório 
 cd caminho/para/FoxFit-main
 ```
 
-### 2. Iniciar o contêiner do PostgreSQL
+### 2. Configurar as Variáveis de Ambiente (.env)
+Por segurança, senhas e configurações locais não são versionadas diretamente no Git. Copie o arquivo de exemplo para criar seu `.env` local:
+
+```bash
+cp .env.example .env
+```
+*(No Windows PowerShell, você também pode usar `Copy-Item .env.example .env`). O arquivo `.env` já vem pré-configurado e é ignorado pelo `.gitignore`.*
+
+### 3. Iniciar o contêiner do PostgreSQL
 Execute o comando abaixo para baixar a imagem e subir o serviço em segundo plano:
 
 ```bash
@@ -33,7 +41,7 @@ docker compose up -d
 
 *(Caso seu Docker seja uma versão mais antiga, use `docker-compose up -d` com hífen).*
 
-### 3. Verificar o status
+### 4. Verificar o status
 Confira se o contêiner está ativo e saudável:
 
 ```bash
@@ -44,17 +52,17 @@ Você verá o contêiner `foxfit_postgres` com status **Up** e a porta `5432` ex
 
 ---
 
-##  Credenciais de Conexão
+## 🔑 Credenciais de Conexão
 
-Utilize os dados abaixo para conectar sua aplicação backend ou clientes visuais (DBeaver, pgAdmin, VS Code, DataGrip, Beekeeper Studio):
+Utilize os dados configurados no seu `.env` para conectar sua aplicação backend ou clientes visuais (DBeaver, pgAdmin, VS Code, DataGrip, Beekeeper Studio):
 
-| Parâmetro | Valor |
-| :--- | :--- |
-| **Host** | `localhost` |
-| **Porta** | `5432` |
-| **Banco de Dados (Database)** | `foxfit` |
-| **Usuário (User)** | `postgres` |
-| **Senha (Password)** | `190207` |
+| Parâmetro | Variável (.env) | Valor Padrão Local |
+| :--- | :--- | :--- |
+| **Host** | — | `localhost` |
+| **Porta** | `POSTGRES_PORT` | `5432` |
+| **Banco de Dados (Database)** | `POSTGRES_DB` | `foxfit` |
+| **Usuário (User)** | `POSTGRES_USER` | `postgres` |
+| **Senha (Password)** | `POSTGRES_PASSWORD` | *(definida no seu `.env` local)* |
 
 ---
 
@@ -81,6 +89,8 @@ FoxFit-main/
 │   ├── perfil.html              # Perfil do operador/administrador
 │   ├── planos.html              # Planos de assinatura comercial
 │   └── professores.html         # Corpo docente e instrutores
+├── .env.example                 # Modelo de variáveis de ambiente do banco
+├── .gitignore                   # Arquivos ignorados pelo Git (inclui o .env)
 ├── docker-compose.yml           # Configuração do PostgreSQL local no Docker
 ├── GUIA_GIT_COMMITS.md          # Guia oficial de commits, branches e credenciais
 ├── index.html                   # Entrada principal (redireciona para login.html)
@@ -91,11 +101,11 @@ FoxFit-main/
 
 ---
 
-##  Estrutura do Banco de Dados
+## 🗄️ Estrutura do Banco de Dados
 
 O arquivo `database/init.sql` inicializa automaticamente 6 tabelas com chaves estrangeiras, restrições e 3 registros fictícios por tabela:
 
-1. **`usuarios`**: Administradores e operadores com permissões no sistema.
+1. **`usuarios`**: Cadastro de colaboradores do sistema (nome, e-mail, CPF, telefone, senha e status unificado).
 2. **`alunos`**: Cadastro de alunos da academia (dados pessoais, contato e status).
 3. **`professores`**: Corpo técnico de instrutores (CREF, especialidade, turno e telefone).
 4. **`planos`**: Planos comerciais de assinatura (Smart, Fit, VIP) e benefícios inclusos.

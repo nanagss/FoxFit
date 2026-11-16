@@ -13,14 +13,14 @@ DROP TABLE IF EXISTS alunos CASCADE;
 DROP TABLE IF EXISTS usuarios CASCADE;
 
 -- =====================================================================
--- 1. TABELA DE USUÁRIOS DO SISTEMA (Administradores e Operadores)
+-- 1. TABELA DE USUÁRIOS DO SISTEMA (Acesso Unificado / Colaboradores)
 -- =====================================================================
 CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     nome_completo VARCHAR(150) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     cpf VARCHAR(14) UNIQUE NOT NULL,
-    cargo VARCHAR(50) NOT NULL CHECK (cargo IN ('ADMIN', 'OPERADOR')),
+    telefone VARCHAR(20) NOT NULL,
     senha VARCHAR(255) NOT NULL,
     status VARCHAR(20) DEFAULT 'ATIVO' CHECK (status IN ('ATIVO', 'INATIVO')),
     criado_em TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
@@ -108,10 +108,10 @@ CREATE TABLE mensalidades (
 -- =====================================================================
 
 -- 1. Inserção de Usuários
-INSERT INTO usuarios (nome_completo, email, cpf, cargo, senha, status) VALUES
-('Fernanda Sousa', 'fernanda.sousa@foxfit.com.br', '345.890.123-00', 'ADMIN', '$2a$12$e8YxGjF9yq1w8nKp5gJ5y.kX0j9kH2pW9F0O2Vq3M4t5y6u7i8o9p', 'ATIVO'),
-('Carlos Eduardo Almeida', 'carlos.almeida@foxfit.com.br', '418.220.910-34', 'OPERADOR', '$2a$12$a1B2c3D4e5F6g7H8i9J0kL1m2N3o4P5q6R7s8T9u0V1w2X3y4Z5a6', 'ATIVO'),
-('Beatriz Helena Mendes', 'beatriz.mendes@foxfit.com.br', '289.401.655-71', 'OPERADOR', '$2a$12$z9Y8x7W6v5U4t3S2r1Q0p9O8n7M6l5K4j3I2h1G0f9E8d7C6b5A4z', 'ATIVO');
+INSERT INTO usuarios (nome_completo, email, cpf, telefone, senha, status) VALUES
+('Fernanda Sousa', 'fernanda.sousa@foxfit.com.br', '345.890.123-00', '(11) 99812-4400', '$2a$12$e8YxGjF9yq1w8nKp5gJ5y.kX0j9kH2pW9F0O2Vq3M4t5y6u7i8o9p', 'ATIVO'),
+('Carlos Eduardo Almeida', 'carlos.almeida@foxfit.com.br', '418.220.910-34', '(11) 98765-4321', '$2a$12$a1B2c3D4e5F6g7H8i9J0kL1m2N3o4P5q6R7s8T9u0V1w2X3y4Z5a6', 'ATIVO'),
+('Beatriz Helena Mendes', 'beatriz.mendes@foxfit.com.br', '289.401.655-71', '(11) 97654-1234', '$2a$12$z9Y8x7W6v5U4t3S2r1Q0p9O8n7M6l5K4j3I2h1G0f9E8d7C6b5A4z', 'ATIVO');
 
 -- 2. Inserção de Alunos
 INSERT INTO alunos (codigo, nome, cpf, data_nascimento, telefone, email, endereco, status) VALUES

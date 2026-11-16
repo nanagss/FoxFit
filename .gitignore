@@ -1,0 +1,13 @@
+# Variáveis de ambiente e segredos locais
+.env
+.env.local
+*.env
+!.env.example
+
+# Volumes e dados temporários do Docker
+postgres_data/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
