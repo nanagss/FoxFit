@@ -151,3 +151,55 @@ Se você prefere gerenciar o banco através de uma interface visual, recomendamo
 - **DBeaver Community** (Gratuito e completo)
 - **Extensão "Database Client" no VS Code** (Permite consultar o PostgreSQL dentro do próprio editor)
 - **pgAdmin 4**
+
+---
+
+## Configuração do Java e PostgreSQL
+
+O back-end do FoxFit utiliza Java, JDBC e PostgreSQL.
+
+### Driver JDBC
+
+O driver do PostgreSQL está disponível em:
+
+`lib/postgresql-42.7.14.jar`
+
+Para configurá-lo no IntelliJ IDEA:
+
+1. Abra File → Project Structure.
+2. Acesse Modules → Dependencies.
+3. Clique em + → JARs or Directories.
+4. Selecione o arquivo JAR da pasta `lib`.
+5. Confirme a dependência e clique em Apply → OK.
+
+### Conexão com o banco de dados
+
+A classe `Conexao.java` utiliza:
+
+- Banco de dados: `foxfit`
+- Servidor: `127.0.0.1`
+- Porta padrão: `5432`
+- Usuário: `postgres`
+
+Configure estas variáveis de ambiente no IntelliJ,
+em Run → Edit Configurations:
+
+- `FOXFIT_DB_PASSWORD`: senha do PostgreSQL.
+- `FOXFIT_DB_PORT`: porta do PostgreSQL (opcional).
+
+Se `FOXFIT_DB_PORT` não estiver configurada,
+será utilizada a porta `5432`.
+
+Na máquina em que o Docker utiliza a porta `5433`,
+configure `FOXFIT_DB_PORT=5433`.
+
+A senha do banco não deve ser incluída no código
+nem enviada ao GitHub.
+
+### Execução
+
+1. Inicie o PostgreSQL pelo Docker Compose.
+2. Confirme que o banco `foxfit` está disponível.
+3. Configure o driver JDBC no IntelliJ.
+4. Configure as variáveis de ambiente necessárias.
+5. Execute as classes Java utilizando o IntelliJ.
