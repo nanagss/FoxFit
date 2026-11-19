@@ -56,7 +56,7 @@ public class ServidorFoxFit {
             String rota = requisicao.getRequestURI().getPath();
 
             if (rota.equals("/")) {
-                rota = "/pages/alunos.html";
+                rota = "/index.html";
             }
 
             boolean permitido =
