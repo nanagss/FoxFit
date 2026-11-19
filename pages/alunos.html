@@ -49,7 +49,7 @@
     </header>
 
     <section class="barra-ferramentas" aria-label="Pesquisa e Filtros de Alunos">
-      <form id="form-busca-aluno" class="formulario-busca" role="search" action="alunos.html" method="get">
+      <form id="form-busca-aluno" class="formulario-busca" role="search" action="/pages/alunos.html" method="get">
         <fieldset>
           <legend>Filtrar e Pesquisar Base de Alunos</legend>
 
@@ -59,6 +59,7 @@
               type="search"
               id="busca-aluno-termo"
               name="termoBusca"
+              value="<!-- TERMO_BUSCA -->"
               placeholder="Digite o nome ou CPF (000.000.000-00)"
             >
           </label>
@@ -66,18 +67,21 @@
           <label for="filtro-aluno-status">
             Status do Aluno
             <select id="filtro-aluno-status" name="statusFiltro">
-              <option value="TODOS" selected>Todos os Status</option>
-              <option value="ATIVO">Ativo</option>
-              <option value="INATIVO">Inativo</option>
+              <option value="TODOS" <!-- SEL_TODOS -->>Todos os Status</option>
+              <option value="ATIVO" <!-- SEL_ATIVO -->>Ativo</option>
+              <option value="INATIVO" <!-- SEL_INATIVO -->>Inativo</option>
+              <option value="TRANCADO" <!-- SEL_TRANCADO -->>Trancado</option>
             </select>
           </label>
 
           <button type="submit" id="btn-filtrar-alunos" class="btn btn-primario">
             Pesquisar
           </button>
-          <button type="reset" id="btn-limpar-filtro-alunos" class="btn btn-secundario">
+          <a href="/pages/alunos.html"
+             id="btn-limpar-filtro-alunos"
+             class="btn btn-secundario">
             Redefinir Filtro
-          </button>
+          </a>
         </fieldset>
       </form>
     </section>
@@ -89,7 +93,7 @@
         </hgroup>
       </header>
 
-      <form id="form-aluno" class="formulario-padrao" action="alunos.html" method="post">
+      <form id="form-aluno" class="formulario-padrao" action="/alunos/cadastrar" method="post">
         <input type="hidden" id="aluno-id" name="idAluno" value="">
 
         <fieldset>
@@ -173,7 +177,7 @@
         </fieldset>
       </form>
     </section>
-
+    <!-- FORMULARIO_EDICAO_ALUNO -->
     <section class="modulo-sistema" aria-labelledby="titulo-listagem-alunos">
       <header class="cabecalho-modulo">
         <hgroup>
@@ -197,67 +201,12 @@
             </tr>
           </thead>
           <tbody id="corpo-tabela-alunos">
-            <tr>
-              <th scope="row">#ALU-001</th>
-              <td>Lucas Gabriel Moreira</td>
-              <td>412.890.348-12</td>
-              <td><time datetime="1996-04-15">15/04/1996</time></td>
-              <td>(11) 98821-4410</td>
-              <td>lucas.moreira@email.com.br</td>
-              <td>Av. Paulista, 1450 - Bela Vista, São Paulo - SP</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="1" aria-label="Editar aluno Lucas Gabriel Moreira">Editar</button>
-                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="1" aria-label="Excluir aluno Lucas Gabriel Moreira">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#ALU-002</th>
-              <td>Mariana Costa Ribeiro</td>
-              <td>389.201.765-09</td>
-              <td><time datetime="1999-08-22">22/08/1999</time></td>
-              <td>(11) 97654-3318</td>
-              <td>mariana.ribeiro@email.com.br</td>
-              <td>Rua Augusta, 820 - Consolação, São Paulo - SP</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="2" aria-label="Editar aluna Mariana Costa Ribeiro">Editar</button>
-                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="2" aria-label="Excluir aluna Mariana Costa Ribeiro">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#ALU-003</th>
-              <td>Rafael Henrique Teixeira</td>
-              <td>275.643.910-44</td>
-              <td><time datetime="1992-11-03">03/11/1992</time></td>
-              <td>(11) 99123-7890</td>
-              <td>rafael.teixeira@email.com.br</td>
-              <td>Rua Vergueiro, 2100 - Vila Mariana, São Paulo - SP</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="3" aria-label="Editar aluno Rafael Henrique Teixeira">Editar</button>
-                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="3" aria-label="Excluir aluno Rafael Henrique Teixeira">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#ALU-004</th>
-              <td>Camila Fernandes Souza</td>
-              <td>518.902.114-80</td>
-              <td><time datetime="2001-02-19">19/02/2001</time></td>
-              <td>(11) 96432-1122</td>
-              <td>camila.souza@email.com.br</td>
-              <td>Alameda Santos, 980 - Jardins, São Paulo - SP</td>
-              <td><span class="badge-status status-inativo">Inativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-aluno" data-id="4" aria-label="Editar aluna Camila Fernandes Souza">Editar</button>
-                <button type="button" class="btn-excluir" popovertarget="modal-confirmar-exclusao-aluno" data-id="4" aria-label="Excluir aluna Camila Fernandes Souza">Excluir</button>
-              </td>
-            </tr>
+          <!-- LINHAS_ALUNOS -->
           </tbody>
           <tfoot>
             <tr>
               <td colspan="7">Total de registros listados na consulta atual</td>
-              <td colspan="2">4 alunos (3 ativos, 1 inativo)</td>
+              <td colspan="2"><!-- TOTAL_ALUNOS --></td>
             </tr>
           </tfoot>
         </table>
