@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RF04 - Catálogo e Gestão de Planos de Assinatura da Academia FOX FIT">
+  <title>FOX FIT | Planos de Assinatura</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="../assets/images/logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html" class="ativo" aria-current="page">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-gestao-planos">
+        <h1 id="titulo-gestao-planos">Planos de Assinatura</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="grade-planos" aria-label="Vitrine de Planos">
+      <!-- CARDS_PLANOS -->
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-formulario-plano">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-formulario-plano">Cadastrar Novo Plano de Assinatura</h2>
+        </hgroup>
+      </header>
+
+      <form id="form-plano" class="formulario-padrao" action="/planos/cadastrar" method="post">
+        <input type="hidden" id="plano-id" name="idPlano" value="">
+
+        <fieldset>
+          <legend>Configuração Comercial do Plano</legend>
+
+          <label for="plano-nome">
+            Nome do Plano
+            <input
+              type="text"
+              id="plano-nome"
+              name="nomePlano"
+              placeholder="Ex.: Plano Anual Fox VIP"
+              required
+            >
+          </label>
+
+          <label for="plano-valor">
+            Valor R$ (Mensal)
+            <input
+              type="number"
+              id="plano-valor"
+              name="valor"
+              placeholder="Ex.: 99.90"
+              step="0.01"
+              min="0"
+              required
+            >
+          </label>
+
+          <label for="plano-duracao">
+            Duração em Meses
+            <input
+              type="number"
+              id="plano-duracao"
+              name="duracaoMeses"
+              placeholder="Ex.: 12"
+              min="1"
+              max="36"
+              required
+            >
+          </label>
+
+          <label for="plano-beneficios" class="campo-completo">
+            Benefícios do Plano (um benefício por linha)
+            <textarea
+              id="plano-beneficios"
+              name="beneficios"
+              placeholder="Descreva os benefícios e modalidades inclusas no plano..."
+              required
+            ></textarea>
+          </label>
+
+          <footer class="acoes-formulario">
+            <button type="reset" id="btn-limpar-plano" class="btn btn-secundario">
+              Limpar
+            </button>
+            <button type="submit" id="btn-salvar-plano" class="btn btn-primario">
+              Salvar Plano
+            </button>
+          </footer>
+        </fieldset>
+      </form>
+    </section>
+    <!-- FORMULARIO_EDICAO_PLANO -->
+    <section class="modulo-sistema" aria-labelledby="titulo-tabela-planos">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-tabela-planos">Tabela de Planos Ativos</h2>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Listagem de Planos Cadastrados">
+        <table class="tabela-dados" id="tabela-planos">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Modalidade / Nome do Plano</th>
+              <th scope="col">Duração (Meses)</th>
+              <th scope="col">Valor Mensal</th>
+              <th scope="col">Valor Total do Contrato</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-planos">
+            <!-- LINHAS_PLANOS -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="5">Total de planos configurados no catálogo da academia</td>
+              <td colspan="2"><!-- TOTAL_PLANOS --></td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+
+    <dialog id="modal-editar-plano" class="modal-sistema" popover aria-labelledby="titulo-modal-editar-plano">
+      <article>
+        <header class="cabecalho-modulo">
+          <hgroup>
+            <h2 id="titulo-modal-editar-plano">Editar Plano de Assinatura</h2>
+          </hgroup>
+        </header>
+
+        <form id="form-editar-plano" class="formulario-padrao" action="planos.html" method="post">
+          <input type="hidden" id="edit-plano-id" name="idPlano" value="1">
+
+          <fieldset>
+            <legend>Parâmetros do Plano Selecionado</legend>
+
+            <label for="edit-plano-nome">
+              Nome do Plano
+              <input
+                type="text"
+                id="edit-plano-nome"
+                name="nomePlano"
+                value="Plano Mensal Smart"
+                required
+              >
+            </label>
+
+            <label for="edit-plano-valor">
+              Valor R$ (Mensal)
+              <input
+                type="number"
+                id="edit-plano-valor"
+                name="valor"
+                value="149.90"
+                step="0.01"
+                min="0"
+                required
+              >
+            </label>
+
+            <label for="edit-plano-duracao">
+              Duração em Meses
+              <input
+                type="number"
+                id="edit-plano-duracao"
+                name="duracaoMeses"
+                value="1"
+                min="1"
+                max="36"
+                required
+              >
+            </label>
+
+            <label for="edit-plano-status">
+              Status do Plano
+              <select id="edit-plano-status" name="status" required>
+                <option value="ATIVO" selected>Ativo</option>
+                <option value="INATIVO">Inativo</option>
+              </select>
+            </label>
+
+            <label for="edit-plano-beneficios" class="campo-completo">
+              Benefícios do Plano (um benefício por linha)
+              <textarea
+                id="edit-plano-beneficios"
+                name="beneficios"
+                required
+              >Acesso livre à musculação e ergometria
+Horário livre de segunda a sábado
+Avaliação física inicial inclusa
+Sem multa de fidelidade contratual</textarea>
+            </label>
+
+            <footer class="acoes-formulario">
+              <button type="button" id="btn-fechar-modal-plano" class="btn btn-secundario" popovertarget="modal-editar-plano" popovertargetaction="hide">
+                Cancelar
+              </button>
+              <button type="submit" id="btn-salvar-edicao-plano" class="btn btn-primario">
+                Salvar Alterações
+              </button>
+            </footer>
+          </fieldset>
+        </form>
+      </article>
+    </dialog>
+  </main>
+</body>
+</html>
+
