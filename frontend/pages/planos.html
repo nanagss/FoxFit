@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -49,107 +49,17 @@
     </header>
 
     <section class="grade-planos" aria-label="Vitrine de Planos">
-      <article class="card-plano">
-        <header class="cabecalho-plano">
-          <h3>Plano Mensal Smart</h3>
-          <span class="duracao-plano">Duração: 1 Mês</span>
-        </header>
-
-        <p class="preco-plano">
-          R$ 149,90
-          <small>/ mês</small>
-        </p>
-
-        <ul class="lista-beneficios">
-          <li>Acesso livre à musculação e ergometria</li>
-          <li>Horário livre de segunda a sábado</li>
-          <li>Avaliação física inicial inclusa</li>
-          <li>Sem multa de fidelidade contratual</li>
-        </ul>
-
-        <footer>
-          <a href="matriculas.html?plano=MENSAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
-        </footer>
-      </article>
-
-      <article class="card-plano">
-        <header class="cabecalho-plano">
-          <h3>Plano Trimestral Fit</h3>
-          <span class="duracao-plano">Duração: 3 Meses</span>
-        </header>
-
-        <p class="preco-plano">
-          R$ 129,90
-          <small>/ mês (Total R$ 389,70)</small>
-        </p>
-
-        <ul class="lista-beneficios">
-          <li>Musculação + Aulas Coletivas (Dança e Funcional)</li>
-          <li>1 reavaliação física de bioimpedância</li>
-          <li>Acesso ao aplicativo de treinos FOX FIT</li>
-          <li>Desconto de 13% sobre o valor avulso</li>
-        </ul>
-
-        <footer>
-          <a href="matriculas.html?plano=TRIMESTRAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
-        </footer>
-      </article>
-
-      <article class="card-plano">
-        <header class="cabecalho-plano">
-          <h3>Plano Semestral Performance</h3>
-          <span class="duracao-plano">Duração: 6 Meses</span>
-        </header>
-
-        <p class="preco-plano">
-          R$ 114,90
-          <small>/ mês (Total R$ 689,40)</small>
-        </p>
-
-        <ul class="lista-beneficios">
-          <li>Acesso total: Musculação, Funcional, Cross e Lutas</li>
-          <li>2 avaliações físicas completas por semestre</li>
-          <li>Direito a trancamento de férias por até 15 dias</li>
-          <li>Convidado VIP 2 vezes por mês</li>
-        </ul>
-
-        <footer>
-          <a href="matriculas.html?plano=SEMESTRAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
-        </footer>
-      </article>
-
-      <article class="card-plano">
-        <header class="cabecalho-plano">
-          <h3>Plano Anual Fox VIP</h3>
-          <span class="duracao-plano">Duração: 12 Meses</span>
-        </header>
-
-        <p class="preco-plano">
-          R$ 99,90
-          <small>/ mês (Total R$ 1.198,80)</small>
-        </p>
-
-        <ul class="lista-beneficios">
-          <li>Acesso irrestrito a todas as modalidades e turnos</li>
-          <li>Bioimpedância trimestral e acompanhamento personalizado</li>
-          <li>Trancamento programado de até 30 dias ao ano</li>
-          <li>Acesso liberado para 1 acompanhante aos finais de semana</li>
-        </ul>
-
-        <footer>
-          <a href="matriculas.html?plano=ANUAL" class="btn btn-secundario btn-bloco">Selecionar no Balcão</a>
-        </footer>
-      </article>
+      <!-- CARDS_PLANOS -->
     </section>
 
     <section class="modulo-sistema" aria-labelledby="titulo-formulario-plano">
       <header class="cabecalho-modulo">
         <hgroup>
-          <h2 id="titulo-formulario-plano">Cadastrar ou Editar Plano de Assinatura</h2>
+          <h2 id="titulo-formulario-plano">Cadastrar Novo Plano de Assinatura</h2>
         </hgroup>
       </header>
 
-      <form id="form-plano" class="formulario-padrao" action="planos.html" method="post">
+      <form id="form-plano" class="formulario-padrao" action="/planos/cadastrar" method="post">
         <input type="hidden" id="plano-id" name="idPlano" value="">
 
         <fieldset>
@@ -167,7 +77,7 @@
           </label>
 
           <label for="plano-valor">
-            Valor R$ (Mensal ou Pacote)
+            Valor R$ (Mensal)
             <input
               type="number"
               id="plano-valor"
@@ -213,7 +123,7 @@
         </fieldset>
       </form>
     </section>
-
+    <!-- FORMULARIO_EDICAO_PLANO -->
     <section class="modulo-sistema" aria-labelledby="titulo-tabela-planos">
       <header class="cabecalho-modulo">
         <hgroup>
@@ -235,59 +145,12 @@
             </tr>
           </thead>
           <tbody id="corpo-tabela-planos">
-            <tr>
-              <th scope="row">#PLN-01</th>
-              <td>Plano Mensal Smart</td>
-              <td>1 mês</td>
-              <td>R$ 149,90</td>
-              <td>R$ 149,90</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="1" aria-label="Editar Plano Mensal Smart">Editar</button>
-                <button type="button" class="btn-excluir" data-id="1" aria-label="Excluir Plano Mensal Smart">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PLN-02</th>
-              <td>Plano Trimestral Fit</td>
-              <td>3 meses</td>
-              <td>R$ 129,90</td>
-              <td>R$ 389,70</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="2" aria-label="Editar Plano Trimestral Fit">Editar</button>
-                <button type="button" class="btn-excluir" data-id="2" aria-label="Excluir Plano Trimestral Fit">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PLN-03</th>
-              <td>Plano Semestral Performance</td>
-              <td>6 meses</td>
-              <td>R$ 114,90</td>
-              <td>R$ 689,40</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="3" aria-label="Editar Plano Semestral Performance">Editar</button>
-                <button type="button" class="btn-excluir" data-id="3" aria-label="Excluir Plano Semestral Performance">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PLN-04</th>
-              <td>Plano Anual Fox VIP</td>
-              <td>12 meses</td>
-              <td>R$ 99,90</td>
-              <td>R$ 1.198,80</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-plano" data-id="4" aria-label="Editar Plano Anual Fox VIP">Editar</button>
-                <button type="button" class="btn-excluir" data-id="4" aria-label="Excluir Plano Anual Fox VIP">Excluir</button>
-              </td>
-            </tr>
+            <!-- LINHAS_PLANOS -->
           </tbody>
           <tfoot>
             <tr>
               <td colspan="5">Total de planos configurados no catálogo da academia</td>
-              <td colspan="2">4 planos vigentes</td>
+              <td colspan="2"><!-- TOTAL_PLANOS --></td>
             </tr>
           </tfoot>
         </table>

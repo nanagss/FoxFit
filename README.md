@@ -1,153 +1,199 @@
-#  FoxFit — Banco de Dados Local com Docker & PostgreSQL
+#  FoxFit — Sistema de Gestão de Academia
 
-Guia rápido para os membros da equipe subirem o banco de dados relacional do **FoxFit** localmente via Docker. Com este ambiente, o banco já inicializa com todas as tabelas criadas e dados de teste inseridos automaticamente.
+Sistema web para gestão operacional, administrativa e financeira de academias.
+
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=flat&logo=openjdk&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-316192?style=flat&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-Sem%C3%A2ntico-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-Vanilla-1572B6?style=flat&logo=css3&logoColor=white)
+
+---    
+
+##  Tecnologias
+
+- **Back-end:** Java 21, `com.sun.net.httpserver.HttpServer` nativo (sem frameworks externos) e JDBC (`postgresql-42.7.14.jar`)
+- **Banco de Dados:** PostgreSQL 15 containerizado com Docker Compose
+- **Front-end:** HTML5 Semântico e CSS3 Puro com variáveis reutilizáveis (`:root`), CSS Grid e Flexbox
 
 ---
 
-##  Pré-requisitos
+##  Sumário
 
-Antes de começar, certifique-se de ter instalado em sua máquina:
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Windows / macOS) ou Docker Engine + Docker Compose (Linux).
-- Git (para clonar o repositório).
-
-> **Atenção:** Certifique-se de que o **Docker Desktop** esteja aberto e em execução antes de rodar os comandos no terminal.
+- [Módulos do Sistema](#-módulos-do-sistema)
+- [Arquitetura e Estrutura de Pastas](#-arquitetura-e-estrutura-de-pastas)
+- [Pré-requisitos](#-pré-requisitos)
+- [Como Executar o Projeto](#-como-executar-o-projeto)
+- [Rotas do Servidor Web](#-rotas-do-servidor-web)
+- [Banco de Dados (PostgreSQL)](#-banco-de-dados-postgresql)
 
 ---
 
-##  Como Subir o Banco (Passo a Passo)
+##  Módulos do Sistema
 
-### 1. Acessar a pasta do projeto
-Abra o terminal (PowerShell, CMD ou Bash) e navegue até a raiz do repositório onde está o arquivo `docker-compose.yml`:
+| Módulo | Tela | Status (Back-end) | Funcionalidades |
+| :--- | :--- | :---: | :--- |
+| **Dashboard** | `dashboard.html` | ✅ Concluído | KPIs consolidados (alunos ativos, matrículas no mês, receita mensal, taxa de adimplência) e tabela de matrículas recentes. |
+| **Planos de Assinatura** | `planos.html` | ✅ Concluído | Vitrine dinâmica de planos ativos, cadastro, edição, inativação e exclusão com cálculo automático do valor total do contrato. |
+| **Fluxo Financeiro** | `financeiro.html` | ✅ Concluído | Indicadores financeiros (recebido, pendente e em atraso), filtros por status, competência (`YYYY-MM`) e busca, além da baixa de pagamentos. |
+| **Gestão de Alunos** | `alunos.html` | ✅ Concluído | Cadastro, listagem, filtro por nome/CPF/status, edição e exclusão de alunos. |
+| **Professores** | `professores.html` | 🚧 Em desenvolvimento | Front-end concluído (CREF, especialidade e turno); integração Java/DAO em andamento. |
+| **Matrículas** | `matriculas.html` | 🚧 Em desenvolvimento | Front-end concluído (vínculo aluno-plano, vigência e renovação); integração Java/DAO em andamento. |
+| **Usuários e Acesso** | `login.html`, `cadastro.html`, `perfil.html` | 🚧 Em desenvolvimento | Front-end concluído (RBAC e perfil); autenticação com validação na tabela `usuarios` em andamento. |
 
-```bash
-cd caminho/para/FoxFit-main
+---
+
+## Arquitetura e Estrutura de Pastas
+
+O servidor Java (`ServidorFoxFit`) entrega os arquivos estáticos de `frontend/` e renderiza dinamicamente as páginas integradas ao PostgreSQL via JDBC:
+
+```mermaid
+flowchart LR
+    Navegador["Navegador (HTML5 + CSS3)"] -->|HTTP GET / POST| Servidor["ServidorFoxFit (Java HttpServer :8080)"]
+    Servidor --> Handlers["Handlers Web (web/)"]
+    Handlers --> DAOs["Camada DAO (dao/)"]
+    DAOs -->|JDBC| DB[("PostgreSQL 15 (:5432)")]
 ```
 
-### 2. Iniciar o contêiner do PostgreSQL
-Execute o comando abaixo para baixar a imagem e subir o serviço em segundo plano:
-
-```bash
-docker compose up -d
-```
-
-*(Caso seu Docker seja uma versão mais antiga, use `docker-compose up -d` com hífen).*
-
-### 3. Verificar o status
-Confira se o contêiner está ativo e saudável:
-
-```bash
-docker compose ps
-```
-
-Você verá o contêiner `foxfit_postgres` com status **Up** e a porta `5432` exposta.
-
----
-
-##  Credenciais de Conexão
-
-Utilize os dados abaixo para conectar sua aplicação backend ou clientes visuais (DBeaver, pgAdmin, VS Code, DataGrip, Beekeeper Studio):
-
-| Parâmetro | Valor |
-| :--- | :--- |
-| **Host** | `localhost` |
-| **Porta** | `5432` |
-| **Banco de Dados (Database)** | `foxfit` |
-| **Usuário (User)** | `postgres` |
-| **Senha (Password)** | `190207` |
-
----
-
-##  Estrutura Organizada do Projeto
-
-O projeto está estruturado separando os arquivos de estilo, imagens, páginas HTML e banco de dados:
+### Estrutura do Repositório
 
 ```text
-FoxFit-main/
-├── assets/
-│   ├── css/
-│   │   └── style.css            # Folha de estilos central do sistema
-│   └── images/
-│       └── logofox.jpeg         # Logotipo oficial da academia
+FoxFit/
+├── backend/                       
+│   ├── lib/
+│   │   └── postgresql-42.7.14.jar    # Driver JDBC oficial do PostgreSQL
+│   └── src/main/java/br/uepa/foxfit/
+│       ├── database/                 # Conexão JDBC via variáveis de ambiente (Conexao.java)
+│       ├── model/                    # Modelos (Aluno, Plano, Mensalidade, ResumoDashboard...)
+│       ├── dao/                      # Operações SQL (AlunoDAO, PlanoDAO, FinanceiroDAO, DashboardDAO)
+│       └── web/                      # ServidorFoxFit, WebUtils e Handlers HTTP
+│
+├── frontend/                         # Interface web (HTML5 Semântico + CSS3 Puro)
+│   ├── index.html                    # Entrada principal (redireciona para login.html)
+│   ├── assets/
+│   │   ├── css/style.css             # Folha de estilos com variáveis CSS (:root)
+│   │   └── images/logofox.jpeg       # Logotipo oficial FOX FIT
+│   └── pages/                        # Telas do sistema (dashboard, planos, financeiro, alunos, etc.)
+│
 ├── database/
-│   └── init.sql                 # Script de criação de tabelas e mock data
-├── pages/
-│   ├── alunos.html              # Gestão de alunos
-│   ├── cadastro.html            # Gestão e criação de usuários
-│   ├── dashboard.html           # Painel de indicadores operacionais
-│   ├── financeiro.html          # Fluxo de mensalidades e pagamentos
-│   ├── login.html               # Tela de autenticação
-│   ├── matriculas.html          # Controle de matrículas de alunos
-│   ├── perfil.html              # Perfil do operador/administrador
-│   ├── planos.html              # Planos de assinatura comercial
-│   └── professores.html         # Corpo docente e instrutores
-├── docker-compose.yml           # Configuração do PostgreSQL local no Docker
-├── GUIA_GIT_COMMITS.md          # Guia oficial de commits, branches e credenciais
-├── index.html                   # Entrada principal (redireciona para login.html)
-└── README.md                    # Documentação do projeto
+│   └── init.sql                      # Script SQL de criação das 6 tabelas e dados iniciais
+│
+├── .gitignore                        # Ignora artefatos compilados (out/) e arquivos de IDEs
+├── docker-compose.yml                # Configuração local do PostgreSQL no Docker
+└── README.md                         # Documentação do projeto
 ```
-
-> 📖 **Equipe:** Consulte o arquivo [GUIA_GIT_COMMITS.md](GUIA_GIT_COMMITS.md) para ver o padrão oficial de branches, formato de commits e instruções para envio de Pull Requests.
 
 ---
 
-##  Estrutura do Banco de Dados
+## Pré-requisitos
 
-O arquivo `database/init.sql` inicializa automaticamente 6 tabelas com chaves estrangeiras, restrições e 3 registros fictícios por tabela:
-
-1. **`usuarios`**: Administradores e operadores com permissões no sistema.
-2. **`alunos`**: Cadastro de alunos da academia (dados pessoais, contato e status).
-3. **`professores`**: Corpo técnico de instrutores (CREF, especialidade, turno e telefone).
-4. **`planos`**: Planos comerciais de assinatura (Smart, Fit, VIP) e benefícios inclusos.
-5. **`matriculas`**: Contratos vinculando alunos aos planos, vigência e formas de pagamento.
-6. **`mensalidades`**: Cobranças financeiras, status de pagamento e datas de vencimento.
+- **[JDK 21](https://adoptium.net/)** (ou superior)
+- **[PostgreSQL 15](https://www.postgresql.org/)** (local ou via **[Docker Desktop](https://www.docker.com/products/docker-desktop/)**)
+- **[Git](https://git-scm.com/)**
 
 ---
 
-##  Comandos Úteis do Dia a Dia
+## ▶Como Executar o Projeto
 
-### Conectar via terminal interativo (psql)
-Para rodar comandos SQL diretamente dentro do contêiner sem instalar nada na sua máquina:
-
+### 1. Clonar o repositório
 ```bash
-docker exec -it foxfit_postgres psql -U postgres -d foxfit
+git clone https://github.com/nanagss/FoxFit.git
+cd FoxFit
 ```
 
-Dentro do `psql`:
-- Listar todas as tabelas: `\dt`
-- Detalhes de uma tabela: `\d alunos`
-- Consultar registros: `SELECT * FROM alunos;`
-- Sair do psql: `\q`
+### 2. Definir a senha via variável de ambiente e subir o banco PostgreSQL
+Por segurança, a senha do banco **não fica no código-fonte nem na documentação**. O `docker-compose.yml` e a classe `Conexao.java` leem diretamente a variável de ambiente `FOXFIT_DB_PASSWORD` (e opcionalmente `FOXFIT_DB_PORT`):
 
-### Ver logs do banco
-Se precisar depurar alguma query ou erro:
+| Variável | Obrigatória | Descrição |
+| :--- | :---: | :--- |
+| `FOXFIT_DB_PASSWORD` | Sim | Senha do usuário `postgres` usada pelo Docker e por `Conexao.java` |
+| `FOXFIT_DB_PORT` | Não | Porta do PostgreSQL (padrão: `5432`) |
 
-```bash
-docker compose logs -f
+Com o Docker Desktop em execução, defina a variável no terminal e suba o banco (que executa automaticamente `database/init.sql`):
+
+- **Windows (PowerShell):**
+  ```powershell
+  $env:FOXFIT_DB_PASSWORD="<sua_senha_local>"
+  docker compose up -d
+  ```
+- **Linux / macOS (Bash / Zsh):**
+  ```bash
+  export FOXFIT_DB_PASSWORD="<sua_senha_local>"
+  docker compose up -d
+  ```
+
+*(Caso utilize PostgreSQL instalado diretamente na máquina, crie o banco `foxfit` e execute `database/init.sql`).*
+
+### 3. Compilar e iniciar o servidor Java
+
+#### Windows (PowerShell)
+```powershell
+# Compilar o back-end para a pasta out/
+$arquivos = Get-ChildItem -Recurse -Filter *.java backend/src/main/java | ForEach-Object { $_.FullName }
+javac -encoding UTF-8 -cp backend/lib/postgresql-42.7.14.jar -d out $arquivos
+
+# Definir a variável de ambiente da senha e iniciar o servidor
+$env:FOXFIT_DB_PASSWORD="<sua_senha_local>"
+java -cp "out;backend/lib/postgresql-42.7.14.jar" br.uepa.foxfit.web.ServidorFoxFit
 ```
 
-### Parar o banco de dados
-Para pausar os serviços sem perder os dados cadastrados:
-
+#### Linux / macOS (Bash / Zsh)
 ```bash
-docker compose down
+# Compilar o back-end para a pasta out/
+javac -encoding UTF-8 -cp backend/lib/postgresql-42.7.14.jar -d out $(find backend/src/main/java -name "*.java")
+
+# Definir a variável de ambiente da senha e iniciar o servidor
+export FOXFIT_DB_PASSWORD="<sua_senha_local>"
+java -cp "out:backend/lib/postgresql-42.7.14.jar" br.uepa.foxfit.web.ServidorFoxFit
 ```
 
-###  Resetar o banco do zero
-Se você fez testes com dados e quiser voltar ao estado inicial do `database/init.sql`:
+#### Pelo IntelliJ IDEA (ou outra IDE Java)
+1. Abra a pasta do projeto na IDE.
+2. Adicione `backend/lib/postgresql-42.7.14.jar` às dependências do módulo.
+3. Configure `FOXFIT_DB_PASSWORD` nas variáveis de ambiente da execução de `br.uepa.foxfit.web.ServidorFoxFit`.
+4. Execute a classe `ServidorFoxFit`.
 
-```bash
-docker compose down -v
-docker compose up -d
-```
+### 4. Acessar no navegador
+Com o servidor ativo (`Servidor FoxFit iniciado!`), acesse:
+- **Entrada / Login:** `http://127.0.0.1:8080`
+- **Dashboard:** `http://127.0.0.1:8080/pages/dashboard.html`
+- **Planos de Assinatura:** `http://127.0.0.1:8080/pages/planos.html`
+- **Fluxo Financeiro:** `http://127.0.0.1:8080/pages/financeiro.html`
+- **Gestão de Alunos:** `http://127.0.0.1:8080/pages/alunos.html`
 
-> **Dica:** O `-v` remove o volume do Docker (`postgres_data`), forçando o PostgreSQL a executar novamente o script de inicialização `database/init.sql`.
+> **Sobre o acesso inicial (`login.html`):** Enquanto o módulo de autenticação na tabela `usuarios` está em desenvolvimento, o acesso pelo login é **direto/visual** — basta informar qualquer e-mail em formato válido e uma senha com 6+ caracteres (ou acessar diretamente as URLs das telas acima).
+>
+> **Importante:** Sempre abra as páginas via `http://127.0.0.1:8080, pois o `ServidorFoxFit` é responsável por carregar os dados do PostgreSQL e processar os formulários.
 
 ---
 
-## 🛠️ Ferramentas Visuais Recomendadas
+## Rotas do Servidor Web
 
-Se você prefere gerenciar o banco através de uma interface visual, recomendamos:
-- **DBeaver Community** (Gratuito e completo)
-- **Extensão "Database Client" no VS Code** (Permite consultar o PostgreSQL dentro do próprio editor)
-- **pgAdmin 4**
+| Método | Rota | Responsabilidade |
+| :---: | :--- | :--- |
+| `GET` | `/pages/dashboard.html` | Renderiza os 4 KPIs consolidados e as 5 matrículas mais recentes. |
+| `GET` | `/pages/planos.html` | Lista planos na vitrine e na tabela (`?editar=ID` e `?excluir=ID`). |
+| `POST` | `/planos/cadastrar` | Cadastra novo plano gerando código automático (`#PLN-XX`). |
+| `POST` | `/planos/atualizar` | Atualiza dados comerciais, benefícios e status de um plano. |
+| `POST` | `/planos/excluir` | Remove um plano (bloqueia com `409` se houver matrículas vinculadas). |
+| `GET` | `/pages/financeiro.html` | Exibe KPIs financeiros e tabela filtrável por status, competência e busca. |
+| `POST` | `/financeiro/pagar` | Confirma o pagamento (`status = 'PAGO'`, `data_pagamento = CURRENT_DATE`). |
+| `GET` | `/pages/alunos.html` | Renderiza a gestão de alunos com filtros, edição e exclusão. |
+| `GET` | `/alunos/listar` | Retorna listagem textual de alunos cadastrados. |
+| `POST` | `/alunos/cadastrar` | Cadastra novo aluno. |
+| `POST` | `/alunos/atualizar` | Atualiza cadastro de aluno existente. |
+| `POST` | `/alunos/excluir` | Remove aluno sem vínculos ativos. |
+
+---
+
+## Banco de Dados (PostgreSQL)
+
+A conexão em `Conexao.java` aponta para `127.0.0.1` (porta padrão `5432`), banco `foxfit` e usuário `postgres`, lendo a senha exclusivamente da variável de ambiente `FOXFIT_DB_PASSWORD`.
+
+O script `database/init.sql` cria automaticamente as 6 tabelas relacionais do sistema:
+1. **`usuarios`** — Administradores (`ADMIN`) e operadores (`OPERADOR`).
+2. **`alunos`** — Ficha cadastral, contato e status (`ATIVO` / `INATIVO`).
+3. **`professores`** — Instrutores, CREF, especialidade e turno.
+4. **`planos`** — Planos comerciais, duração em meses, valor mensal/total e benefícios.
+5. **`matriculas`** — Contratos vinculando alunos aos planos, vigência e forma de pagamento.
+6. **`mensalidades`** — Cobranças mensais, vencimento, data de pagamento e status (`PAGO`, `PENDENTE`, `ATRASADO`).

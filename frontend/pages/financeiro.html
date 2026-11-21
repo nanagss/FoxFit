@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -51,32 +51,32 @@
     <section class="grade-indicadores" aria-label="Indicadores Financeiros do Período">
       <article class="card-indicador">
         <h2>Total Recebido</h2>
-        <p class="valor-indicador" id="fin-total-recebido">R$ 68.450,00</p>
+        <p class="valor-indicador" id="fin-total-recebido"><!-- FIN_TOTAL_RECEBIDO --></p>
       </article>
 
       <article class="card-indicador">
         <h2>Pendente no Mês</h2>
-        <p class="valor-indicador" id="fin-total-pendente">R$ 8.940,00</p>
+        <p class="valor-indicador" id="fin-total-pendente"><!-- FIN_TOTAL_PENDENTE --></p>
       </article>
 
       <article class="card-indicador">
         <h2>Total em Atraso (Inadimplência)</h2>
-        <p class="valor-indicador" id="fin-total-atraso">R$ 4.197,20</p>
+        <p class="valor-indicador" id="fin-total-atraso"><!-- FIN_TOTAL_ATRASO --></p>
       </article>
     </section>
 
     <section class="barra-ferramentas" aria-label="Filtros de Competência e Status Financeiro">
-      <form id="form-filtro-financeiro" class="formulario-busca" role="search" action="financeiro.html" method="get">
+      <form id="form-filtro-financeiro" class="formulario-busca" role="search" action="/pages/financeiro.html" method="get">
         <fieldset>
           <legend>Filtrar Lançamentos de Mensalidades</legend>
 
           <label for="fin-filtro-status">
             Status da Mensalidade
             <select id="fin-filtro-status" name="statusFinanceiro">
-              <option value="TODOS" selected>Todos</option>
-              <option value="PAGO">Pago</option>
-              <option value="PENDENTE">Pendente</option>
-              <option value="ATRASADO">Atrasado</option>
+              <option value="TODOS" <!-- SEL_FIN_TODOS -->>Todos</option>
+              <option value="PAGO" <!-- SEL_FIN_PAGO -->>Pago</option>
+              <option value="PENDENTE" <!-- SEL_FIN_PENDENTE -->>Pendente</option>
+              <option value="ATRASADO" <!-- SEL_FIN_ATRASADO -->>Atrasado</option>
             </select>
           </label>
 
@@ -86,7 +86,7 @@
               type="month"
               id="fin-filtro-competencia"
               name="mesCompetencia"
-              value="2026-11"
+              value="<!-- MES_COMPETENCIA -->"
             >
           </label>
 
@@ -96,6 +96,7 @@
               type="search"
               id="fin-busca-aluno"
               name="termoAluno"
+              value="<!-- TERMO_ALUNO -->"
               placeholder="Nome do aluno ou código #MAT"
             >
           </label>
@@ -103,9 +104,9 @@
           <button type="submit" id="btn-filtrar-financeiro" class="btn btn-primario">
             Aplicar Filtros
           </button>
-          <button type="reset" id="btn-limpar-filtro-financeiro" class="btn btn-secundario">
+          <a href="/pages/financeiro.html" id="btn-limpar-filtro-financeiro" class="btn btn-secundario">
             Limpar
-          </button>
+          </a>
         </fieldset>
       </form>
     </section>
@@ -131,76 +132,12 @@
             </tr>
           </thead>
           <tbody id="corpo-tabela-mensalidades">
-            <tr>
-              <th scope="row">Lucas Gabriel Moreira</th>
-              <td>Plano Anual Fox VIP (#MAT-2026-089)</td>
-              <td>R$ 99,90</td>
-              <td><time datetime="2026-11-08">08/11/2026</time></td>
-              <td><time datetime="2026-11-08">08/11/2026</time></td>
-              <td><span class="badge-status status-pago">Pago</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-pagar" data-id="501" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Lucas Gabriel Moreira">
-                  Confirmar Pagamento 
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Mariana Costa Ribeiro</th>
-              <td>Plano Semestral Performance (#MAT-2026-088)</td>
-              <td>R$ 114,90</td>
-              <td><time datetime="2026-11-07">07/11/2026</time></td>
-              <td><time datetime="2026-11-07">07/11/2026</time></td>
-              <td><span class="badge-status status-pago">Pago</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-pagar" data-id="502" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Mariana Costa Ribeiro">
-                  Confirmar Pagamento 
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Rafael Henrique Teixeira</th>
-              <td>Plano Trimestral Fit (#MAT-2026-087)</td>
-              <td>R$ 129,90</td>
-              <td><time datetime="2026-11-15">15/11/2026</time></td>
-              <td>—</td>
-              <td><span class="badge-status status-pendente">Pendente</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-pagar" data-id="503" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Rafael Henrique Teixeira">
-                  Confirmar Pagamento 
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Camila Fernandes Souza</th>
-              <td>Plano Mensal Smart (#MAT-2026-086)</td>
-              <td>R$ 149,90</td>
-              <td><time datetime="2026-11-05">05/11/2026</time></td>
-              <td>—</td>
-              <td><span class="badge-status status-atrasado">Atrasado</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-pagar" data-id="504" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Camila Fernandes Souza">
-                  Confirmar Pagamento 
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">Bruno Azevedo Martins</th>
-              <td>Plano Mensal Smart (#MAT-2026-085)</td>
-              <td>R$ 149,90</td>
-              <td><time datetime="2026-10-25">25/10/2026</time></td>
-              <td>—</td>
-              <td><span class="badge-status status-atrasado">Atrasado</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-pagar" data-id="505" aria-label="Confirmar pagamento ou dar baixa na mensalidade de Bruno Azevedo Martins">
-                  Confirmar Pagamento 
-                </button>
-              </td>
-            </tr>
+            <!-- LINHAS_MENSALIDADES -->
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="2">Total consolidado na listagem atual (5 lançamentos)</td>
-              <td colspan="5">R$ 644,50 (R$ 214,80 pagos • R$ 129,90 pendentes • R$ 299,80 em atraso)</td>
+              <td colspan="2">Total consolidado na listagem atual (<!-- QTD_MENSALIDADES --> lançamentos)</td>
+              <td colspan="5"><!-- RESUMO_LISTAGEM_MENSALIDADES --></td>
             </tr>
           </tfoot>
         </table>
