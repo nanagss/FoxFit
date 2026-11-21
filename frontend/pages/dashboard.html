@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Painel de Indicadores e Relatórios Operacionais da Academia FOX FIT">
+  <title>FOX FIT | Painel Operacional</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="../assets/images/logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html" class="ativo" aria-current="page">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-dashboard">
+        <h1 id="titulo-dashboard">Relatórios Operacionais</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="grade-indicadores" aria-label="Indicadores Principais">
+      <article class="card-indicador">
+        <h2>Total de Alunos Ativos</h2>
+        <p class="valor-indicador" id="indicador-alunos-ativos"><!-- KPI_ALUNOS_ATIVOS --></p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Matrículas no Mês</h2>
+        <p class="valor-indicador" id="indicador-matriculas-mes"><!-- KPI_MATRICULAS_MES --></p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Receita Mensal</h2>
+        <p class="valor-indicador" id="indicador-receita-mensal"><!-- KPI_RECEITA_MENSAL --></p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Taxa de Adimplência</h2>
+        <p class="valor-indicador" id="indicador-taxa-adimplencia"><!-- KPI_TAXA_ADIMPLENCIA --></p>
+      </article>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-matriculas-recentes">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-matriculas-recentes">Matrículas Recentes</h2>
+        </hgroup>
+
+        <nav class="acoes-rapidas" aria-label="Ações Rápidas Operacionais">
+          <a href="alunos.html#form-aluno" id="atalho-novo-aluno" class="btn btn-secundario">+ Novo Aluno</a>
+          <a href="matriculas.html#form-matricula" id="atalho-nova-matricula" class="btn btn-primario">+ Nova Matrícula</a>
+        </nav>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Listagem de Matrículas Recentes">
+        <table class="tabela-dados" id="tabela-matriculas-recentes">
+          <thead>
+            <tr>
+              <th scope="col">Código</th>
+              <th scope="col">Aluno</th>
+              <th scope="col">Plano Contratado</th>
+              <th scope="col">Data de Início</th>
+              <th scope="col">Vencimento</th>
+              <th scope="col">Forma de Pagamento</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- LINHAS_MATRICULAS_RECENTES -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">Total consolidado das matrículas exibidas no lote recente</td>
+              <td colspan="2"><!-- TOTAL_MATRICULAS_RECENTES --></td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
