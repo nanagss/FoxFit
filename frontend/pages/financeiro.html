@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fluxos Financeiros, Mensalidades e Controle de Adimplência da Academia FOX FIT">
+  <title>FOX FIT | Fluxo Financeiro e Adimplência</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body class="layout-sistema">
+  <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
+    <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
+      <figure class="logo-foxfit">
+        <img src="../assets/images/logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem">
+      </figure>
+
+      <nav class="navegacao-principal" aria-label="Navegação Principal">
+        <ul>
+          <li><a href="dashboard.html">Painel (Dashboard)</a></li>
+          <li><a href="alunos.html">Gestão de Alunos</a></li>
+          <li><a href="professores.html">Corpo de Professores</a></li>
+          <li><a href="planos.html">Planos de Assinatura</a></li>
+          <li><a href="matriculas.html">Controle de Matrículas</a></li>
+          <li><a href="financeiro.html" class="ativo" aria-current="page">Fluxo Financeiro</a></li>
+          <li><a href="cadastro.html">Usuários</a></li>
+          <li><a href="perfil.html">Meu Perfil</a></li>
+        </ul>
+      </nav>
+    </section>
+
+    <footer class="rodape-menu-lateral">
+      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+    </footer>
+  </aside>
+
+  <main class="conteudo-principal">
+    <header class="cabecalho-pagina">
+      <section class="titulo-pagina" aria-labelledby="titulo-fluxo-financeiro">
+        <h1 id="titulo-fluxo-financeiro">Fluxos Financeiros e Controle de Adimplência</h1>
+      </section>
+
+      <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
+        <span class="avatar-operador" aria-hidden="true">FA</span>
+        <p class="dados-operador">
+          <strong id="operador-nome">Fernanda Sousa</strong>
+          <small id="operador-cargo">Administradora Geral</small>
+        </p>
+      </a>
+    </header>
+
+    <section class="grade-indicadores" aria-label="Indicadores Financeiros do Período">
+      <article class="card-indicador">
+        <h2>Total Recebido</h2>
+        <p class="valor-indicador" id="fin-total-recebido"><!-- FIN_TOTAL_RECEBIDO --></p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Pendente no Mês</h2>
+        <p class="valor-indicador" id="fin-total-pendente"><!-- FIN_TOTAL_PENDENTE --></p>
+      </article>
+
+      <article class="card-indicador">
+        <h2>Total em Atraso (Inadimplência)</h2>
+        <p class="valor-indicador" id="fin-total-atraso"><!-- FIN_TOTAL_ATRASO --></p>
+      </article>
+    </section>
+
+    <section class="barra-ferramentas" aria-label="Filtros de Competência e Status Financeiro">
+      <form id="form-filtro-financeiro" class="formulario-busca" role="search" action="/pages/financeiro.html" method="get">
+        <fieldset>
+          <legend>Filtrar Lançamentos de Mensalidades</legend>
+
+          <label for="fin-filtro-status">
+            Status da Mensalidade
+            <select id="fin-filtro-status" name="statusFinanceiro">
+              <option value="TODOS" <!-- SEL_FIN_TODOS -->>Todos</option>
+              <option value="PAGO" <!-- SEL_FIN_PAGO -->>Pago</option>
+              <option value="PENDENTE" <!-- SEL_FIN_PENDENTE -->>Pendente</option>
+              <option value="ATRASADO" <!-- SEL_FIN_ATRASADO -->>Atrasado</option>
+            </select>
+          </label>
+
+          <label for="fin-filtro-competencia">
+            Mês de Competência
+            <input
+              type="month"
+              id="fin-filtro-competencia"
+              name="mesCompetencia"
+              value="<!-- MES_COMPETENCIA -->"
+            >
+          </label>
+
+          <label for="fin-busca-aluno">
+            Buscar por Aluno ou Matrícula
+            <input
+              type="search"
+              id="fin-busca-aluno"
+              name="termoAluno"
+              value="<!-- TERMO_ALUNO -->"
+              placeholder="Nome do aluno ou código #MAT"
+            >
+          </label>
+
+          <button type="submit" id="btn-filtrar-financeiro" class="btn btn-primario">
+            Aplicar Filtros
+          </button>
+          <a href="/pages/financeiro.html" id="btn-limpar-filtro-financeiro" class="btn btn-secundario">
+            Limpar
+          </a>
+        </fieldset>
+      </form>
+    </section>
+
+    <section class="modulo-sistema" aria-labelledby="titulo-tabela-mensalidades">
+      <header class="cabecalho-modulo">
+        <hgroup>
+          <h2 id="titulo-tabela-mensalidades">Controle de Mensalidades e Baixa de Recebimentos</h2>
+        </hgroup>
+      </header>
+
+      <section class="tabela-responsiva" aria-label="Tabela de Mensalidades e Pagamentos">
+        <table class="tabela-dados" id="tabela-mensalidades">
+          <thead>
+            <tr>
+              <th scope="col">Aluno</th>
+              <th scope="col">Plano / Matrícula</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Data de Vencimento</th>
+              <th scope="col">Data de Pagamento</th>
+              <th scope="col">Status</th>
+              <th scope="col">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela-mensalidades">
+            <!-- LINHAS_MENSALIDADES -->
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">Total consolidado na listagem atual (<!-- QTD_MENSALIDADES --> lançamentos)</td>
+              <td colspan="5"><!-- RESUMO_LISTAGEM_MENSALIDADES --></td>
+            </tr>
+          </tfoot>
+        </table>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
+
