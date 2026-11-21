@@ -97,7 +97,7 @@ public class PaginaAlunosHandler implements HttpHandler {
 
 
             String html = Files.readString(
-                    Path.of("pages", "alunos.html"),
+                    Path.of("frontend", "pages", "alunos.html"),
                     StandardCharsets.UTF_8
             );
 

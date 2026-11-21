@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:15
@@ -7,10 +5,10 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: "190207"
+      POSTGRES_PASSWORD: "${FOXFIT_DB_PASSWORD:?Defina a variável de ambiente FOXFIT_DB_PASSWORD antes de subir o Docker}"
       POSTGRES_DB: foxfit
     ports:
-      - "5432:5432"
+      - "${FOXFIT_DB_PORT:-5432}:5432"
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
       - postgres_data:/var/lib/postgresql/data
