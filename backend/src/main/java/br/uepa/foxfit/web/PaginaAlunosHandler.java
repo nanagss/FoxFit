@@ -133,13 +133,13 @@ public class PaginaAlunosHandler implements HttpHandler {
 
                 String status = aluno.getStatus();
 
-                if ("Ativo".equals(status)) {
+                if ("ATIVO".equalsIgnoreCase(status)) {
                     ativos++;
-                } else if ("Inativo".equals(status)) {
+                } else if ("INATIVO".equalsIgnoreCase(status)) {
                     inativos++;
                 }
 
-                String classeStatus = "Ativo".equals(status)
+                String classeStatus = "ATIVO".equalsIgnoreCase(status)
                         ? "status-ativo"
                         : "status-inativo";
 
@@ -147,8 +147,8 @@ public class PaginaAlunosHandler implements HttpHandler {
                         = aluno.getDataNascimento().toString();
 
                 linhas.append("<tr>")
-                        .append("<th scope=\"row\">#ALU-")
-                        .append(String.format("%03d", aluno.getIdAluno()))
+                        .append("<th scope=\"row\">")
+                        .append(escapar(aluno.getCodigo()))
                         .append("</th>")
                         .append("<td>")
                         .append(escapar(aluno.getNomeCompleto()))
@@ -210,13 +210,10 @@ public class PaginaAlunosHandler implements HttpHandler {
 
                 if (selecionado != null) {
 
-                    String ativo = "Ativo".equals(selecionado.getStatus())
+                    String ativo = "ATIVO".equals(selecionado.getStatus())
                             ? "selected" : "";
 
-                    String inativo = "Inativo".equals(selecionado.getStatus())
-                            ? "selected" : "";
-
-                    String trancado = "Trancado".equals(selecionado.getStatus())
+                    String inativo = "INATIVO".equals(selecionado.getStatus())
                             ? "selected" : "";
 
                     formularioEdicao = """
@@ -269,9 +266,8 @@ public class PaginaAlunosHandler implements HttpHandler {
 
                             <label>Status
                                 <select name="status" required>
-                                    <option value="Ativo" %s>Ativo</option>
-                                    <option value="Inativo" %s>Inativo</option>
-                                    <option value="Trancado" %s>Trancado</option>
+                                      <option value="ATIVO" %s>Ativo</option>
+                                      <option value="INATIVO" %s>Inativo</option>
                                 </select>
                             </label>
 
@@ -298,8 +294,7 @@ public class PaginaAlunosHandler implements HttpHandler {
                             escapar(selecionado.getEmail()),
                             escapar(selecionado.getEndereco()),
                             ativo,
-                            inativo,
-                            trancado
+                            inativo
                     );
                 }
             }

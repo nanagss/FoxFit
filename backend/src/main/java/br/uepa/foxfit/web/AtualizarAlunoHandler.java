@@ -2,6 +2,7 @@ package br.uepa.foxfit.web;
 
 import br.uepa.foxfit.dao.AlunoDAO;
 import br.uepa.foxfit.model.Aluno;
+import br.uepa.foxfit.validation.ValidadorAluno;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -69,20 +70,21 @@ public class AtualizarAlunoHandler implements HttpHandler {
             aluno.setEmail(obrigatorio(dados, "email"));
             aluno.setEndereco(obrigatorio(dados, "endereco"));
 
+
             String status = obrigatorio(dados, "status");
 
-            if (!status.equals("Ativo")
-                    && !status.equals("Inativo")
-                    && !status.equals("Trancado")) {
+            if (!"ATIVO".equals(status) && !"INATIVO".equals(status)) {
                 throw new IllegalArgumentException("Status inválido.");
             }
 
+
             aluno.setStatus(status);
 
-            // Objetivo e observações médicas são preservados,
-            // pois já foram carregados pelo buscarPorId().
+            // Valida os dados antes de atualizar no banco.
+            ValidadorAluno.validarTamanhos(aluno);
 
             boolean atualizado = dao.atualizar(aluno);
+
 
             if (!atualizado) {
                 responder(requisicao, 404, "Aluno não encontrado.");
