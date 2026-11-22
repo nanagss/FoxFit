@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FOX FIT | Gestão de Usuários</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body class="layout-sistema">
   <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
     <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
@@ -29,7 +31,7 @@
     </section>
 
     <footer class="rodape-menu-lateral">
-      <a href="login.html" class="link-sair" id="link-voltar-login">Encerrar Sessão</a>
+      <a href="/logout" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
     </footer>
   </aside>
 
@@ -37,7 +39,8 @@
     <header class="cabecalho-pagina">
       <section class="titulo-pagina" aria-labelledby="titulo-cadastro">
         <h1 id="titulo-cadastro">Gestão de Usuários do Sistema</h1>
-        <p>Cadastre usuários da academia, defina o nível de acesso (Administrador ou Operador) e gerencie credenciais.</p>
+        <p>Cadastre usuários da academia, defina o nível de acesso (Administrador ou Operador) e gerencie credenciais.
+        </p>
       </section>
 
       <a href="perfil.html" class="perfil-operador" aria-label="Editar Perfil do Operador Logado">
@@ -53,7 +56,8 @@
       <header class="cabecalho-modulo">
         <hgroup>
           <h2 id="subtitulo-form-operador">Cadastrar Novo Usuário</h2>
-          <p>Apenas usuários com perfil <strong>Administrador</strong> podem criar contas, definir cargos e redefinir senhas.</p>
+          <p>Apenas usuários com perfil <strong>Administrador</strong> podem criar contas, definir cargos e redefinir
+            senhas.</p>
         </hgroup>
       </header>
 
@@ -66,39 +70,20 @@
           <section class="coluna-campos-acesso" aria-label="Dados Pessoais do Usuário">
             <label for="cad-nome">
               Nome Completo
-              <input
-                type="text"
-                id="cad-nome"
-                name="nomeCompleto"
-                placeholder="Ex.: Carlos Eduardo Almeida"
-                autocomplete="name"
-                required
-              >
+              <input type="text" id="cad-nome" name="nomeCompleto" placeholder="Ex.: Carlos Eduardo Almeida"
+                autocomplete="name" required>
             </label>
 
             <label for="cad-email">
               E-mail Corporativo
-              <input
-                type="email"
-                id="cad-email"
-                name="email"
-                placeholder="carlos@foxfit.com.br"
-                autocomplete="email"
-                required
-              >
+              <input type="email" id="cad-email" name="email" placeholder="carlos@foxfit.com.br" autocomplete="email"
+                required>
             </label>
 
             <label for="cad-cpf">
               CPF
-              <input
-                type="text"
-                id="cad-cpf"
-                name="cpf"
-                placeholder="000.000.000-00"
-                pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
-                maxlength="14"
-                required
-              >
+              <input type="text" id="cad-cpf" name="cpf" placeholder="000.000.000-00"
+                pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}" maxlength="14" required>
             </label>
           </section>
 
@@ -114,28 +99,14 @@
 
             <label for="cad-senha">
               Senha Inicial
-              <input
-                type="password"
-                id="cad-senha"
-                name="senha"
-                placeholder="Mínimo de 8 caracteres"
-                autocomplete="new-password"
-                minlength="8"
-                required
-              >
+              <input type="password" id="cad-senha" name="senha" placeholder="Mínimo de 8 caracteres"
+                autocomplete="new-password" minlength="8" required>
             </label>
 
             <label for="cad-confirma-senha">
               Confirmar Senha Inicial
-              <input
-                type="password"
-                id="cad-confirma-senha"
-                name="confirmarSenha"
-                placeholder="Repita a senha informada"
-                autocomplete="new-password"
-                minlength="8"
-                required
-              >
+              <input type="password" id="cad-confirma-senha" name="confirmarSenha"
+                placeholder="Repita a senha informada" autocomplete="new-password" minlength="8" required>
             </label>
           </section>
 
@@ -182,8 +153,10 @@
               <td>Administrador</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="1" aria-label="Editar usuária Fernanda Sousa">Editar</button>
-                <button type="button" class="btn-excluir" data-id="1" aria-label="Excluir usuária Fernanda Sousa">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="1"
+                  aria-label="Editar usuária Fernanda Sousa">Editar</button>
+                <button type="button" class="btn-excluir" data-id="1"
+                  aria-label="Excluir usuária Fernanda Sousa">Excluir</button>
               </td>
             </tr>
             <tr>
@@ -194,8 +167,10 @@
               <td>Operador</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="2" aria-label="Editar usuário Carlos Eduardo Almeida">Editar</button>
-                <button type="button" class="btn-excluir" data-id="2" aria-label="Excluir usuário Carlos Eduardo Almeida">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="2"
+                  aria-label="Editar usuário Carlos Eduardo Almeida">Editar</button>
+                <button type="button" class="btn-excluir" data-id="2"
+                  aria-label="Excluir usuário Carlos Eduardo Almeida">Excluir</button>
               </td>
             </tr>
             <tr>
@@ -206,8 +181,10 @@
               <td>Operador</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="3" aria-label="Editar usuária Beatriz Helena Mendes">Editar</button>
-                <button type="button" class="btn-excluir" data-id="3" aria-label="Excluir usuária Beatriz Helena Mendes">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="3"
+                  aria-label="Editar usuária Beatriz Helena Mendes">Editar</button>
+                <button type="button" class="btn-excluir" data-id="3"
+                  aria-label="Excluir usuária Beatriz Helena Mendes">Excluir</button>
               </td>
             </tr>
           </tbody>
@@ -237,36 +214,17 @@
 
             <label for="edit-usuario-nome">
               Nome Completo
-              <input
-                type="text"
-                id="edit-usuario-nome"
-                name="nomeCompleto"
-                value="Carlos Eduardo Almeida"
-                required
-              >
+              <input type="text" id="edit-usuario-nome" name="nomeCompleto" value="Carlos Eduardo Almeida" required>
             </label>
 
             <label for="edit-usuario-email">
               E-mail Corporativo
-              <input
-                type="email"
-                id="edit-usuario-email"
-                name="email"
-                value="carlos.almeida@foxfit.com.br"
-                required
-              >
+              <input type="email" id="edit-usuario-email" name="email" value="carlos.almeida@foxfit.com.br" required>
             </label>
 
             <label for="edit-usuario-cpf">
               CPF
-              <input
-                type="text"
-                id="edit-usuario-cpf"
-                name="cpf"
-                value="418.220.910-34"
-                maxlength="14"
-                required
-              >
+              <input type="text" id="edit-usuario-cpf" name="cpf" value="418.220.910-34" maxlength="14" required>
             </label>
 
             <label for="edit-usuario-cargo">
@@ -279,13 +237,8 @@
 
             <label for="edit-usuario-senha">
               Nova Senha (Opcional para redefinição)
-              <input
-                type="password"
-                id="edit-usuario-senha"
-                name="novaSenha"
-                placeholder="Deixe em branco para manter a atual"
-                minlength="8"
-              >
+              <input type="password" id="edit-usuario-senha" name="novaSenha"
+                placeholder="Deixe em branco para manter a atual" minlength="8">
             </label>
 
             <label for="edit-usuario-status">
@@ -297,7 +250,8 @@
             </label>
 
             <footer class="acoes-formulario">
-              <button type="button" id="btn-fechar-modal-usuario" class="btn btn-secundario" popovertarget="modal-editar-usuario" popovertargetaction="hide">
+              <button type="button" id="btn-fechar-modal-usuario" class="btn btn-secundario"
+                popovertarget="modal-editar-usuario" popovertargetaction="hide">
                 Cancelar
               </button>
               <button type="submit" id="btn-salvar-edicao-usuario" class="btn btn-primario">
@@ -309,5 +263,7 @@
       </article>
     </dialog>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
+
 </html>

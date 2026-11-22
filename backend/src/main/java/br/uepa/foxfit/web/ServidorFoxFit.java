@@ -80,6 +80,23 @@ public class ServidorFoxFit {
                 new ConfirmarPagamentoHandler()
         );
 
+        // Rotas de Autenticação e Sessão
+        PaginaLoginHandler loginHandler = new PaginaLoginHandler();
+        servidor.createContext(
+                "/pages/login.html",
+                loginHandler
+        );
+        servidor.createContext(
+                "/login",
+                loginHandler
+        );
+
+        LogoutHandler logoutHandler = new LogoutHandler();
+        servidor.createContext(
+                "/logout",
+                logoutHandler
+        );
+
         Path raiz = Path.of("frontend").toAbsolutePath().normalize();
 
         servidor.createContext("/", requisicao -> {
@@ -107,6 +124,12 @@ public class ServidorFoxFit {
             if (!permitido || !arquivo.startsWith(raiz)
                     || !Files.isRegularFile(arquivo)) {
                 responder(requisicao, 404, "Página não encontrada.");
+                return;
+            }
+
+            if (rota.endsWith(".html")) {
+                String html = Files.readString(arquivo, StandardCharsets.UTF_8);
+                WebUtils.responderHtml(requisicao, 200, html);
                 return;
             }
 

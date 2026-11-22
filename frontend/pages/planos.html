@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FOX FIT | Planos de Assinatura</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body class="layout-sistema">
   <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
     <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
@@ -29,7 +31,7 @@
     </section>
 
     <footer class="rodape-menu-lateral">
-      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+      <a href="/logout" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
     </footer>
   </aside>
 
@@ -67,49 +69,23 @@
 
           <label for="plano-nome">
             Nome do Plano
-            <input
-              type="text"
-              id="plano-nome"
-              name="nomePlano"
-              placeholder="Ex.: Plano Anual Fox VIP"
-              required
-            >
+            <input type="text" id="plano-nome" name="nomePlano" placeholder="Ex.: Plano Anual Fox VIP" required>
           </label>
 
           <label for="plano-valor">
             Valor R$ (Mensal)
-            <input
-              type="number"
-              id="plano-valor"
-              name="valor"
-              placeholder="Ex.: 99.90"
-              step="0.01"
-              min="0"
-              required
-            >
+            <input type="number" id="plano-valor" name="valor" placeholder="Ex.: 99.90" step="0.01" min="0" required>
           </label>
 
           <label for="plano-duracao">
             Duração em Meses
-            <input
-              type="number"
-              id="plano-duracao"
-              name="duracaoMeses"
-              placeholder="Ex.: 12"
-              min="1"
-              max="36"
-              required
-            >
+            <input type="number" id="plano-duracao" name="duracaoMeses" placeholder="Ex.: 12" min="1" max="36" required>
           </label>
 
           <label for="plano-beneficios" class="campo-completo">
             Benefícios do Plano (um benefício por linha)
-            <textarea
-              id="plano-beneficios"
-              name="beneficios"
-              placeholder="Descreva os benefícios e modalidades inclusas no plano..."
-              required
-            ></textarea>
+            <textarea id="plano-beneficios" name="beneficios"
+              placeholder="Descreva os benefícios e modalidades inclusas no plano..." required></textarea>
           </label>
 
           <footer class="acoes-formulario">
@@ -173,39 +149,17 @@
 
             <label for="edit-plano-nome">
               Nome do Plano
-              <input
-                type="text"
-                id="edit-plano-nome"
-                name="nomePlano"
-                value="Plano Mensal Smart"
-                required
-              >
+              <input type="text" id="edit-plano-nome" name="nomePlano" value="Plano Mensal Smart" required>
             </label>
 
             <label for="edit-plano-valor">
               Valor R$ (Mensal)
-              <input
-                type="number"
-                id="edit-plano-valor"
-                name="valor"
-                value="149.90"
-                step="0.01"
-                min="0"
-                required
-              >
+              <input type="number" id="edit-plano-valor" name="valor" value="149.90" step="0.01" min="0" required>
             </label>
 
             <label for="edit-plano-duracao">
               Duração em Meses
-              <input
-                type="number"
-                id="edit-plano-duracao"
-                name="duracaoMeses"
-                value="1"
-                min="1"
-                max="36"
-                required
-              >
+              <input type="number" id="edit-plano-duracao" name="duracaoMeses" value="1" min="1" max="36" required>
             </label>
 
             <label for="edit-plano-status">
@@ -218,18 +172,15 @@
 
             <label for="edit-plano-beneficios" class="campo-completo">
               Benefícios do Plano (um benefício por linha)
-              <textarea
-                id="edit-plano-beneficios"
-                name="beneficios"
-                required
-              >Acesso livre à musculação e ergometria
+              <textarea id="edit-plano-beneficios" name="beneficios" required>Acesso livre à musculação e ergometria
 Horário livre de segunda a sábado
 Avaliação física inicial inclusa
 Sem multa de fidelidade contratual</textarea>
             </label>
 
             <footer class="acoes-formulario">
-              <button type="button" id="btn-fechar-modal-plano" class="btn btn-secundario" popovertarget="modal-editar-plano" popovertargetaction="hide">
+              <button type="button" id="btn-fechar-modal-plano" class="btn btn-secundario"
+                popovertarget="modal-editar-plano" popovertargetaction="hide">
                 Cancelar
               </button>
               <button type="submit" id="btn-salvar-edicao-plano" class="btn btn-primario">
@@ -241,6 +192,7 @@ Sem multa de fidelidade contratual</textarea>
       </article>
     </dialog>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
-</html>
 
+</html>

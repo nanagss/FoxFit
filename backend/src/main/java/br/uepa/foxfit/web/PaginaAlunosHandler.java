@@ -20,22 +20,22 @@ import java.util.Map;
 
 public class PaginaAlunosHandler implements HttpHandler {
 
-    private static final DateTimeFormatter FORMATO =
-            DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter FORMATO
+            = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     @Override
     public void handle(HttpExchange requisicao) throws IOException {
 
         if (!"GET".equals(requisicao.getRequestMethod())) {
-            responder(requisicao, 405, "Método não permitido.");
+            WebUtils.responderTexto(requisicao, 405, "Método não permitido.");
             return;
         }
 
         try {
             List<Aluno> alunos = new AlunoDAO().listar();
 
-            String parametrosFiltro =
-                    requisicao.getRequestURI().getRawQuery();
+            String parametrosFiltro
+                    = requisicao.getRequestURI().getRawQuery();
 
             Map<String, String> filtros = new HashMap<>();
 
@@ -65,10 +65,11 @@ public class PaginaAlunosHandler implements HttpHandler {
                     "statusFiltro", "TODOS"
             ).toUpperCase(Locale.ROOT);
 
-            String filtroStatus =
-                    statusSolicitado.equals("ATIVO")
-                            || statusSolicitado.equals("INATIVO")
-                            ? statusSolicitado : "TODOS";
+            String filtroStatus
+                    = statusSolicitado.equals("ATIVO")
+                    || statusSolicitado.equals("INATIVO")
+                    || statusSolicitado.equals("TRANCADO")
+                    ? statusSolicitado : "TODOS";
 
             String termoNormalizado = normalizar(termo);
             String cpfPesquisado = termo.replaceAll("\\D", "");
@@ -81,25 +82,23 @@ public class PaginaAlunosHandler implements HttpHandler {
 
                 boolean cpfEncontrado = !cpfPesquisado.isEmpty()
                         && aluno.getCpf().replaceAll("\\D", "")
-                        .contains(cpfPesquisado);
+                                .contains(cpfPesquisado);
 
                 boolean correspondeTermo = termo.isEmpty()
                         || nomeEncontrado || cpfEncontrado;
 
-                boolean correspondeStatus =
-                        filtroStatus.equals("TODOS")
-                                || aluno.getStatus().equalsIgnoreCase(filtroStatus);
+                boolean correspondeStatus
+                        = filtroStatus.equals("TODOS")
+                        || aluno.getStatus().equalsIgnoreCase(filtroStatus);
 
                 return correspondeTermo && correspondeStatus;
 
             }).toList();
 
-
             String html = Files.readString(
                     Path.of("frontend", "pages", "alunos.html"),
                     StandardCharsets.UTF_8
             );
-
 
             html = html.replace(
                     "<!-- TERMO_BUSCA -->",
@@ -121,6 +120,11 @@ public class PaginaAlunosHandler implements HttpHandler {
                     filtroStatus.equals("INATIVO") ? "selected" : ""
             );
 
+            html = html.replace(
+                    "<!-- SEL_TRANCADO -->",
+                    filtroStatus.equals("TRANCADO") ? "selected" : ""
+            );
+
             StringBuilder linhas = new StringBuilder();
             int ativos = 0;
             int inativos = 0;
@@ -139,8 +143,8 @@ public class PaginaAlunosHandler implements HttpHandler {
                         ? "status-ativo"
                         : "status-inativo";
 
-                String nascimento =
-                        aluno.getDataNascimento().toString();
+                String nascimento
+                        = aluno.getDataNascimento().toString();
 
                 linhas.append("<tr>")
                         .append("<th scope=\"row\">")
@@ -193,13 +197,12 @@ public class PaginaAlunosHandler implements HttpHandler {
                     + ativos + " ativos, "
                     + inativos + " inativos)";
 
-
             String formularioEdicao = "";
 
             String consulta = requisicao.getRequestURI().getRawQuery();
 
-            if (consulta != null &&
-                    consulta.matches("editar=[1-9][0-9]{0,8}")) {
+            if (consulta != null
+                    && consulta.matches("editar=[1-9][0-9]{0,8}")) {
 
                 int idEdicao = Integer.parseInt(consulta.substring(7));
 
@@ -296,15 +299,15 @@ public class PaginaAlunosHandler implements HttpHandler {
                 }
             }
 
-            if (consulta != null &&
-                    consulta.matches("excluir=[1-9][0-9]{0,8}")) {
+            if (consulta != null
+                    && consulta.matches("excluir=[1-9][0-9]{0,8}")) {
 
                 int idExclusao = Integer.parseInt(
                         consulta.substring("excluir=".length())
                 );
 
-                Aluno selecionado =
-                        new AlunoDAO().buscarPorId(idExclusao);
+                Aluno selecionado
+                        = new AlunoDAO().buscarPorId(idExclusao);
 
                 if (selecionado != null) {
 
@@ -350,7 +353,6 @@ public class PaginaAlunosHandler implements HttpHandler {
                 }
             }
 
-
             html = html.replace(
                     "<!-- FORMULARIO_EDICAO_ALUNO -->",
                     formularioEdicao
@@ -366,12 +368,12 @@ public class PaginaAlunosHandler implements HttpHandler {
                     total
             );
 
-            responder(requisicao, 200, html);
+            WebUtils.responderHtml(requisicao, 200, html);
 
         } catch (SQLException | IOException erro) {
             erro.printStackTrace();
-            responder(requisicao, 500,
-                    "Erro ao carregar os alunos.");
+                    WebUtils.responderTexto(requisicao, 500,
+                            "Erro ao carregar os alunos.");
         }
     }
 
@@ -417,8 +419,8 @@ public class PaginaAlunosHandler implements HttpHandler {
         }
 
         return Normalizer.normalize(
-                        texto, Normalizer.Form.NFD
-                )
+                texto, Normalizer.Form.NFD
+        )
                 .replaceAll("\\p{M}+", "")
                 .toLowerCase(Locale.ROOT);
     }

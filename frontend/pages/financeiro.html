@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FOX FIT | Fluxo Financeiro e Adimplência</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body class="layout-sistema">
   <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
     <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
@@ -29,7 +31,7 @@
     </section>
 
     <footer class="rodape-menu-lateral">
-      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+      <a href="/logout" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
     </footer>
   </aside>
 
@@ -66,7 +68,8 @@
     </section>
 
     <section class="barra-ferramentas" aria-label="Filtros de Competência e Status Financeiro">
-      <form id="form-filtro-financeiro" class="formulario-busca" role="search" action="/pages/financeiro.html" method="get">
+      <form id="form-filtro-financeiro" class="formulario-busca" role="search" action="/pages/financeiro.html"
+        method="get">
         <fieldset>
           <legend>Filtrar Lançamentos de Mensalidades</legend>
 
@@ -82,23 +85,13 @@
 
           <label for="fin-filtro-competencia">
             Mês de Competência
-            <input
-              type="month"
-              id="fin-filtro-competencia"
-              name="mesCompetencia"
-              value="<!-- MES_COMPETENCIA -->"
-            >
+            <input type="month" id="fin-filtro-competencia" name="mesCompetencia" value="<!-- MES_COMPETENCIA -->">
           </label>
 
           <label for="fin-busca-aluno">
             Buscar por Aluno ou Matrícula
-            <input
-              type="search"
-              id="fin-busca-aluno"
-              name="termoAluno"
-              value="<!-- TERMO_ALUNO -->"
-              placeholder="Nome do aluno ou código #MAT"
-            >
+            <input type="search" id="fin-busca-aluno" name="termoAluno" value="<!-- TERMO_ALUNO -->"
+              placeholder="Nome do aluno ou código #MAT">
           </label>
 
           <button type="submit" id="btn-filtrar-financeiro" class="btn btn-primario">
@@ -144,6 +137,7 @@
       </section>
     </section>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
-</html>
 
+</html>

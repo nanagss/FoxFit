@@ -1,74 +1,71 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Acesso administrativo ao Sistema de Gestão de Academia FOX FIT">
   <title>FOX FIT | Login</title>
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/sessao.js" defer></script>
 </head>
+
 <body class="pagina-acesso">
   <main class="conteudo-acesso">
     <section class="painel-autenticacao" aria-labelledby="titulo-login">
       <article class="coluna-formulario-acesso">
         <figure class="logo-topo-acesso">
-          <img src="../assets/images/logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua" class="logo-imagem-acesso">
+          <img src="../assets/images/logofox.jpeg" alt="Logo FOX FIT - Treine, Supere, Evolua"
+            class="logo-imagem-acesso">
         </figure>
 
         <header class="cabecalho-autenticacao">
           <h1 id="titulo-login">Olá,<br>Bem-vindo de volta</h1>
         </header>
 
-        <form id="form-login" class="formulario-acesso" action="dashboard.html" method="get">
-          <fieldset>
-            <legend>Credenciais de Autenticação</legend>
+        <div id="container-erro-login">
+          <!-- MENSAGEM_ERRO_LOGIN -->
+        </div>
 
-            <label for="login-email">
-              E-mail Corporativo
-              <input
-                type="email"
-                id="login-email"
-                name="email"
-                placeholder="operador@foxfit.com.br"
-                autocomplete="email"
-                required
-              >
-            </label>
+          <form id="form-login" class="formulario-acesso" action="/login" method="post">
+            <fieldset>
+              <legend>Credenciais de Autenticação</legend>
 
-            <label for="login-senha">
-              Senha de Acesso
-              <input
-                type="password"
-                id="login-senha"
-                name="senha"
-                placeholder="••••••••••••"
-                autocomplete="current-password"
-                minlength="6"
-                required
-              >
-            </label>
-
-            <section class="opcoes-acesso" aria-label="Opções de Sessão">
-              <label for="login-lembrar" class="lembrar-acesso">
-                <input type="checkbox" id="login-lembrar" name="lembrar" checked>
-                Lembrar-me
+              <label for="login-email">
+                E-mail Corporativo
+                <input type="email" id="login-email" name="email" placeholder="operador@foxfit.com.br"
+                  autocomplete="email" required>
               </label>
 
-              <button type="button" id="link-recuperar-senha" class="link-botao-acesso" popovertarget="modal-esqueceu-senha">
-                Esqueceu a senha?
-              </button>
-            </section>
+              <label for="login-senha">
+                Senha de Acesso
+                <input type="password" id="login-senha" name="senha" placeholder="••••••••••••"
+                  autocomplete="current-password" minlength="6" required>
+              </label>
 
-            <button type="submit" id="btn-entrar" class="btn btn-primario btn-acesso">
-              Entrar
-            </button>
-          </fieldset>
-        </form>
+              <section class="opcoes-acesso" aria-label="Opções de Sessão">
+                <label for="login-lembrar" class="lembrar-acesso">
+                  <input type="checkbox" id="login-lembrar" name="lembrar" checked>
+                  Lembrar-me
+                </label>
+
+                <button type="button" id="link-recuperar-senha" class="link-botao-acesso"
+                  popovertarget="modal-esqueceu-senha">
+                  Esqueceu a senha?
+                </button>
+              </section>
+
+              <button type="submit" id="btn-entrar" class="btn btn-primario btn-acesso">
+                Entrar
+              </button>
+            </fieldset>
+          </form>
 
       </article>
 
       <aside class="painel-visual-acesso" aria-label="Painel Visual de Gestão Operacional">
-        <svg class="ilustracao-gestao-svg" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustração de Painel de Gestão e Indicadores">
+        <svg class="ilustracao-gestao-svg" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg"
+          role="img" aria-label="Ilustração de Painel de Gestão e Indicadores">
           <rect x="24" y="20" width="272" height="176" rx="16" fill="#FFFFFF" />
           <rect x="24" y="20" width="272" height="34" rx="16" fill="#272727" />
           <circle cx="44" cy="37" r="5" fill="#F96705" />
@@ -87,7 +84,8 @@
           <rect x="138" y="148" width="16" height="22" rx="3" fill="#272727" />
           <rect x="164" y="134" width="16" height="36" rx="3" fill="#28A745" />
           <circle cx="246" cy="124" r="34" fill="#F96705" />
-          <path d="M232 124L242 134L262 114" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M232 124L242 134L262 114" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"
+            stroke-linejoin="round" />
         </svg>
 
         <article class="destaque-gestao-acesso">
@@ -110,12 +108,15 @@
           Procure o Administrador para redefinir sua senha de acesso.
         </p>
         <footer class="acoes-formulario">
-          <button type="button" id="btn-fechar-modal-senha" class="btn btn-primario" popovertarget="modal-esqueceu-senha" popovertargetaction="hide">
+          <button type="button" id="btn-fechar-modal-senha" class="btn btn-primario"
+            popovertarget="modal-esqueceu-senha" popovertargetaction="hide">
             Entendi
           </button>
         </footer>
       </article>
     </dialog>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FOX FIT | Gestão de Professores</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body class="layout-sistema">
   <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
     <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
@@ -29,7 +31,7 @@
     </section>
 
     <footer class="rodape-menu-lateral">
-      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+      <a href="/logout" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
     </footer>
   </aside>
 
@@ -63,37 +65,18 @@
 
           <label for="prof-nome">
             Nome Completo
-            <input
-              type="text"
-              id="prof-nome"
-              name="nome"
-              placeholder="Ex.: Rodrigo Vasconcelos Lima"
-              required
-            >
+            <input type="text" id="prof-nome" name="nome" placeholder="Ex.: Rodrigo Vasconcelos Lima" required>
           </label>
 
           <label for="prof-cpf">
             CPF
-            <input
-              type="text"
-              id="prof-cpf"
-              name="cpf"
-              placeholder="000.000.000-00"
-              pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
-              maxlength="14"
-              required
-            >
+            <input type="text" id="prof-cpf" name="cpf" placeholder="000.000.000-00"
+              pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}" maxlength="14" required>
           </label>
 
           <label for="prof-cref">
             Registro CREF
-            <input
-              type="text"
-              id="prof-cref"
-              name="cref"
-              placeholder="Ex.: 148290-G/SP"
-              required
-            >
+            <input type="text" id="prof-cref" name="cref" placeholder="Ex.: 148290-G/SP" required>
           </label>
 
           <label for="prof-especialidade">
@@ -120,13 +103,7 @@
 
           <label for="prof-telefone">
             Telefone / Celular
-            <input
-              type="tel"
-              id="prof-telefone"
-              name="telefone"
-              placeholder="(11) 99999-0000"
-              required
-            >
+            <input type="tel" id="prof-telefone" name="telefone" placeholder="(11) 99999-0000" required>
           </label>
 
           <footer class="acoes-formulario">
@@ -174,8 +151,10 @@
               <td>(11) 98412-3011</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="1" aria-label="Editar professor Rodrigo Vasconcelos Lima">Editar</button>
-                <button type="button" class="btn-excluir" data-id="1" aria-label="Excluir professor Rodrigo Vasconcelos Lima">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="1"
+                  aria-label="Editar professor Rodrigo Vasconcelos Lima">Editar</button>
+                <button type="button" class="btn-excluir" data-id="1"
+                  aria-label="Excluir professor Rodrigo Vasconcelos Lima">Excluir</button>
               </td>
             </tr>
             <tr>
@@ -188,8 +167,10 @@
               <td>(11) 97234-8890</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="2" aria-label="Editar professora Patrícia Duarte Nogueira">Editar</button>
-                <button type="button" class="btn-excluir" data-id="2" aria-label="Excluir professora Patrícia Duarte Nogueira">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="2"
+                  aria-label="Editar professora Patrícia Duarte Nogueira">Editar</button>
+                <button type="button" class="btn-excluir" data-id="2"
+                  aria-label="Excluir professora Patrícia Duarte Nogueira">Excluir</button>
               </td>
             </tr>
             <tr>
@@ -202,8 +183,10 @@
               <td>(11) 99104-5521</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="3" aria-label="Editar professor Henrique Moura Cavalcanti">Editar</button>
-                <button type="button" class="btn-excluir" data-id="3" aria-label="Excluir professor Henrique Moura Cavalcanti">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="3"
+                  aria-label="Editar professor Henrique Moura Cavalcanti">Editar</button>
+                <button type="button" class="btn-excluir" data-id="3"
+                  aria-label="Excluir professor Henrique Moura Cavalcanti">Excluir</button>
               </td>
             </tr>
             <tr>
@@ -216,8 +199,10 @@
               <td>(11) 98550-1920</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="4" aria-label="Editar professora Juliana Borges Santana">Editar</button>
-                <button type="button" class="btn-excluir" data-id="4" aria-label="Excluir professora Juliana Borges Santana">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="4"
+                  aria-label="Editar professora Juliana Borges Santana">Editar</button>
+                <button type="button" class="btn-excluir" data-id="4"
+                  aria-label="Excluir professora Juliana Borges Santana">Excluir</button>
               </td>
             </tr>
             <tr>
@@ -230,8 +215,10 @@
               <td>(11) 97781-6403</td>
               <td><span class="badge-status status-ativo">Ativo</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="5" aria-label="Editar professor Marcelo Tavares Gusmão">Editar</button>
-                <button type="button" class="btn-excluir" data-id="5" aria-label="Excluir professor Marcelo Tavares Gusmão">Excluir</button>
+                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="5"
+                  aria-label="Editar professor Marcelo Tavares Gusmão">Editar</button>
+                <button type="button" class="btn-excluir" data-id="5"
+                  aria-label="Excluir professor Marcelo Tavares Gusmão">Excluir</button>
               </td>
             </tr>
           </tbody>
@@ -261,36 +248,17 @@
 
             <label for="edit-prof-nome">
               Nome Completo
-              <input
-                type="text"
-                id="edit-prof-nome"
-                name="nome"
-                value="Rodrigo Vasconcelos Lima"
-                required
-              >
+              <input type="text" id="edit-prof-nome" name="nome" value="Rodrigo Vasconcelos Lima" required>
             </label>
 
             <label for="edit-prof-cpf">
               CPF
-              <input
-                type="text"
-                id="edit-prof-cpf"
-                name="cpf"
-                value="312.448.901-20"
-                maxlength="14"
-                required
-              >
+              <input type="text" id="edit-prof-cpf" name="cpf" value="312.448.901-20" maxlength="14" required>
             </label>
 
             <label for="edit-prof-cref">
               Registro CREF
-              <input
-                type="text"
-                id="edit-prof-cref"
-                name="cref"
-                value="148290-G/SP"
-                required
-              >
+              <input type="text" id="edit-prof-cref" name="cref" value="148290-G/SP" required>
             </label>
 
             <label for="edit-prof-especialidade">
@@ -315,13 +283,7 @@
 
             <label for="edit-prof-telefone">
               Telefone / Celular
-              <input
-                type="tel"
-                id="edit-prof-telefone"
-                name="telefone"
-                value="(11) 98412-3011"
-                required
-              >
+              <input type="tel" id="edit-prof-telefone" name="telefone" value="(11) 98412-3011" required>
             </label>
 
             <label for="edit-prof-status">
@@ -333,7 +295,8 @@
             </label>
 
             <footer class="acoes-formulario">
-              <button type="button" id="btn-fechar-modal-professor" class="btn btn-secundario" popovertarget="modal-editar-professor" popovertargetaction="hide">
+              <button type="button" id="btn-fechar-modal-professor" class="btn btn-secundario"
+                popovertarget="modal-editar-professor" popovertargetaction="hide">
                 Cancelar
               </button>
               <button type="submit" id="btn-salvar-edicao-professor" class="btn btn-primario">
@@ -345,5 +308,7 @@
       </article>
     </dialog>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
+
 </html>
