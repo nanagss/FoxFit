@@ -2,6 +2,7 @@ package br.uepa.foxfit.web;
 
 import br.uepa.foxfit.dao.AlunoDAO;
 import br.uepa.foxfit.model.Aluno;
+import br.uepa.foxfit.validation.ValidadorAluno;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -10,6 +11,7 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,6 +57,7 @@ public class CadastroAlunoHandler implements HttpHandler {
                     obrigatorio(dados, "endereco")
             );
 
+            ValidadorAluno.validarTamanhos(aluno);
 
             AlunoDAO alunoDAO = new AlunoDAO();
             alunoDAO.cadastrar(aluno);
@@ -66,16 +69,16 @@ public class CadastroAlunoHandler implements HttpHandler {
             requisicao.sendResponseHeaders(303, -1);
             requisicao.close();
 
-
-        } catch (IllegalArgumentException erro) {
+        } catch (IllegalArgumentException | DateTimeParseException erro) {
             responder(requisicao, 400,
                     "Dados inválidos. Verifique os campos do formulário.");
 
         } catch (SQLException erro) {
             if ("23505".equals(erro.getSQLState())) {
                 responder(requisicao, 409,
-                        "Já existe um aluno com este CPF ou e-mail.");
-            } else {
+                        "Já existe outro aluno com este CPF ou código.");
+            }
+            else {
                 erro.printStackTrace();
                 responder(requisicao, 500,
                         "Erro interno ao cadastrar aluno.");

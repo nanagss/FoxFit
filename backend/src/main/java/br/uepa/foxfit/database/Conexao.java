@@ -9,7 +9,8 @@ public class Conexao {
     private static final String URL =
             "jdbc:postgresql://127.0.0.1:"
                     + System.getenv().getOrDefault("FOXFIT_DB_PORT", "5432")
-                    + "/foxfit";
+                    + "/"
+                    + System.getenv().getOrDefault("FOXFIT_DB_NAME", "foxfit");
 
     private static final String USUARIO = "postgres";
 

@@ -79,7 +79,7 @@ CREATE TABLE planos (
 CREATE TABLE matriculas (
     id SERIAL PRIMARY KEY,
     codigo VARCHAR(30) UNIQUE NOT NULL,
-    aluno_id INT NOT NULL REFERENCES alunos(id) ON DELETE CASCADE,
+    aluno_id INT NOT NULL REFERENCES alunos(id) ON DELETE RESTRICT,
     plano_id INT NOT NULL REFERENCES planos(id) ON DELETE RESTRICT,
     data_inicio DATE NOT NULL,
     data_vencimento DATE NOT NULL,
@@ -94,7 +94,7 @@ CREATE TABLE matriculas (
 CREATE TABLE mensalidades (
     id SERIAL PRIMARY KEY,
     matricula_id INT NOT NULL REFERENCES matriculas(id) ON DELETE CASCADE,
-    aluno_id INT NOT NULL REFERENCES alunos(id) ON DELETE CASCADE,
+    aluno_id INT NOT NULL REFERENCES alunos(id) ON DELETE RESTRICT,
     valor NUMERIC(10, 2) NOT NULL,
     data_vencimento DATE NOT NULL,
     data_pagamento DATE,

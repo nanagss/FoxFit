@@ -5,14 +5,13 @@ import java.time.LocalDate;
 public class Aluno {
 
     private Integer idAluno;
+    private String codigo;
     private String nomeCompleto;
     private String cpf;
     private LocalDate dataNascimento;
     private String telefone;
     private String email;
     private String endereco;
-    private String objetivo;
-    private String observacoesMedicas;
     private String status;
 
     public Aluno(String nomeCompleto, String cpf,
@@ -25,7 +24,7 @@ public class Aluno {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        this.status = "Ativo";
+        this.status = "ATIVO";
     }
 
     public Integer getIdAluno() {
@@ -34,6 +33,14 @@ public class Aluno {
 
     public void setIdAluno(Integer idAluno) {
         this.idAluno = idAluno;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getNomeCompleto() {
@@ -82,22 +89,6 @@ public class Aluno {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    public String getObjetivo() {
-        return objetivo;
-    }
-
-    public void setObjetivo(String objetivo) {
-        this.objetivo = objetivo;
-    }
-
-    public String getObservacoesMedicas() {
-        return observacoesMedicas;
-    }
-
-    public void setObservacoesMedicas(String observacoesMedicas) {
-        this.observacoesMedicas = observacoesMedicas;
     }
 
     public String getStatus() {
