@@ -109,9 +109,9 @@ CREATE TABLE mensalidades (
 
 -- 1. Inserção de Usuários
 INSERT INTO usuarios (nome_completo, email, cpf, cargo, senha, status) VALUES
-('Fernanda Sousa', 'fernanda.sousa@foxfit.com.br', '345.890.123-00', 'ADMIN', '$2a$12$e8YxGjF9yq1w8nKp5gJ5y.kX0j9kH2pW9F0O2Vq3M4t5y6u7i8o9p', 'ATIVO'),
-('Carlos Eduardo Almeida', 'carlos.almeida@foxfit.com.br', '418.220.910-34', 'OPERADOR', '$2a$12$a1B2c3D4e5F6g7H8i9J0kL1m2N3o4P5q6R7s8T9u0V1w2X3y4Z5a6', 'ATIVO'),
-('Beatriz Helena Mendes', 'beatriz.mendes@foxfit.com.br', '289.401.655-71', 'OPERADOR', '$2a$12$z9Y8x7W6v5U4t3S2r1Q0p9O8n7M6l5K4j3I2h1G0f9E8d7C6b5A4z', 'ATIVO');
+('Fernanda Sousa', 'fernanda.sousa@foxfit.com.br', '345.890.123-00', 'ADMIN', 'vasco2026', 'ATIVO'),
+('Carlos Eduardo Almeida', 'carlos.almeida@foxfit.com.br', '418.220.910-34', 'OPERADOR', 'trembala', 'ATIVO'),
+('Beatriz Helena Mendes', 'beatriz.mendes@foxfit.com.br', '289.401.655-71', 'OPERADOR', 'conhecimento', 'ATIVO');
 
 -- 2. Inserção de Alunos
 INSERT INTO alunos (codigo, nome, cpf, data_nascimento, telefone, email, endereco, status) VALUES

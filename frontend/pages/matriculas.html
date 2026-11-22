@@ -1,12 +1,15 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="RF05 - Matrícula de Alunos, Renovação e Cancelamento de Contratos na Academia FOX FIT">
+  <meta name="description"
+    content="RF05 - Matrícula de Alunos, Renovação e Cancelamento de Contratos na Academia FOX FIT">
   <title>FOX FIT | Controle de Matrículas</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body class="layout-sistema">
   <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
     <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
@@ -29,7 +32,7 @@
     </section>
 
     <footer class="rodape-menu-lateral">
-      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+      <a href="/logout" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
     </footer>
   </aside>
 
@@ -86,24 +89,12 @@
 
           <label for="mat-inicio">
             Data de Início da Vigência
-            <input
-              type="date"
-              id="mat-inicio"
-              name="dataInicio"
-              value="2026-11-09"
-              required
-            >
+            <input type="date" id="mat-inicio" name="dataInicio" value="2026-11-09" required>
           </label>
 
           <label for="mat-vencimento">
-            Data de Vencimento 
-            <input
-              type="date"
-              id="mat-vencimento"
-              name="dataVencimento"
-              value="2026-12-09"
-              readonly
-            >
+            Data de Vencimento
+            <input type="date" id="mat-vencimento" name="dataVencimento" value="2026-12-09" readonly>
           </label>
 
           <label for="mat-pagamento">
@@ -160,8 +151,10 @@
               <td>Crédito</td>
               <td><span class="badge-status status-ativo">Ativa</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-renovar" data-id="89" aria-label="Renovar matrícula de Lucas Gabriel Moreira">Renovar</button>
-                <button type="button" class="btn-cancelar" data-id="89" aria-label="Cancelar matrícula de Lucas Gabriel Moreira">Cancelar</button>
+                <button type="button" class="btn-renovar" data-id="89"
+                  aria-label="Renovar matrícula de Lucas Gabriel Moreira">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="89"
+                  aria-label="Cancelar matrícula de Lucas Gabriel Moreira">Cancelar</button>
               </td>
             </tr>
             <tr>
@@ -173,8 +166,10 @@
               <td>PIX</td>
               <td><span class="badge-status status-ativo">Ativa</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-renovar" data-id="88" aria-label="Renovar matrícula de Mariana Costa Ribeiro">Renovar</button>
-                <button type="button" class="btn-cancelar" data-id="88" aria-label="Cancelar matrícula de Mariana Costa Ribeiro">Cancelar</button>
+                <button type="button" class="btn-renovar" data-id="88"
+                  aria-label="Renovar matrícula de Mariana Costa Ribeiro">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="88"
+                  aria-label="Cancelar matrícula de Mariana Costa Ribeiro">Cancelar</button>
               </td>
             </tr>
             <tr>
@@ -186,8 +181,10 @@
               <td>Débito</td>
               <td><span class="badge-status status-ativo">Ativa</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-renovar" data-id="87" aria-label="Renovar matrícula de Rafael Henrique Teixeira">Renovar</button>
-                <button type="button" class="btn-cancelar" data-id="87" aria-label="Cancelar matrícula de Rafael Henrique Teixeira">Cancelar</button>
+                <button type="button" class="btn-renovar" data-id="87"
+                  aria-label="Renovar matrícula de Rafael Henrique Teixeira">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="87"
+                  aria-label="Cancelar matrícula de Rafael Henrique Teixeira">Cancelar</button>
               </td>
             </tr>
             <tr>
@@ -199,8 +196,10 @@
               <td>Espécie</td>
               <td><span class="badge-status status-vencido">Vencida</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-renovar" data-id="85" aria-label="Renovar matrícula de Bruno Azevedo Martins">Renovar</button>
-                <button type="button" class="btn-cancelar" data-id="85" aria-label="Cancelar matrícula de Bruno Azevedo Martins">Cancelar</button>
+                <button type="button" class="btn-renovar" data-id="85"
+                  aria-label="Renovar matrícula de Bruno Azevedo Martins">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="85"
+                  aria-label="Cancelar matrícula de Bruno Azevedo Martins">Cancelar</button>
               </td>
             </tr>
             <tr>
@@ -212,8 +211,10 @@
               <td>PIX</td>
               <td><span class="badge-status status-cancelado">Cancelada</span></td>
               <td class="celula-acoes">
-                <button type="button" class="btn-renovar" data-id="79" aria-label="Renovar matrícula de Camila Fernandes Souza">Renovar</button>
-                <button type="button" class="btn-cancelar" data-id="79" aria-label="Cancelar matrícula de Camila Fernandes Souza">Cancelar</button>
+                <button type="button" class="btn-renovar" data-id="79"
+                  aria-label="Renovar matrícula de Camila Fernandes Souza">Renovar</button>
+                <button type="button" class="btn-cancelar" data-id="79"
+                  aria-label="Cancelar matrícula de Camila Fernandes Souza">Cancelar</button>
               </td>
             </tr>
           </tbody>
@@ -227,6 +228,7 @@
       </section>
     </section>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
-</html>
 
+</html>

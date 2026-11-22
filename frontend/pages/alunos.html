@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>FOX FIT | Gestão de Alunos</title>
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
+
 <body class="layout-sistema">
   <aside class="menu-lateral" aria-label="Menu Lateral do Sistema">
     <section class="topo-menu-lateral" aria-label="Identidade e Navegação">
@@ -29,7 +31,7 @@
     </section>
 
     <footer class="rodape-menu-lateral">
-      <a href="login.html" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
+      <a href="/logout" class="link-sair" id="btn-encerrar-sessao">Encerrar Sessão</a>
     </footer>
   </aside>
 
@@ -55,13 +57,8 @@
 
           <label for="busca-aluno-termo">
             Buscar por Nome ou CPF
-            <input
-              type="search"
-              id="busca-aluno-termo"
-              name="termoBusca"
-              value="<!-- TERMO_BUSCA -->"
-              placeholder="Digite o nome ou CPF (000.000.000-00)"
-            >
+            <input type="search" id="busca-aluno-termo" name="termoBusca" value="<!-- TERMO_BUSCA -->"
+              placeholder="Digite o nome ou CPF (000.000.000-00)">
           </label>
 
           <label for="filtro-aluno-status">
@@ -77,9 +74,7 @@
           <button type="submit" id="btn-filtrar-alunos" class="btn btn-primario">
             Pesquisar
           </button>
-          <a href="/pages/alunos.html"
-             id="btn-limpar-filtro-alunos"
-             class="btn btn-secundario">
+          <a href="/pages/alunos.html" id="btn-limpar-filtro-alunos" class="btn btn-secundario">
             Redefinir Filtro
           </a>
         </fieldset>
@@ -101,69 +96,34 @@
 
           <label for="aluno-nome">
             Nome Completo
-            <input
-              type="text"
-              id="aluno-nome"
-              name="nome"
-              placeholder="Ex.: Lucas Gabriel Moreira"
-              required
-            >
+            <input type="text" id="aluno-nome" name="nome" placeholder="Ex.: Lucas Gabriel Moreira" required>
           </label>
 
           <label for="aluno-cpf">
             CPF
-            <input
-              type="text"
-              id="aluno-cpf"
-              name="cpf"
-              placeholder="000.000.000-00"
-              pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}"
-              maxlength="14"
-              required
-            >
+            <input type="text" id="aluno-cpf" name="cpf" placeholder="000.000.000-00"
+              pattern="\d{3}\.?\d{3}\.?\d{3}-?\d{2}" maxlength="14" required>
           </label>
 
           <label for="aluno-nascimento">
             Data de Nascimento
-            <input
-              type="date"
-              id="aluno-nascimento"
-              name="dataNascimento"
-              required
-            >
+            <input type="date" id="aluno-nascimento" name="dataNascimento" required>
           </label>
 
           <label for="aluno-telefone">
             Telefone / WhatsApp
-            <input
-              type="tel"
-              id="aluno-telefone"
-              name="telefone"
-              placeholder="(11) 99999-0000"
-              required
-            >
+            <input type="tel" id="aluno-telefone" name="telefone" placeholder="(11) 99999-0000" required>
           </label>
 
           <label for="aluno-email">
             E-mail
-            <input
-              type="email"
-              id="aluno-email"
-              name="email"
-              placeholder="aluno@email.com.br"
-              required
-            >
+            <input type="email" id="aluno-email" name="email" placeholder="aluno@email.com.br" required>
           </label>
 
           <label for="aluno-endereco">
             Endereço Completo
-            <input
-              type="text"
-              id="aluno-endereco"
-              name="endereco"
-              placeholder="Rua, Número, Bairro, Cidade - UF"
-              required
-            >
+            <input type="text" id="aluno-endereco" name="endereco" placeholder="Rua, Número, Bairro, Cidade - UF"
+              required>
           </label>
 
           <footer class="acoes-formulario">
@@ -201,7 +161,7 @@
             </tr>
           </thead>
           <tbody id="corpo-tabela-alunos">
-          <!-- LINHAS_ALUNOS -->
+            <!-- LINHAS_ALUNOS -->
           </tbody>
           <tfoot>
             <tr>
@@ -229,58 +189,27 @@
 
             <label for="edit-aluno-nome">
               Nome Completo
-              <input
-                type="text"
-                id="edit-aluno-nome"
-                name="nome"
-                value="Lucas Gabriel Moreira"
-                required
-              >
+              <input type="text" id="edit-aluno-nome" name="nome" value="Lucas Gabriel Moreira" required>
             </label>
 
             <label for="edit-aluno-cpf">
               CPF
-              <input
-                type="text"
-                id="edit-aluno-cpf"
-                name="cpf"
-                value="412.890.348-12"
-                maxlength="14"
-                required
-              >
+              <input type="text" id="edit-aluno-cpf" name="cpf" value="412.890.348-12" maxlength="14" required>
             </label>
 
             <label for="edit-aluno-nascimento">
               Data de Nascimento
-              <input
-                type="date"
-                id="edit-aluno-nascimento"
-                name="dataNascimento"
-                value="1996-04-15"
-                required
-              >
+              <input type="date" id="edit-aluno-nascimento" name="dataNascimento" value="1996-04-15" required>
             </label>
 
             <label for="edit-aluno-telefone">
               Telefone / WhatsApp
-              <input
-                type="tel"
-                id="edit-aluno-telefone"
-                name="telefone"
-                value="(11) 98821-4410"
-                required
-              >
+              <input type="tel" id="edit-aluno-telefone" name="telefone" value="(11) 98821-4410" required>
             </label>
 
             <label for="edit-aluno-email">
               E-mail
-              <input
-                type="email"
-                id="edit-aluno-email"
-                name="email"
-                value="lucas.moreira@email.com.br"
-                required
-              >
+              <input type="email" id="edit-aluno-email" name="email" value="lucas.moreira@email.com.br" required>
             </label>
 
             <label for="edit-aluno-status">
@@ -293,17 +222,13 @@
 
             <label for="edit-aluno-endereco" class="campo-completo">
               Endereço Completo
-              <input
-                type="text"
-                id="edit-aluno-endereco"
-                name="endereco"
-                value="Av. Paulista, 1450 - Bela Vista, São Paulo - SP"
-                required
-              >
+              <input type="text" id="edit-aluno-endereco" name="endereco"
+                value="Av. Paulista, 1450 - Bela Vista, São Paulo - SP" required>
             </label>
 
             <footer class="acoes-formulario">
-              <button type="button" id="btn-fechar-modal-aluno" class="btn btn-secundario" popovertarget="modal-editar-aluno" popovertargetaction="hide">
+              <button type="button" id="btn-fechar-modal-aluno" class="btn btn-secundario"
+                popovertarget="modal-editar-aluno" popovertargetaction="hide">
                 Cancelar
               </button>
               <button type="submit" id="btn-salvar-edicao-aluno" class="btn btn-primario">
@@ -322,12 +247,14 @@
         </header>
         <p>Tem certeza que deseja excluir o cadastro selecionado? Esta operação removerá o vínculo ativo na unidade.</p>
         <footer class="acoes-formulario">
-          <button type="button" id="btn-cancelar-exclusao-aluno" class="btn btn-secundario" popovertarget="modal-confirmar-exclusao-aluno" popovertargetaction="hide">Cancelar</button>
+          <button type="button" id="btn-cancelar-exclusao-aluno" class="btn btn-secundario"
+            popovertarget="modal-confirmar-exclusao-aluno" popovertargetaction="hide">Cancelar</button>
           <button type="button" id="btn-confirmar-exclusao-aluno" class="btn btn-excluir">Confirmar Exclusão</button>
         </footer>
       </article>
     </dialog>
   </main>
+  <script src="../assets/js/sessao.js"></script>
 </body>
-</html>
 
+</html>
