@@ -1,5 +1,10 @@
 package br.uepa.foxfit.web;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 import br.uepa.foxfit.dao.UsuarioDAO;
 import br.uepa.foxfit.model.Usuario;
 import com.sun.net.httpserver.HttpExchange;
