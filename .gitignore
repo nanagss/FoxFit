@@ -14,3 +14,17 @@ out/
 # Arquivos temporários do sistema operacional
 .DS_Store
 Thumbs.db
+
+# Credenciais e variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# Backups locais do banco de dados
+*.dump
+
+# Configurações locais do Docker
+docker-compose.override.yml
+docker-compose.*.override.yml
+compose.override.yml
+compose.*.override.yml
