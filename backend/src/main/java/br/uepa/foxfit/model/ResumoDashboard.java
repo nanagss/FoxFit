@@ -1,12 +1,25 @@
 package br.uepa.foxfit.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
  * Agrupa os 4 indicadores principais e as matrículas recentes exibidos no Dashboard.
  */
 public class ResumoDashboard {
+
+    public record MatriculaRecente(
+            String codigo,
+            String nomeAluno,
+            String nomePlano,
+            LocalDate dataInicio,
+            LocalDate dataVencimento,
+            String formaPagamento,
+            BigDecimal valorTotal,
+            String status
+    ) {
+    }
 
     private final int totalAlunosAtivos;
     private final int matriculasNoMes;

@@ -1,6 +1,5 @@
 package br.uepa.foxfit.dao;
 
-import br.uepa.foxfit.database.Conexao;
 import br.uepa.foxfit.model.Mensalidade;
 
 import java.math.BigDecimal;
@@ -15,22 +14,18 @@ import java.util.List;
 
 /**
  * DAO responsável pelas consultas e baixa de pagamentos do Fluxo Financeiro (tabela "mensalidades").
+ * Estende BaseDAO utilizando mapeamento polimórfico.
  */
-public class FinanceiroDAO {
+public class FinanceiroDAO extends BaseDAO<Mensalidade> {
 
-    /**
-     * Calcula a soma de valores das mensalidades por status ("PAGO", "PENDENTE" ou "ATRASADO").
-     * Se mesCompetencia (formato "YYYY-MM") for informado, filtra pelo mês de vencimento.
-     */
     public BigDecimal somarPorStatus(String status, String mesCompetencia) throws SQLException {
-
         boolean filtrarMes = mesCompetencia != null && mesCompetencia.matches("\\d{4}-\\d{2}");
 
         String sql = filtrarMes
                 ? "SELECT COALESCE(SUM(valor), 0) AS total FROM mensalidades WHERE UPPER(status) = ? AND TO_CHAR(data_vencimento, 'YYYY-MM') = ?"
                 : "SELECT COALESCE(SUM(valor), 0) AS total FROM mensalidades WHERE UPPER(status) = ?";
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setString(1, status.toUpperCase());
@@ -48,12 +43,7 @@ public class FinanceiroDAO {
         return BigDecimal.ZERO;
     }
 
-    /**
-     * Lista mensalidades combinadas com nome do aluno, nome do plano e código da matrícula,
-     * suportando filtros por status e mês de competência (YYYY-MM).
-     */
     public List<Mensalidade> listar(String statusFiltro, String mesCompetencia) throws SQLException {
-
         List<Mensalidade> mensalidades = new ArrayList<>();
 
         boolean filtrarStatus = statusFiltro != null
@@ -92,7 +82,7 @@ public class FinanceiroDAO {
 
         sql.append(" ORDER BY m.data_vencimento ASC, m.id ASC");
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql.toString())) {
 
             int indice = 1;
@@ -105,25 +95,7 @@ public class FinanceiroDAO {
 
             try (ResultSet resultado = comando.executeQuery()) {
                 while (resultado.next()) {
-                    Date dtVenc = resultado.getDate("data_vencimento");
-                    Date dtPag = resultado.getDate("data_pagamento");
-
-                    LocalDate vencimento = dtVenc != null ? dtVenc.toLocalDate() : null;
-                    LocalDate pagamento = dtPag != null ? dtPag.toLocalDate() : null;
-
-                    mensalidades.add(new Mensalidade(
-                            resultado.getInt("id"),
-                            resultado.getInt("matricula_id"),
-                            resultado.getInt("aluno_id"),
-                            resultado.getString("nome_aluno"),
-                            resultado.getString("nome_plano"),
-                            resultado.getString("codigo_matricula"),
-                            resultado.getBigDecimal("valor"),
-                            vencimento,
-                            pagamento,
-                            resultado.getString("forma_pagamento"),
-                            resultado.getString("status")
-                    ));
+                    mensalidades.add(mapear(resultado));
                 }
             }
         }
@@ -131,12 +103,7 @@ public class FinanceiroDAO {
         return mensalidades;
     }
 
-    /**
-     * Registra a baixa de pagamento de uma mensalidade, alterando o status para "PAGO"
-     * e definindo data_pagamento como a data atual do banco (CURRENT_DATE).
-     */
     public boolean confirmarPagamento(int idMensalidade) throws SQLException {
-
         String sql = """
                 UPDATE mensalidades
                 SET status = 'PAGO',
@@ -144,12 +111,34 @@ public class FinanceiroDAO {
                 WHERE id = ?
                 """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, idMensalidade);
-
             return comando.executeUpdate() > 0;
         }
+    }
+
+    @Override
+    protected Mensalidade mapear(ResultSet resultado) throws SQLException {
+        Date dtVenc = resultado.getDate("data_vencimento");
+        Date dtPag = resultado.getDate("data_pagamento");
+
+        LocalDate vencimento = dtVenc != null ? dtVenc.toLocalDate() : null;
+        LocalDate pagamento = dtPag != null ? dtPag.toLocalDate() : null;
+
+        return new Mensalidade(
+                resultado.getInt("id"),
+                resultado.getInt("matricula_id"),
+                resultado.getInt("aluno_id"),
+                resultado.getString("nome_aluno"),
+                resultado.getString("nome_plano"),
+                resultado.getString("codigo_matricula"),
+                resultado.getBigDecimal("valor"),
+                vencimento,
+                pagamento,
+                resultado.getString("forma_pagamento"),
+                resultado.getString("status")
+        );
     }
 }

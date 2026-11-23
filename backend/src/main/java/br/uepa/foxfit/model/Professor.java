@@ -1,36 +1,49 @@
 package br.uepa.foxfit.model;
 
-public class Professor {
+import java.util.Set;
 
-    private int idProfessor;
+/**
+ * Representa um professor/instrutor da academia. Herda atributos e comportamentos de Pessoa
+ * e encapsula as validações de tamanho, preenchimento e turno permitido.
+ */
+public class Professor extends Pessoa {
+
+    private static final Set<String> TURNOS_VALIDOS = Set.of("Manhã", "Tarde", "Noite");
+
     private String codigo;
-    private String nomeCompleto;
-    private String cpf;
     private String cref;
     private String especialidade;
     private String turno;
     private String telefone;
-    private String status;
 
     public Professor(String nomeCompleto, String cpf,
                      String cref, String especialidade,
                      String turno, String telefone) {
-
-        this.nomeCompleto = nomeCompleto;
-        this.cpf = cpf;
-        this.cref = cref;
-        this.especialidade = especialidade;
-        this.turno = turno;
-        this.telefone = telefone;
-        this.status = "ATIVO";
+        super(0, nomeCompleto, cpf, "ATIVO");
+        setNomeCompleto(nomeCompleto);
+        setCpf(cpf);
+        setCref(cref);
+        setEspecialidade(especialidade);
+        setTurno(turno);
+        setTelefone(telefone);
     }
 
     public int getIdProfessor() {
-        return idProfessor;
+        return getId() != null ? getId() : 0;
     }
 
     public void setIdProfessor(int idProfessor) {
-        this.idProfessor = idProfessor;
+        setId(idProfessor);
+    }
+
+    @Override
+    public void setNomeCompleto(String nomeCompleto) {
+        super.setNomeCompleto(validarTextoObrigatorio(nomeCompleto, "nome", 150));
+    }
+
+    @Override
+    public void setCpf(String cpf) {
+        super.setCpf(validarTextoObrigatorio(cpf, "CPF", 14));
     }
 
     public String getCodigo() {
@@ -41,28 +54,12 @@ public class Professor {
         this.codigo = codigo;
     }
 
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
-
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getCref() {
         return cref;
     }
 
     public void setCref(String cref) {
-        this.cref = cref;
+        this.cref = validarTextoObrigatorio(cref, "CREF", 30);
     }
 
     public String getEspecialidade() {
@@ -70,7 +67,7 @@ public class Professor {
     }
 
     public void setEspecialidade(String especialidade) {
-        this.especialidade = especialidade;
+        this.especialidade = validarTextoObrigatorio(especialidade, "especialidade", 100);
     }
 
     public String getTurno() {
@@ -78,7 +75,11 @@ public class Professor {
     }
 
     public void setTurno(String turno) {
-        this.turno = turno;
+        String valor = validarTextoObrigatorio(turno, "turno");
+        if (!TURNOS_VALIDOS.contains(valor)) {
+            throw new IllegalArgumentException("Turno inválido. Use Manhã, Tarde ou Noite.");
+        }
+        this.turno = valor;
     }
 
     public String getTelefone() {
@@ -86,14 +87,25 @@ public class Professor {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = validarTextoObrigatorio(telefone, "telefone", 20);
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public String getPapel() {
+        return "Professor (" + (especialidade != null ? especialidade : "Geral") + ")";
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public String getIdentificadorExibicao() {
+        if (codigo != null && !codigo.isBlank()) {
+            return codigo;
+        }
+        return String.format("#PRF-%03d", getIdProfessor());
+    }
+
+    @Override
+    public String getResumo() {
+        return getIdentificadorExibicao() + " | " + getPapel() + ": " + getNomeCompleto()
+                + " - CREF " + cref + " (" + getStatus() + ")";
     }
 }

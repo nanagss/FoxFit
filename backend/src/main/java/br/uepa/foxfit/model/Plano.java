@@ -4,33 +4,24 @@ import java.math.BigDecimal;
 
 /**
  * Modelo que representa um Plano de Assinatura da tabela "planos" no PostgreSQL.
+ * Herda de EntidadeBase e encapsula a regra de cálculo do valor total do contrato.
  */
-public class Plano {
+public class Plano extends EntidadeBase {
 
-    private Integer id;
     private String codigo;
     private String nome;
     private int duracaoMeses;
     private BigDecimal valorMensal;
     private BigDecimal valorTotal;
     private String beneficios;
-    private String status;
 
     public Plano(String nome, int duracaoMeses, BigDecimal valorMensal, String beneficios) {
-        this.nome = nome;
-        this.duracaoMeses = duracaoMeses;
-        this.valorMensal = valorMensal;
-        this.valorTotal = valorMensal.multiply(BigDecimal.valueOf(duracaoMeses));
-        this.beneficios = beneficios;
-        this.status = "ATIVO";
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        super(null, "ATIVO");
+        setNome(nome);
+        setDuracaoMeses(duracaoMeses);
+        setValorMensal(valorMensal);
+        this.beneficios = beneficios != null ? beneficios.trim() : "";
+        recalcularValorTotal();
     }
 
     public String getCodigo() {
@@ -46,7 +37,7 @@ public class Plano {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nome = validarTextoObrigatorio(nome, "nome");
     }
 
     public int getDuracaoMeses() {
@@ -54,6 +45,9 @@ public class Plano {
     }
 
     public void setDuracaoMeses(int duracaoMeses) {
+        if (duracaoMeses < 1 || duracaoMeses > 36) {
+            throw new IllegalArgumentException("A duração do plano deve estar entre 1 e 36 meses.");
+        }
         this.duracaoMeses = duracaoMeses;
         recalcularValorTotal();
     }
@@ -63,6 +57,9 @@ public class Plano {
     }
 
     public void setValorMensal(BigDecimal valorMensal) {
+        if (valorMensal == null || valorMensal.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("O valor mensal do plano não pode ser negativo.");
+        }
         this.valorMensal = valorMensal;
         recalcularValorTotal();
     }
@@ -80,20 +77,25 @@ public class Plano {
     }
 
     public void setBeneficios(String beneficios) {
-        this.beneficios = beneficios;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+        this.beneficios = beneficios != null ? beneficios.trim() : "";
     }
 
     private void recalcularValorTotal() {
         if (this.valorMensal != null && this.duracaoMeses > 0) {
             this.valorTotal = this.valorMensal.multiply(BigDecimal.valueOf(this.duracaoMeses));
         }
+    }
+
+    @Override
+    public String getIdentificadorExibicao() {
+        if (codigo != null && !codigo.isBlank()) {
+            return codigo;
+        }
+        return String.format("#PLN-%02d", getId() != null ? getId() : 0);
+    }
+
+    @Override
+    public String getResumo() {
+        return getIdentificadorExibicao() + " | " + nome + " (" + duracaoMeses + " meses - " + getStatus() + ")";
     }
 }

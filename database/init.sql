@@ -109,8 +109,8 @@ CREATE TABLE mensalidades (
 
 -- 1. Inserção de Usuários
 INSERT INTO usuarios (nome_completo, email, cpf, cargo, senha, status) VALUES
-('Fernanda Sousa', 'fernanda.sousa@foxfit.com.br', '345.890.123-00', 'ADMIN', 'vasco2026', 'ATIVO'),
-('Carlos Eduardo Almeida', 'carlos.almeida@foxfit.com.br', '418.220.910-34', 'OPERADOR', 'trembala', 'ATIVO'),
+('Fernanda Sousa', 'fernanda.sousa@foxfit.com.br', '345.890.123-00', 'ADMIN', 'fernanda26', 'ATIVO'),
+('Aryel Jesus', 'aryel.jesus@foxfit.com.br', '418.220.910-34', 'OPERADOR', 'trembala', 'ATIVO'),
 ('Beatriz Helena Mendes', 'beatriz.mendes@foxfit.com.br', '289.401.655-71', 'OPERADOR', 'conhecimento', 'ATIVO');
 
 -- 2. Inserção de Alunos
