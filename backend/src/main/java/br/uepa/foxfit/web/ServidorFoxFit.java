@@ -97,6 +97,12 @@ public class ServidorFoxFit {
                 logoutHandler
         );
 
+        // Rota para Atualização de Senha do Operador
+        servidor.createContext(
+                "/perfil/alterar-senha",
+                new AtualizarSenhaHandler()
+        );
+
         Path raiz = Path.of("frontend").toAbsolutePath().normalize();
 
         servidor.createContext("/", requisicao -> {

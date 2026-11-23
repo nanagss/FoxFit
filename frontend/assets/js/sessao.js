@@ -4,7 +4,7 @@
  */
 
 // Base de usuários padrão conforme database/init.sql
-const USUARIOS_FOXFIT = [
+const USUARIOS_FOXFIT_PADRAO = [
   {
     id: 1,
     nomeCompleto: "Fernanda Sousa",
@@ -34,6 +34,27 @@ const USUARIOS_FOXFIT = [
   }
 ];
 
+function obterUsuariosDb() {
+  try {
+    const salvos = localStorage.getItem("foxfit_usuarios_db");
+    if (salvos) {
+      const lista = JSON.parse(salvos);
+      if (Array.isArray(lista) && lista.length > 0) {
+        return lista;
+      }
+    }
+  } catch (e) {
+  }
+  return USUARIOS_FOXFIT_PADRAO.map((u) => ({ ...u }));
+}
+
+function salvarUsuariosDb(lista) {
+  try {
+    localStorage.setItem("foxfit_usuarios_db", JSON.stringify(lista));
+  } catch (e) {
+  }
+}
+
 function calcularIniciais(nome) {
   if (!nome || !nome.trim()) return "?";
   const partes = nome.trim().split(/\s+/);
@@ -51,29 +72,39 @@ function formatarCargo(cargo) {
 }
 
 function obterUsuarioSessao() {
+  const usuariosDb = obterUsuariosDb();
+
   // 1. Tenta recuperar do localStorage
   try {
     const dadosStorage = localStorage.getItem("foxfit_usuario_ativo");
     if (dadosStorage) {
       const u = JSON.parse(dadosStorage);
-      if (u && u.status === "ATIVO") return u;
-    }
-  } catch (e) { }
-
-  // 2. Tenta recuperar do cookie FOXFIT_AUTH_USER
-  try {
-    const cookies = document.cookie.split(";");
-    for (let c of cookies) {
-      const partes = c.trim().split("=");
-      if (partes.length === 2 && partes[0].trim() === "FOXFIT_AUTH_USER" && partes[1].trim()) {
-        const id = parseInt(partes[1].trim(), 10);
-        const achado = USUARIOS_FOXFIT.find((u) => u.id === id && u.status === "ATIVO");
-        if (achado) return achado;
+      if (u && u.status === "ATIVO") {
+        const atualizado = usuariosDb.find(
+          (item) => item.id === u.id || item.email.toLowerCase() === u.email.toLowerCase()
+        );
+        return atualizado || u;
       }
     }
-  } catch (e) { }
+} catch (e) {
+}
 
-  return null;
+// 2. Tenta recuperar do cookie FOXFIT_AUTH_USER
+try {
+  const cookies = document.cookie.split(";");
+  for (let c of cookies) {
+    const partes = c.trim().split("=");
+    if (partes.length === 2 && partes[0].trim() === "FOXFIT_AUTH_USER" && partes[1].trim()) {
+      const id = parseInt(partes[1].trim(), 10);
+      const achado = usuariosDb.find((u) => u.id === id && u.status === "ATIVO");
+      if (achado) return achado;
+    }
+  }
+  } catch (e) {
+}
+
+// Fallback padrão se estiver em página interna
+return usuariosDb[0] || null;
 }
 
 function aplicarPerfilOperador(usuario) {
@@ -135,6 +166,22 @@ function exibirMensagemErroLogin(container, mensagem) {
   `;
 }
 
+function exibirAvisoSenha(container, tipo, mensagem) {
+  if (!container) return;
+  const corFundo = tipo === "sucesso" ? "#def7ec" : "#fde8e8";
+  const corTexto = tipo === "sucesso" ? "#03543f" : "#9b1c1c";
+  const corBorda = tipo === "sucesso" ? "#bcf0da" : "#f8b4b4";
+  const icone = tipo === "sucesso" ? "✓" : "⚠";
+
+  container.style.display = "block";
+  container.innerHTML = `
+    <div class="alerta-alteracao-senha" role="alert" style="background-color: ${corFundo}; color: ${corTexto}; border: 1px solid ${corBorda}; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+      <span aria-hidden="true">${icone}</span>
+      <span>${mensagem}</span>
+    </div>
+  `;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const formLogin = document.getElementById("form-login");
 
@@ -149,7 +196,6 @@ document.addEventListener("DOMContentLoaded", function () {
       formLogin.parentNode.insertBefore(containerErro, formLogin);
     }
 
-    // Se houver query ?erro=1 na URL
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("erro") === "1" && !containerErro.innerHTML.trim()) {
       exibirMensagemErroLogin(containerErro, "login ou senha incorretos");
@@ -167,7 +213,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Se estiver em ambiente HTTP/HTTPS, tenta enviar para o backend Java
       const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
 
       if (isHttp) {
@@ -185,13 +230,13 @@ document.addEventListener("DOMContentLoaded", function () {
             body: bodyData.toString()
           });
 
-          // Se o servidor redirecionou ou respondeu 200/303
           if (resposta.redirected) {
             if (resposta.url.includes("erro=1")) {
               exibirMensagemErroLogin(containerErro, "login ou senha incorretos");
               return;
             } else {
-              const u = USUARIOS_FOXFIT.find((user) => user.email.toLowerCase() === email.toLowerCase());
+              const usuariosDb = obterUsuariosDb();
+              const u = usuariosDb.find((user) => user.email.toLowerCase() === email.toLowerCase());
               if (u) {
                 localStorage.setItem("foxfit_usuario_ativo", JSON.stringify(u));
               }
@@ -204,7 +249,8 @@ document.addEventListener("DOMContentLoaded", function () {
           if (contentType.includes("application/json")) {
             const json = await resposta.json();
             if (json.sucesso) {
-              const u = USUARIOS_FOXFIT.find((user) => user.email.toLowerCase() === email.toLowerCase()) || json.usuario;
+              const usuariosDb = obterUsuariosDb();
+              const u = usuariosDb.find((user) => user.email.toLowerCase() === email.toLowerCase()) || json.usuario;
               localStorage.setItem("foxfit_usuario_ativo", JSON.stringify(u));
               window.location.href = json.redirecionar || "dashboard.html";
               return;
@@ -215,7 +261,8 @@ document.addEventListener("DOMContentLoaded", function () {
           }
 
           if (resposta.status === 200 || resposta.status === 303) {
-            const u = USUARIOS_FOXFIT.find((user) => user.email.toLowerCase() === email.toLowerCase());
+            const usuariosDb = obterUsuariosDb();
+            const u = usuariosDb.find((user) => user.email.toLowerCase() === email.toLowerCase());
             if (u) {
               localStorage.setItem("foxfit_usuario_ativo", JSON.stringify(u));
             }
@@ -227,8 +274,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      // Validação com base nos usuários do banco de dados init.sql
-      const usuarioEncontrado = USUARIOS_FOXFIT.find(
+      // Validação com base nos registros do banco de dados (incluindo alterações salvas)
+      const usuariosDb = obterUsuariosDb();
+      const usuarioEncontrado = usuariosDb.find(
         (u) =>
           u.email.toLowerCase() === email.toLowerCase() &&
           u.senha === senha &&
@@ -236,7 +284,6 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       if (usuarioEncontrado) {
-        // Define cookie e localStorage
         document.cookie = "FOXFIT_AUTH_USER=" + usuarioEncontrado.id + "; path=/; max-age=86400; SameSite=Lax";
         localStorage.setItem("foxfit_usuario_ativo", JSON.stringify(usuarioEncontrado));
         window.location.href = "dashboard.html";
@@ -249,6 +296,147 @@ document.addEventListener("DOMContentLoaded", function () {
     const usuarioLogado = obterUsuarioSessao();
     if (usuarioLogado) {
       aplicarPerfilOperador(usuarioLogado);
+    }
+
+    // Gerenciamento da área de Segurança e Alteração de Senha em perfil.html
+    const formAlterarSenha = document.getElementById("form-alterar-senha");
+    if (formAlterarSenha && usuarioLogado) {
+      const inputSenhaAtual = document.getElementById("perfil-senha-atual");
+      const inputNovaSenha = document.getElementById("perfil-nova-senha");
+      const inputConfirmaSenha = document.getElementById("perfil-confirma-senha");
+      const btnAtualizarSenha = document.getElementById("btn-atualizar-senha");
+      const btnLimparSenha = document.getElementById("btn-limpar-senha");
+      let boxMsg = document.getElementById("mensagem-alterar-senha");
+
+      if (!boxMsg) {
+        boxMsg = document.createElement("div");
+        boxMsg.id = "mensagem-alterar-senha";
+        formAlterarSenha.parentNode.insertBefore(boxMsg, formAlterarSenha);
+      }
+
+      // O botão 'Atualizar Senha' começa BLOQUEADO
+      if (btnAtualizarSenha) {
+        btnAtualizarSenha.disabled = true;
+        btnAtualizarSenha.setAttribute("disabled", "true");
+      }
+
+      // O botão 'Atualizar Senha' deve ficar BLOQUEADO até a 'senha atual' ser escrita pelo usuário com a mesma senha do usuário logado
+      function verificarSenhaAtual() {
+        if (!inputSenhaAtual || !btnAtualizarSenha) return;
+        const digitado = inputSenhaAtual.value;
+        if (digitado && digitado === usuarioLogado.senha) {
+          btnAtualizarSenha.disabled = false;
+          btnAtualizarSenha.removeAttribute("disabled");
+        } else {
+          btnAtualizarSenha.disabled = true;
+          btnAtualizarSenha.setAttribute("disabled", "true");
+        }
+      }
+
+      if (inputSenhaAtual) {
+        inputSenhaAtual.addEventListener("input", verificarSenhaAtual);
+        inputSenhaAtual.addEventListener("change", verificarSenhaAtual);
+        inputSenhaAtual.addEventListener("keyup", verificarSenhaAtual);
+      }
+
+      if (btnLimparSenha) {
+        btnLimparSenha.addEventListener("click", function () {
+          setTimeout(() => {
+            if (btnAtualizarSenha) {
+              btnAtualizarSenha.disabled = true;
+              btnAtualizarSenha.setAttribute("disabled", "true");
+            }
+            if (boxMsg) {
+              boxMsg.style.display = "none";
+              boxMsg.innerHTML = "";
+            }
+          }, 50);
+        });
+      }
+
+      formAlterarSenha.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        if (boxMsg) {
+          boxMsg.style.display = "none";
+          boxMsg.innerHTML = "";
+        }
+
+        // Validação de segurança: botão só pode executar se a senha atual confere
+        if (!inputSenhaAtual || inputSenhaAtual.value !== usuarioLogado.senha) {
+          if (btnAtualizarSenha) {
+            btnAtualizarSenha.disabled = true;
+            btnAtualizarSenha.setAttribute("disabled", "true");
+          }
+          exibirAvisoSenha(boxMsg, "erro", "A senha atual digitada está incorreta.");
+          return;
+        }
+
+        const novaSenha = inputNovaSenha ? inputNovaSenha.value : "";
+        const confirmaSenha = inputConfirmaSenha ? inputConfirmaSenha.value : "";
+
+        // O texto escrito em 'Nova senha' deve ser exatamente o mesmo do 'Confirmar Nova senha',
+        // se não o botão 'Atualizar Senha' ao clicar deve informar que a nova senha deve ser a mesma da nova senha confirmação
+        if (novaSenha !== confirmaSenha) {
+          exibirAvisoSenha(boxMsg, "erro", "A nova senha deve ser a mesma da nova senha confirmação.");
+          if (inputConfirmaSenha) inputConfirmaSenha.focus();
+          return;
+        }
+
+        if (novaSenha.length < 8) {
+          exibirAvisoSenha(boxMsg, "erro", "A nova senha deve possuir no mínimo 8 caracteres.");
+          if (inputNovaSenha) inputNovaSenha.focus();
+          return;
+        }
+
+        // Caso o botão 'Atualizar Senha' esteja desbloqueado e a 'Nova senha' ser exatamente o mesmo do 'Confirmar Nova senha',
+        // ao clicar no botão 'Atualizar Senha' a senha escrita no 'Confirmar Nova senha' deve ser a NOVA SENHA do usuário,
+        // ou seja, a senha antiga do usuário logado deve ser substituída pela senha nova em todos os registros no banco de dados do projeto
+        // (e em todos os locais onde essa senha está registrada), e apos isso essa será a nova senha desse usuário que deve ser usado na pagina de login.html
+        const novaSenhaFinal = confirmaSenha;
+
+        // 1. Atualiza no backend Java se estiver rodando via servidor HTTP
+        try {
+          const bodyData = new URLSearchParams();
+          bodyData.append("idOperador", usuarioLogado.id);
+          bodyData.append("senhaAtual", inputSenhaAtual.value);
+          bodyData.append("novaSenha", novaSenhaFinal);
+          bodyData.append("confirmarNovaSenha", novaSenhaFinal);
+
+          await fetch("/perfil/alterar-senha", {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: bodyData.toString()
+          });
+        } catch (erroHttp) {
+          console.warn("Backend não conectado para alteração via rede:", erroHttp);
+        }
+
+        // 2. Atualiza em todos os registros locais do banco de dados (localStorage)
+        const listaUsuarios = obterUsuariosDb();
+        const usuarioAlvo = listaUsuarios.find(
+          (u) => u.id === usuarioLogado.id || u.email.toLowerCase() === usuarioLogado.email.toLowerCase()
+        );
+        if (usuarioAlvo) {
+          usuarioAlvo.senha = novaSenhaFinal;
+          salvarUsuariosDb(listaUsuarios);
+        }
+
+        // 3. Atualiza na sessão ativa do usuário logado
+        usuarioLogado.senha = novaSenhaFinal;
+        localStorage.setItem("foxfit_usuario_ativo", JSON.stringify(usuarioLogado));
+
+        // 4. Exibe mensagem de sucesso
+        exibirAvisoSenha(boxMsg, "sucesso", "Senha atualizada com sucesso! Esta será sua nova senha de acesso.");
+
+        // 5. Limpa os campos e bloqueia novamente o botão
+        if (inputSenhaAtual) inputSenhaAtual.value = "";
+        if (inputNovaSenha) inputNovaSenha.value = "";
+        if (inputConfirmaSenha) inputConfirmaSenha.value = "";
+        if (btnAtualizarSenha) {
+          btnAtualizarSenha.disabled = true;
+          btnAtualizarSenha.setAttribute("disabled", "true");
+        }
+      });
     }
 
     // Configura botões de logout

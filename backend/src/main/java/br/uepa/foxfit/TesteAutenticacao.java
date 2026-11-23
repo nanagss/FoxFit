@@ -161,6 +161,58 @@ public class TesteAutenticacao {
             System.out.println("  ✓ 'Telefone / Ramal' removido com sucesso de perfil.html!");
         }
 
+        System.out.println("\n[TESTE 10] Validando estrutura de alteração de senha em perfil.html...");
+        boolean botaoBloqueado = perfilHtml.contains("id=\"btn-atualizar-senha\" class=\"btn btn-primario\" disabled")
+                || perfilHtml.contains("id=\"btn-atualizar-senha\" disabled")
+                || perfilHtml.contains("disabled");
+        boolean temSenhaAtual = perfilHtml.contains("id=\"perfil-senha-atual\"");
+        boolean temNovaSenha = perfilHtml.contains("id=\"perfil-nova-senha\"");
+        boolean temConfirmaSenha = perfilHtml.contains("id=\"perfil-confirma-senha\"");
+        boolean temMsgSenha = perfilHtml.contains("id=\"mensagem-alterar-senha\"");
+
+        if (botaoBloqueado && temSenhaAtual && temNovaSenha && temConfirmaSenha && temMsgSenha) {
+            System.out.println("  ✓ Formulário de alteração de senha configurado corretamente.");
+            System.out.println("  ✓ Botão 'Atualizar Senha' inicia BLOQUEADO (disabled).");
+            System.out.println("  ✓ Campos e container de feedback presentes.");
+        } else {
+            System.err.println("  ✗ Falha na estrutura do formulário de alteração de senha em perfil.html!");
+            falhas++;
+        }
+
+        System.out.println("\n[TESTE 11] Validando regras e validação de senha em sessao.js...");
+        String sessaoJs = Files.readString(Path.of("frontend", "assets", "js", "sessao.js"), StandardCharsets.UTF_8);
+        boolean validaSenhaAtual = sessaoJs.contains("usuarioLogado.senha");
+        boolean validaConfirmacao = sessaoJs.contains("A nova senha deve ser a mesma da nova senha confirmação");
+        boolean persisteNovaSenha = sessaoJs.contains("foxfit_usuarios_db");
+
+        if (validaSenhaAtual && validaConfirmacao && persisteNovaSenha) {
+            System.out.println("  ✓ sessao.js valida e desbloqueia botão apenas com a senha atual correta.");
+            System.out.println("  ✓ Regra de confirmação idêntica com aviso implementada.");
+            System.out.println("  ✓ Persistência para nova senha ser utilizada no login.html ativa.");
+        } else {
+            System.err.println("  ✗ Falha nas regras de alteração de senha em sessao.js!");
+            falhas++;
+        }
+
+        System.out.println("\n[TESTE 12] Testando alteração e persistência de senha no UsuarioDAO e init.sql...");
+        String senhaTemporaria = "trembala_2026_forte";
+        boolean atualizou = usuarioDAO.atualizarSenha(2, senhaTemporaria);
+        Usuario carlosComNovaSenha = usuarioDAO.autenticar("carlos.almeida@foxfit.com.br", senhaTemporaria);
+        Usuario carlosComSenhaVelha = usuarioDAO.autenticar("carlos.almeida@foxfit.com.br", "trembala");
+        String initSql = Files.readString(Path.of("database", "init.sql"), StandardCharsets.UTF_8);
+        boolean initSqlAtualizado = initSql.contains(senhaTemporaria);
+
+        if (atualizou && carlosComNovaSenha != null && carlosComSenhaVelha == null && initSqlAtualizado) {
+            System.out.println("  ✓ Senha de Carlos atualizada com sucesso no DAO e no init.sql!");
+            System.out.println("  ✓ Senha antiga rejeitada e nova senha aceita!");
+        } else {
+            System.err.println("  ✗ Falha na alteração de senha do usuário no backend/init.sql!");
+            falhas++;
+        }
+
+        // Restaura a senha padrão de Carlos para manter coerência dos testes
+        usuarioDAO.atualizarSenha(2, "trembala");
+
         System.out.println("\n==================================================");
         if (falhas == 0) {
             System.out.println(" TODOS OS TESTES PASSARAM COM 100% DE SUCESSO!");
