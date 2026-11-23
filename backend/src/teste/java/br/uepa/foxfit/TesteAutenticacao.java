@@ -2,7 +2,7 @@ package br.uepa.foxfit;
 
 import br.uepa.foxfit.dao.UsuarioDAO;
 import br.uepa.foxfit.model.Usuario;
-import br.uepa.foxfit.web.WebUtils;
+import br.uepa.foxfit.controller.WebUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -19,7 +19,7 @@ public class TesteAutenticacao {
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
         System.out.println("\n[TESTE 1] Autenticando Fernanda Sousa (ADMIN)...");
-        Usuario fernanda = usuarioDAO.autenticar("fernanda.sousa@foxfit.com.br", "vasco2026");
+        Usuario fernanda = usuarioDAO.autenticar("fernanda.sousa@foxfit.com.br", "fernanda26");
         if (fernanda != null
                 && "Fernanda Sousa".equals(fernanda.getNomeCompleto())
                 && "FS".equals(fernanda.getIniciais())
@@ -31,16 +31,16 @@ public class TesteAutenticacao {
             falhas++;
         }
 
-        System.out.println("\n[TESTE 2] Autenticando Carlos Eduardo Almeida (OPERADOR)...");
-        Usuario carlos = usuarioDAO.autenticar("carlos.almeida@foxfit.com.br", "trembala");
-        if (carlos != null
-                && "Carlos Eduardo Almeida".equals(carlos.getNomeCompleto())
-                && "CA".equals(carlos.getIniciais())
-                && "Operador".equals(carlos.getCargoFormatado())) {
-            System.out.println("  [OK] Sucesso: [" + carlos.getIniciais() + "] "
-                    + carlos.getNomeCompleto() + " | " + carlos.getCargoFormatado());
+        System.out.println("\n[TESTE 2] Autenticando Aryel Jesus (OPERADOR)...");
+        Usuario aryel = usuarioDAO.autenticar("aryel.jesus@foxfit.com.br", "trembala");
+        if (aryel != null
+                && "Aryel Jesus".equals(aryel.getNomeCompleto())
+                && "AJ".equals(aryel.getIniciais())
+                && "Operador".equals(aryel.getCargoFormatado())) {
+            System.out.println("  [OK] Sucesso: [" + aryel.getIniciais() + "] "
+                    + aryel.getNomeCompleto() + " | " + aryel.getCargoFormatado());
         } else {
-            System.err.println("  [ERRO] Falhou autenticação de Carlos!");
+            System.err.println("  [ERRO] Falhou autenticação de Aryel!");
             falhas++;
         }
 
@@ -88,15 +88,15 @@ public class TesteAutenticacao {
             </header>
             """;
 
-        String htmlCarlos = WebUtils.injetarPerfilOperador(htmlModelo, carlos);
-        boolean okCarlos = htmlCarlos.contains("avatar-operador\" aria-hidden=\"true\">CA</span>")
-                && htmlCarlos.contains("operador-nome\">Carlos Eduardo Almeida</strong>")
-                && htmlCarlos.contains("operador-cargo\">Operador</small>");
+        String htmlAryel = WebUtils.injetarPerfilOperador(htmlModelo, aryel);
+        boolean okAryel = htmlAryel.contains("avatar-operador\" aria-hidden=\"true\">AJ</span>")
+                && htmlAryel.contains("operador-nome\">Aryel Jesus</strong>")
+                && htmlAryel.contains("operador-cargo\">Operador</small>");
 
-        if (okCarlos) {
-            System.out.println("  [OK] Injeção para Carlos: [CA] Carlos Eduardo Almeida | Operador");
+        if (okAryel) {
+            System.out.println("  [OK] Injeção para Aryel: [AJ] Aryel Jesus | Operador");
         } else {
-            System.err.println("  [ERRO] Falhou injeção para Carlos!");
+            System.err.println("  [ERRO] Falhou injeção para Aryel!");
             falhas++;
         }
 

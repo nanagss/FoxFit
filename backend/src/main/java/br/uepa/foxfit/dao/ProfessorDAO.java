@@ -1,6 +1,5 @@
 package br.uepa.foxfit.dao;
 
-import br.uepa.foxfit.database.Conexao;
 import br.uepa.foxfit.model.Professor;
 
 import java.sql.Connection;
@@ -10,49 +9,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProfessorDAO {
+/**
+ * DAO responsável pelas operações da tabela "professores".
+ * Estende BaseDAO e implementa RepositorioCRUD.
+ */
+public class ProfessorDAO extends BaseDAO<Professor> implements RepositorioCRUD<Professor> {
 
-    // CADASTRAR PROFESSOR
+    @Override
     public int cadastrar(Professor professor) throws SQLException {
-
-        String sqlProximoId = """
-            SELECT nextval(
-                pg_get_serial_sequence('public.professores', 'id')
-            )
-            """;
-
         String sqlCadastrar = """
-            INSERT INTO professores
-                (id, codigo, nome, cpf, cref,
-                 especialidade, turno, telefone, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """;
+                INSERT INTO professores
+                    (id, codigo, nome, cpf, cref,
+                     especialidade, turno, telefone, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
-        try (Connection conexao = Conexao.conectar()) {
-
+        try (Connection conexao = abrirConexao()) {
             conexao.setAutoCommit(false);
 
             try {
-                int id;
-
-                try (PreparedStatement comandoId =
-                             conexao.prepareStatement(sqlProximoId);
-                     ResultSet resultado = comandoId.executeQuery()) {
-
-                    if (!resultado.next()) {
-                        throw new SQLException(
-                                "Não foi possível gerar o ID do professor."
-                        );
-                    }
-
-                    id = resultado.getInt(1);
-                }
-
+                int id = gerarProximoId(conexao, "professores");
                 String codigo = String.format("#PRF-%03d", id);
 
-                try (PreparedStatement comando =
-                             conexao.prepareStatement(sqlCadastrar)) {
-
+                try (PreparedStatement comando = conexao.prepareStatement(sqlCadastrar)) {
                     comando.setInt(1, id);
                     comando.setString(2, codigo);
                     comando.setString(3, professor.getNomeCompleto());
@@ -75,59 +54,52 @@ public class ProfessorDAO {
                 return id;
 
             } catch (SQLException erro) {
-                try {
-                    conexao.rollback();
-                } catch (SQLException erroRollback) {
-                    erro.addSuppressed(erroRollback);
-                }
+                desfazerTransacao(conexao, erro);
                 throw erro;
             }
         }
     }
 
-    // LISTAR PROFESSORES
+    @Override
     public List<Professor> listar() throws SQLException {
-
         List<Professor> professores = new ArrayList<>();
 
         String sql = """
-            SELECT id, codigo, nome, cpf, cref,
-                   especialidade, turno, telefone, status
-            FROM professores
-            ORDER BY id
-            """;
+                SELECT id, codigo, nome, cpf, cref,
+                       especialidade, turno, telefone, status
+                FROM professores
+                ORDER BY id
+                """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql);
              ResultSet resultado = comando.executeQuery()) {
 
             while (resultado.next()) {
-                professores.add(mapearProfessor(resultado));
+                professores.add(mapear(resultado));
             }
         }
 
         return professores;
     }
 
-    // BUSCAR PROFESSOR PELO ID
+    @Override
     public Professor buscarPorId(int id) throws SQLException {
-
         String sql = """
-            SELECT id, codigo, nome, cpf, cref,
-                   especialidade, turno, telefone, status
-            FROM professores
-            WHERE id = ?
-            """;
+                SELECT id, codigo, nome, cpf, cref,
+                       especialidade, turno, telefone, status
+                FROM professores
+                WHERE id = ?
+                """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, id);
 
             try (ResultSet resultado = comando.executeQuery()) {
-
                 if (resultado.next()) {
-                    return mapearProfessor(resultado);
+                    return mapear(resultado);
                 }
             }
         }
@@ -135,22 +107,21 @@ public class ProfessorDAO {
         return null;
     }
 
-    // ATUALIZAR PROFESSOR
+    @Override
     public boolean atualizar(Professor professor) throws SQLException {
-
         String sql = """
-            UPDATE professores
-            SET nome = ?,
-                cpf = ?,
-                cref = ?,
-                especialidade = ?,
-                turno = ?,
-                telefone = ?,
-                status = ?
-            WHERE id = ?
-            """;
+                UPDATE professores
+                SET nome = ?,
+                    cpf = ?,
+                    cref = ?,
+                    especialidade = ?,
+                    turno = ?,
+                    telefone = ?,
+                    status = ?
+                WHERE id = ?
+                """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setString(1, professor.getNomeCompleto());
@@ -166,28 +137,28 @@ public class ProfessorDAO {
         }
     }
 
-    // DESATIVAR PROFESSOR
     public boolean desativar(int id) throws SQLException {
-
         String sql = """
-            UPDATE professores
-            SET status = 'INATIVO'
-            WHERE id = ? AND status = 'ATIVO'
-            """;
+                UPDATE professores
+                SET status = 'INATIVO'
+                WHERE id = ? AND status = 'ATIVO'
+                """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, id);
-
             return comando.executeUpdate() == 1;
         }
     }
 
-    // CONVERTER RESULTADO SQL EM OBJETO JAVA
-    private Professor mapearProfessor(ResultSet resultado)
-            throws SQLException {
+    @Override
+    public boolean excluir(int id) throws SQLException {
+        return desativar(id);
+    }
 
+    @Override
+    protected Professor mapear(ResultSet resultado) throws SQLException {
         Professor professor = new Professor(
                 resultado.getString("nome"),
                 resultado.getString("cpf"),

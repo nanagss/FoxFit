@@ -1,6 +1,5 @@
 package br.uepa.foxfit.dao;
 
-import br.uepa.foxfit.database.Conexao;
 import br.uepa.foxfit.model.Aluno;
 
 import java.sql.Connection;
@@ -11,59 +10,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlunoDAO {
+/**
+ * DAO responsável pelo CRUD da tabela "alunos".
+ * Estende BaseDAO e implementa RepositorioCRUD.
+ */
+public class AlunoDAO extends BaseDAO<Aluno> implements RepositorioCRUD<Aluno> {
 
-
-
+    @Override
     public int cadastrar(Aluno aluno) throws SQLException {
 
-        String sqlProximoId = """
-            SELECT nextval(
-                pg_get_serial_sequence('public.alunos', 'id')
-            )
-            """;
-
         String sqlCadastrar = """
-            INSERT INTO alunos
-                (id, codigo, nome, cpf, data_nascimento,
-                 telefone, email, endereco, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """;
+                INSERT INTO alunos
+                    (id, codigo, nome, cpf, data_nascimento,
+                     telefone, email, endereco, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
-        try (Connection conexao = Conexao.conectar()) {
-
+        try (Connection conexao = abrirConexao()) {
             conexao.setAutoCommit(false);
 
             try {
-                int id;
-
-                // 1. Solicita um identificador ao PostgreSQL
-                try (PreparedStatement comandoId =
-                             conexao.prepareStatement(sqlProximoId);
-                     ResultSet resultado = comandoId.executeQuery()) {
-
-                    if (!resultado.next()) {
-                        throw new SQLException(
-                                "Não foi possível gerar o ID do aluno."
-                        );
-                    }
-
-                    id = resultado.getInt(1);
-                }
-
-                // 2. Gera o código de identificação do aluno
+                int id = gerarProximoId(conexao, "alunos");
                 String codigo = String.format("#ALU-%03d", id);
 
-                // 3. Salva o aluno no PostgreSQL
-                try (PreparedStatement comando =
-                             conexao.prepareStatement(sqlCadastrar)) {
-
+                try (PreparedStatement comando = conexao.prepareStatement(sqlCadastrar)) {
                     comando.setInt(1, id);
                     comando.setString(2, codigo);
                     comando.setString(3, aluno.getNomeCompleto());
                     comando.setString(4, aluno.getCpf());
-                    comando.setDate(5,
-                            Date.valueOf(aluno.getDataNascimento()));
+                    comando.setDate(5, Date.valueOf(aluno.getDataNascimento()));
                     comando.setString(6, aluno.getTelefone());
                     comando.setString(7, aluno.getEmail());
                     comando.setString(8, aluno.getEndereco());
@@ -72,7 +47,6 @@ public class AlunoDAO {
                     comando.executeUpdate();
                 }
 
-                // 4. Confirma o cadastro
                 conexao.commit();
 
                 aluno.setIdAluno(id);
@@ -81,67 +55,54 @@ public class AlunoDAO {
                 return id;
 
             } catch (SQLException erro) {
-                try {
-                    conexao.rollback();
-                } catch (SQLException erroRollback) {
-                    erro.addSuppressed(erroRollback);
-                }
-
+                desfazerTransacao(conexao, erro);
                 throw erro;
             }
         }
     }
 
-
-
-
-
+    @Override
     public List<Aluno> listar() throws SQLException {
-
         List<Aluno> alunos = new ArrayList<>();
 
         String sql = """
-            SELECT id, codigo, nome, cpf,
-                   data_nascimento, telefone,
-                   email, endereco, status
-            FROM alunos
-            ORDER BY id
-            """;
+                SELECT id, codigo, nome, cpf,
+                       data_nascimento, telefone,
+                       email, endereco, status
+                FROM alunos
+                ORDER BY id
+                """;
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement comando =
-                     conexao.prepareStatement(sql);
+        try (Connection conexao = abrirConexao();
+             PreparedStatement comando = conexao.prepareStatement(sql);
              ResultSet resultado = comando.executeQuery()) {
 
             while (resultado.next()) {
-                alunos.add(mapearAluno(resultado));
+                alunos.add(mapear(resultado));
             }
         }
 
         return alunos;
     }
 
-
-
+    @Override
     public Aluno buscarPorId(int id) throws SQLException {
-
         String sql = """
-            SELECT id, codigo, nome, cpf,
-                   data_nascimento, telefone,
-                   email, endereco, status
-            FROM alunos
-            WHERE id = ?
-            """;
+                SELECT id, codigo, nome, cpf,
+                       data_nascimento, telefone,
+                       email, endereco, status
+                FROM alunos
+                WHERE id = ?
+                """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, id);
 
             try (ResultSet resultado = comando.executeQuery()) {
-
                 if (resultado.next()) {
-                    return mapearAluno(resultado);
+                    return mapear(resultado);
                 }
             }
         }
@@ -149,24 +110,21 @@ public class AlunoDAO {
         return null;
     }
 
-
-
-
+    @Override
     public boolean atualizar(Aluno aluno) throws SQLException {
-
         String sql = """
-            UPDATE alunos
-            SET nome = ?,
-                cpf = ?,
-                data_nascimento = ?,
-                telefone = ?,
-                email = ?,
-                endereco = ?,
-                status = ?
-            WHERE id = ?
-            """;
+                UPDATE alunos
+                SET nome = ?,
+                    cpf = ?,
+                    data_nascimento = ?,
+                    telefone = ?,
+                    email = ?,
+                    endereco = ?,
+                    status = ?
+                WHERE id = ?
+                """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setString(1, aluno.getNomeCompleto());
@@ -178,33 +136,24 @@ public class AlunoDAO {
             comando.setString(7, aluno.getStatus());
             comando.setInt(8, aluno.getIdAluno());
 
-            int linhasAfetadas = comando.executeUpdate();
-
-            return linhasAfetadas == 1;
+            return comando.executeUpdate() == 1;
         }
     }
 
-
-
-
+    @Override
     public boolean excluir(int id) throws SQLException {
-
         String sql = "DELETE FROM alunos WHERE id = ?";
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, id);
-
-            int linhasAfetadas = comando.executeUpdate();
-
-            return linhasAfetadas == 1;
+            return comando.executeUpdate() == 1;
         }
     }
 
-
-    private Aluno mapearAluno(ResultSet resultado) throws SQLException {
-
+    @Override
+    protected Aluno mapear(ResultSet resultado) throws SQLException {
         Aluno aluno = new Aluno(
                 resultado.getString("nome"),
                 resultado.getString("cpf"),
@@ -220,5 +169,4 @@ public class AlunoDAO {
 
         return aluno;
     }
-
 }

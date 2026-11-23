@@ -2,37 +2,46 @@ package br.uepa.foxfit.model;
 
 import java.time.LocalDate;
 
-public class Aluno {
+/**
+ * Representa um aluno da academia. Herda atributos e comportamentos de Pessoa
+ * e encapsula as validações de preenchimento e tamanho de seus campos.
+ */
+public class Aluno extends Pessoa {
 
-    private Integer idAluno;
     private String codigo;
-    private String nomeCompleto;
-    private String cpf;
     private LocalDate dataNascimento;
     private String telefone;
     private String email;
     private String endereco;
-    private String status;
 
     public Aluno(String nomeCompleto, String cpf,
                  LocalDate dataNascimento, String telefone,
                  String email, String endereco) {
-
-        this.nomeCompleto = nomeCompleto;
-        this.cpf = cpf;
-        this.dataNascimento = dataNascimento;
-        this.telefone = telefone;
-        this.email = email;
-        this.endereco = endereco;
-        this.status = "ATIVO";
+        super(null, nomeCompleto, cpf, "ATIVO");
+        setNomeCompleto(nomeCompleto);
+        setCpf(cpf);
+        setDataNascimento(dataNascimento);
+        setTelefone(telefone);
+        setEmail(email);
+        setEndereco(endereco);
     }
 
     public Integer getIdAluno() {
-        return idAluno;
+        return getId();
     }
 
     public void setIdAluno(Integer idAluno) {
-        this.idAluno = idAluno;
+        setId(idAluno);
+    }
+
+    @Override
+    public void setNomeCompleto(String nomeCompleto) {
+        super.setNomeCompleto(validarTextoObrigatorio(nomeCompleto, "nome", 150));
+    }
+
+    @Override
+    public void setCpf(String cpf) {
+        super.setCpf(validarTextoObrigatorio(cpf, "CPF", 14));
     }
 
     public String getCodigo() {
@@ -43,27 +52,14 @@ public class Aluno {
         this.codigo = codigo;
     }
 
-    public String getNomeCompleto() {
-        return nomeCompleto;
-    }
-
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
+        if (dataNascimento == null) {
+            throw new IllegalArgumentException("Campo obrigatório: dataNascimento");
+        }
         this.dataNascimento = dataNascimento;
     }
 
@@ -72,7 +68,7 @@ public class Aluno {
     }
 
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = validarTextoObrigatorio(telefone, "telefone", 20);
     }
 
     public String getEmail() {
@@ -80,7 +76,7 @@ public class Aluno {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = validarTextoObrigatorio(email, "e-mail", 150);
     }
 
     public String getEndereco() {
@@ -88,14 +84,25 @@ public class Aluno {
     }
 
     public void setEndereco(String endereco) {
-        this.endereco = endereco;
+        this.endereco = validarTextoObrigatorio(endereco, "endereço", 255);
     }
 
-    public String getStatus() {
-        return status;
+    @Override
+    public String getPapel() {
+        return "Aluno";
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public String getIdentificadorExibicao() {
+        if (codigo != null && !codigo.isBlank()) {
+            return codigo;
+        }
+        return String.format("#ALU-%03d", getId() != null ? getId() : 0);
+    }
+
+    @Override
+    public String getResumo() {
+        return getIdentificadorExibicao() + " | " + getPapel() + ": " + getNomeCompleto()
+                + " (" + getStatus() + ")";
     }
 }

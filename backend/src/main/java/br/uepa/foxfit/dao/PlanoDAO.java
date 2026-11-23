@@ -1,6 +1,5 @@
 package br.uepa.foxfit.dao;
 
-import br.uepa.foxfit.database.Conexao;
 import br.uepa.foxfit.model.Plano;
 
 import java.sql.Connection;
@@ -12,63 +11,60 @@ import java.util.List;
 
 /**
  * DAO responsável pelas operações CRUD da tabela "planos" no PostgreSQL.
+ * Estende BaseDAO e implementa RepositorioCRUD.
  */
-public class PlanoDAO {
+public class PlanoDAO extends BaseDAO<Plano> implements RepositorioCRUD<Plano> {
 
-    /**
-     * Cadastra um novo plano de assinatura e gera automaticamente o código (#PLN-XX).
-     */
+    @Override
     public int cadastrar(Plano plano) throws SQLException {
-
-        String sqlProximoId = "SELECT COALESCE(MAX(id), 0) + 1 AS proximo FROM planos";
-
         String sqlInsert = """
                 INSERT INTO planos
-                (codigo, nome, duracao_meses, valor_mensal, valor_total, beneficios, status)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
-                RETURNING id
+                (id, codigo, nome, duracao_meses, valor_mensal, valor_total, beneficios, status)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """;
 
-        try (Connection conexao = Conexao.conectar()) {
+        try (Connection conexao = abrirConexao()) {
+            conexao.setAutoCommit(false);
 
-            String codigo = plano.getCodigo();
-            if (codigo == null || codigo.isBlank()) {
-                try (PreparedStatement cmdSeq = conexao.prepareStatement(sqlProximoId);
-                     ResultSet rsSeq = cmdSeq.executeQuery()) {
-                    int numero = rsSeq.next() ? rsSeq.getInt("proximo") : 1;
-                    codigo = String.format("#PLN-%02d", numero);
+            try {
+                int id = gerarProximoId(conexao, "planos");
+                String codigo = (plano.getCodigo() == null || plano.getCodigo().isBlank())
+                        ? String.format("#PLN-%02d", id)
+                        : plano.getCodigo();
+
+                try (PreparedStatement comando = conexao.prepareStatement(sqlInsert)) {
+                    comando.setInt(1, id);
+                    comando.setString(2, codigo);
+                    comando.setString(3, plano.getNome());
+                    comando.setInt(4, plano.getDuracaoMeses());
+                    comando.setBigDecimal(5, plano.getValorMensal());
+                    comando.setBigDecimal(6, plano.getValorTotal());
+                    comando.setString(7, plano.getBeneficios());
+                    comando.setString(8, plano.getStatus());
+
+                    comando.executeUpdate();
                 }
-            }
 
-            try (PreparedStatement comando = conexao.prepareStatement(sqlInsert)) {
-                comando.setString(1, codigo);
-                comando.setString(2, plano.getNome());
-                comando.setInt(3, plano.getDuracaoMeses());
-                comando.setBigDecimal(4, plano.getValorMensal());
-                comando.setBigDecimal(5, plano.getValorTotal());
-                comando.setString(6, plano.getBeneficios());
-                comando.setString(7, plano.getStatus());
+                conexao.commit();
 
-                try (ResultSet resultado = comando.executeQuery()) {
-                    if (resultado.next()) {
-                        return resultado.getInt("id");
-                    }
-                    throw new SQLException("Plano não foi cadastrado.");
-                }
+                plano.setId(id);
+                plano.setCodigo(codigo);
+
+                return id;
+
+            } catch (SQLException erro) {
+                desfazerTransacao(conexao, erro);
+                throw erro;
             }
         }
     }
 
-    /**
-     * Lista todos os planos ordenados por duração e ID.
-     */
+    @Override
     public List<Plano> listar() throws SQLException {
-
         List<Plano> planos = new ArrayList<>();
-
         String sql = "SELECT * FROM planos ORDER BY duracao_meses ASC, id ASC";
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql);
              ResultSet resultado = comando.executeQuery()) {
 
@@ -80,14 +76,11 @@ public class PlanoDAO {
         return planos;
     }
 
-    /**
-     * Busca um plano específico pelo seu ID.
-     */
+    @Override
     public Plano buscarPorId(int id) throws SQLException {
-
         String sql = "SELECT * FROM planos WHERE id = ?";
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, id);
@@ -102,11 +95,8 @@ public class PlanoDAO {
         return null;
     }
 
-    /**
-     * Atualiza os dados comerciais, benefícios e status de um plano existente.
-     */
+    @Override
     public boolean atualizar(Plano plano) throws SQLException {
-
         String sql = """
                 UPDATE planos
                 SET nome = ?,
@@ -118,7 +108,7 @@ public class PlanoDAO {
                 WHERE id = ?
                 """;
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setString(1, plano.getNome());
@@ -133,23 +123,20 @@ public class PlanoDAO {
         }
     }
 
-    /**
-     * Exclui um plano pelo ID (se houver matrículas vinculadas, o PostgreSQL retornará SQLState 23503).
-     */
+    @Override
     public boolean excluir(int id) throws SQLException {
-
         String sql = "DELETE FROM planos WHERE id = ?";
 
-        try (Connection conexao = Conexao.conectar();
+        try (Connection conexao = abrirConexao();
              PreparedStatement comando = conexao.prepareStatement(sql)) {
 
             comando.setInt(1, id);
-
             return comando.executeUpdate() > 0;
         }
     }
 
-    private Plano mapear(ResultSet resultado) throws SQLException {
+    @Override
+    protected Plano mapear(ResultSet resultado) throws SQLException {
         Plano plano = new Plano(
                 resultado.getString("nome"),
                 resultado.getInt("duracao_meses"),

@@ -1,75 +1,58 @@
-package br.uepa.foxfit.web;
+package br.uepa.foxfit.controller;
 
-import br.uepa.foxfit.dao.PerfilDAO;
+import br.uepa.foxfit.dao.UsuarioDAO;
 import br.uepa.foxfit.model.Usuario;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * Handler responsável por renderizar dinamicamente a tela de Meu Perfil (/pages/perfil.html)
- * e também por aceitar submissões de formulário direto na mesma rota.
+ * Controller responsável pelo módulo Meu Perfil
+ * (/pages/perfil.html, /perfil/atualizar e /perfil/alterar-senha).
  */
-public class PaginaPerfilHandler implements HttpHandler {
+public class PerfilController extends BaseHandler {
 
-    private final PerfilDAO perfilDAO = new PerfilDAO();
+    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
 
     @Override
-    public void handle(HttpExchange requisicao) throws IOException {
-        String metodo = requisicao.getRequestMethod().toUpperCase();
-
-        if ("GET".equals(metodo)) {
-            tratarGet(requisicao);
-        } else if ("POST".equals(metodo)) {
-            tratarPost(requisicao);
-        } else {
-            WebUtils.responderTexto(requisicao, 405, "Método não permitido.");
-        }
-    }
-
-    private void tratarGet(HttpExchange requisicao) throws IOException {
+    protected void processarGet(HttpExchange requisicao) throws IOException {
         Path arquivo = Path.of("frontend", "pages", "perfil.html").toAbsolutePath().normalize();
 
         if (!Files.isRegularFile(arquivo)) {
-            WebUtils.responderTexto(requisicao, 404, "Página perfil.html não encontrada.");
+            responderTexto(requisicao, 404, "Página perfil.html não encontrada.");
             return;
         }
 
-        Usuario usuarioLogado = WebUtils.obterUsuarioLogado(requisicao);
+        Usuario usuarioLogado = obterUsuarioLogado(requisicao);
         int idUsuario = (usuarioLogado != null) ? usuarioLogado.getId() : 1;
 
-        Usuario usuarioAtualizado = perfilDAO.buscarPorId(idUsuario);
+        Usuario usuarioAtualizado = usuarioDAO.buscarPorId(idUsuario);
         if (usuarioAtualizado == null && usuarioLogado != null) {
             usuarioAtualizado = usuarioLogado;
         }
 
-        String html = Files.readString(arquivo, StandardCharsets.UTF_8);
-
-        // Feedback / Alertas via Query Params
-        Map<String, String> query = WebUtils.lerQuery(requisicao);
-        String feedbackHtml = gerarFeedbackHtml(query);
-
-        html = html.replace("<!-- MENSAGEM_FEEDBACK_PERFIL -->", feedbackHtml);
+        String html = lerPaginaHtml("perfil.html");
+        Map<String, String> query = lerQuery(requisicao);
+        html = html.replace("<!-- MENSAGEM_FEEDBACK_PERFIL -->", gerarFeedbackHtml(query));
 
         if (usuarioAtualizado != null) {
             html = WebUtils.injetarPerfilOperador(html, usuarioAtualizado);
         }
 
-        WebUtils.responderHtml(requisicao, 200, html);
+        responderHtml(requisicao, 200, html);
     }
 
-    private void tratarPost(HttpExchange requisicao) throws IOException {
-        Map<String, String> dados = WebUtils.lerFormulario(requisicao);
+    @Override
+    protected void processarPost(HttpExchange requisicao) throws IOException {
+        Map<String, String> dados = lerFormulario(requisicao);
         String accept = requisicao.getRequestHeaders().getFirst("Accept");
         boolean querJson = accept != null && accept.contains("application/json");
 
-        Usuario usuarioLogado = WebUtils.obterUsuarioLogado(requisicao);
+        Usuario usuarioLogado = obterUsuarioLogado(requisicao);
         int idUsuario = (usuarioLogado != null) ? usuarioLogado.getId() : 1;
 
         if (dados.containsKey("idOperador")) {
@@ -79,13 +62,13 @@ public class PaginaPerfilHandler implements HttpHandler {
             }
         }
 
-        // Se for requisição de troca de senha
-        if (dados.containsKey("senhaAtual") || dados.containsKey("novaSenha")) {
+        String rota = obterRota(requisicao);
+        if ("/perfil/alterar-senha".equals(rota)
+                || ("/pages/perfil.html".equals(rota) && (dados.containsKey("senhaAtual") || dados.containsKey("novaSenha")))) {
             processarAlteracaoSenha(requisicao, dados, idUsuario, querJson);
             return;
         }
 
-        // Senão, é atualização dos dados funcionais do operador
         processarAtualizacaoDados(requisicao, dados, idUsuario, querJson);
     }
 
@@ -94,19 +77,19 @@ public class PaginaPerfilHandler implements HttpHandler {
         String email = dados.getOrDefault("email", "").trim();
 
         try {
-            perfilDAO.atualizarDados(idUsuario, nomeCompleto, email);
+            usuarioDAO.atualizarDados(idUsuario, nomeCompleto, email);
 
             if (querJson) {
-                Usuario u = perfilDAO.buscarPorId(idUsuario);
+                Usuario u = usuarioDAO.buscarPorId(idUsuario);
                 String json = String.format(
                         "{\"sucesso\":true,\"mensagem\":\"Alterações do perfil salvas com sucesso!\",\"usuario\":{\"id\":%d,\"nomeCompleto\":\"%s\",\"email\":\"%s\"}}",
                         u.getId(),
-                        WebUtils.escapar(u.getNomeCompleto()),
-                        WebUtils.escapar(u.getEmail())
+                        escapar(u.getNomeCompleto()),
+                        escapar(u.getEmail())
                 );
-                WebUtils.responderJson(requisicao, 200, json);
+                responderJson(requisicao, 200, json);
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?sucesso=perfil");
+                redirecionar(requisicao, "/pages/perfil.html?sucesso=perfil");
             }
         } catch (IllegalArgumentException erro) {
             String msg = erro.getMessage();
@@ -120,16 +103,16 @@ public class PaginaPerfilHandler implements HttpHandler {
             }
 
             if (querJson) {
-                WebUtils.responderJson(requisicao, 400, "{\"sucesso\":false,\"mensagem\":\"" + WebUtils.escapar(msg) + "\"}");
+                responderJson(requisicao, 400, "{\"sucesso\":false,\"mensagem\":\"" + escapar(msg) + "\"}");
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?erro=" + codigoErro);
+                redirecionar(requisicao, "/pages/perfil.html?erro=" + codigoErro);
             }
         } catch (SQLException erro) {
             erro.printStackTrace();
             if (querJson) {
-                WebUtils.responderJson(requisicao, 500, "{\"sucesso\":false,\"mensagem\":\"Erro interno ao atualizar perfil no banco.\"}");
+                responderJson(requisicao, 500, "{\"sucesso\":false,\"mensagem\":\"Erro interno ao atualizar perfil no banco.\"}");
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?erro=interno");
+                redirecionar(requisicao, "/pages/perfil.html?erro=interno");
             }
         }
     }
@@ -141,20 +124,20 @@ public class PaginaPerfilHandler implements HttpHandler {
 
         if (!novaSenha.equals(confirmarNovaSenha)) {
             if (querJson) {
-                WebUtils.responderJson(requisicao, 400, "{\"sucesso\":false,\"mensagem\":\"A confirmação da nova senha não coincide.\"}");
+                responderJson(requisicao, 400, "{\"sucesso\":false,\"mensagem\":\"A confirmação da nova senha não coincide.\"}");
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?erro=senha_divergente");
+                redirecionar(requisicao, "/pages/perfil.html?erro=senha_divergente");
             }
             return;
         }
 
         try {
-            perfilDAO.alterarSenha(idUsuario, senhaAtual, novaSenha);
+            usuarioDAO.alterarSenha(idUsuario, senhaAtual, novaSenha);
 
             if (querJson) {
-                WebUtils.responderJson(requisicao, 200, "{\"sucesso\":true,\"mensagem\":\"Senha atualizada com sucesso!\"}");
+                responderJson(requisicao, 200, "{\"sucesso\":true,\"mensagem\":\"Senha atualizada com sucesso!\"}");
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?sucesso=senha");
+                redirecionar(requisicao, "/pages/perfil.html?sucesso=senha");
             }
         } catch (IllegalArgumentException erro) {
             String msg = erro.getMessage();
@@ -168,16 +151,16 @@ public class PaginaPerfilHandler implements HttpHandler {
             }
 
             if (querJson) {
-                WebUtils.responderJson(requisicao, 400, "{\"sucesso\":false,\"mensagem\":\"" + WebUtils.escapar(msg) + "\"}");
+                responderJson(requisicao, 400, "{\"sucesso\":false,\"mensagem\":\"" + escapar(msg) + "\"}");
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?erro=" + codigoErro);
+                redirecionar(requisicao, "/pages/perfil.html?erro=" + codigoErro);
             }
         } catch (SQLException erro) {
             erro.printStackTrace();
             if (querJson) {
-                WebUtils.responderJson(requisicao, 500, "{\"sucesso\":false,\"mensagem\":\"Erro interno ao atualizar senha no banco.\"}");
+                responderJson(requisicao, 500, "{\"sucesso\":false,\"mensagem\":\"Erro interno ao atualizar senha no banco.\"}");
             } else {
-                WebUtils.redirecionar(requisicao, "/pages/perfil.html?erro=interno");
+                redirecionar(requisicao, "/pages/perfil.html?erro=interno");
             }
         }
     }
@@ -197,7 +180,7 @@ public class PaginaPerfilHandler implements HttpHandler {
                   <span aria-hidden="true" style="font-size: 18px;">✓</span>
                   <span>%s</span>
                 </div>
-                """, WebUtils.escapar(mensagem));
+                """, escapar(mensagem));
         }
 
         if (erro != null) {
@@ -218,7 +201,7 @@ public class PaginaPerfilHandler implements HttpHandler {
                   <span aria-hidden="true" style="font-size: 18px;">⚠</span>
                   <span>%s</span>
                 </div>
-                """, WebUtils.escapar(mensagem));
+                """, escapar(mensagem));
         }
 
         return "";

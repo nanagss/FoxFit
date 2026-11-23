@@ -1,9 +1,8 @@
 package br.uepa.foxfit;
 
-import br.uepa.foxfit.dao.PerfilDAO;
 import br.uepa.foxfit.dao.UsuarioDAO;
 import br.uepa.foxfit.model.Usuario;
-import br.uepa.foxfit.web.WebUtils;
+import br.uepa.foxfit.controller.WebUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -17,8 +16,8 @@ public class TestePerfil {
         System.out.println("==================================================");
 
         int falhas = 0;
-        PerfilDAO.carregarBasePadrao();
-        PerfilDAO perfilDAO = new PerfilDAO();
+        UsuarioDAO.carregarBasePadrao();
+        UsuarioDAO perfilDAO = new UsuarioDAO();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
         // -----------------------------------------------------------------
@@ -52,7 +51,7 @@ public class TestePerfil {
         // -----------------------------------------------------------------
         System.out.println("\n[TESTE 3] Bloquear e-mail duplicado de outro operador...");
         try {
-            perfilDAO.atualizarDados(1, "Fernanda Sousa", "carlos.almeida@foxfit.com.br");
+            perfilDAO.atualizarDados(1, "Fernanda Sousa", "aryel.jesus@foxfit.com.br");
             System.err.println("  [ERRO] Falhou! Deveria ter rejeitado e-mail duplicado.");
             falhas++;
         } catch (IllegalArgumentException e) {
@@ -92,7 +91,7 @@ public class TestePerfil {
         // -----------------------------------------------------------------
         System.out.println("\n[TESTE 7] Alterar senha com nova senha muito curta (< 8 chars)...");
         try {
-            perfilDAO.alterarSenha(1, "vasco2026", "12345");
+            perfilDAO.alterarSenha(1, "fernanda26", "12345");
             System.err.println("  [ERRO] Falhou! Deveria ter rejeitado senha menor que 8 caracteres.");
             falhas++;
         } catch (IllegalArgumentException e) {
@@ -102,7 +101,7 @@ public class TestePerfil {
         // -----------------------------------------------------------------
         System.out.println("\n[TESTE 8] Alterar senha para a mesma senha atual...");
         try {
-            perfilDAO.alterarSenha(1, "vasco2026", "vasco2026");
+            perfilDAO.alterarSenha(1, "fernanda26", "fernanda26");
             System.err.println("  [ERRO] Falhou! Deveria ter rejeitado nova senha idêntica à atual.");
             falhas++;
         } catch (IllegalArgumentException e) {
@@ -110,10 +109,10 @@ public class TestePerfil {
         }
 
         // -----------------------------------------------------------------
-        System.out.println("\n[TESTE 9] Alteração de senha válida (vasco2026 -> VascoCampeao2026)...");
-        boolean senhaAlterada = perfilDAO.alterarSenha(1, "vasco2026", "VascoCampeao2026");
-        boolean senhaConfere = perfilDAO.validarSenhaAtual(1, "VascoCampeao2026");
-        boolean senhaAntigaNaoConfere = !perfilDAO.validarSenhaAtual(1, "vasco2026");
+        System.out.println("\n[TESTE 9] Alteração de senha válida (fernanda26 -> NovaSenha2026)...");
+        boolean senhaAlterada = perfilDAO.alterarSenha(1, "fernanda26", "NovaSenha2026");
+        boolean senhaConfere = perfilDAO.validarSenhaAtual(1, "NovaSenha2026");
+        boolean senhaAntigaNaoConfere = !perfilDAO.validarSenhaAtual(1, "fernanda26");
 
         if (senhaAlterada && senhaConfere && senhaAntigaNaoConfere) {
             System.out.println("  [OK] Sucesso: Senha alterada e validada com perfeição!");
@@ -124,7 +123,7 @@ public class TestePerfil {
 
         // -----------------------------------------------------------------
         System.out.println("\n[TESTE 10] Autenticação com nova senha via UsuarioDAO...");
-        Usuario autenticadoNovaSenha = usuarioDAO.autenticar("fernanda.atualizada@foxfit.com.br", "VascoCampeao2026");
+        Usuario autenticadoNovaSenha = usuarioDAO.autenticar("fernanda.atualizada@foxfit.com.br", "NovaSenha2026");
         if (autenticadoNovaSenha != null && autenticadoNovaSenha.getId() == 1) {
             System.out.println("  [OK] Sucesso: Login realizado com o novo e-mail e nova senha!");
         } else {
@@ -135,18 +134,18 @@ public class TestePerfil {
         // -----------------------------------------------------------------
         System.out.println("\n[TESTE 11] Validar injeção em perfil.html com WebUtils...");
         String htmlOriginal = Files.readString(Path.of("frontend", "pages", "perfil.html"), StandardCharsets.UTF_8);
-        Usuario carlos = perfilDAO.buscarPorId(2);
-        String htmlInjetado = WebUtils.injetarPerfilOperador(htmlOriginal, carlos);
+        Usuario aryel = perfilDAO.buscarPorId(2);
+        String htmlInjetado = WebUtils.injetarPerfilOperador(htmlOriginal, aryel);
 
-        boolean temIdCarlos = htmlInjetado.contains("id=\"perfil-id\" name=\"idOperador\" value=\"2\"");
-        boolean temNomeCarlos = htmlInjetado.contains("id=\"perfil-nome\" name=\"nomeCompleto\" value=\"Carlos Eduardo Almeida\"");
-        boolean temEmailCarlos = htmlInjetado.contains("id=\"perfil-email\" name=\"email\" value=\"carlos.almeida@foxfit.com.br\"");
-        boolean temCpfCarlos = htmlInjetado.contains("id=\"perfil-cpf\" name=\"cpf\" value=\"418.220.910-34\"");
-        boolean temCargoCarlos = htmlInjetado.contains("id=\"perfil-cargo\" name=\"cargo\" value=\"Operador\"");
-        boolean temIniciaisCarlos = htmlInjetado.contains("<span class=\"avatar-operador\" aria-hidden=\"true\">CA</span>");
+        boolean temIdAryel = htmlInjetado.contains("id=\"perfil-id\" name=\"idOperador\" value=\"2\"");
+        boolean temNomeAryel = htmlInjetado.contains("id=\"perfil-nome\" name=\"nomeCompleto\" value=\"Aryel Jesus\"");
+        boolean temEmailAryel = htmlInjetado.contains("id=\"perfil-email\" name=\"email\" value=\"aryel.jesus@foxfit.com.br\"");
+        boolean temCpfAryel = htmlInjetado.contains("id=\"perfil-cpf\" name=\"cpf\" value=\"418.220.910-34\"");
+        boolean temCargoAryel = htmlInjetado.contains("id=\"perfil-cargo\" name=\"cargo\" value=\"Operador\"");
+        boolean temIniciaisAryel = htmlInjetado.contains("<span class=\"avatar-operador\" aria-hidden=\"true\">AJ</span>");
 
-        if (temIdCarlos && temNomeCarlos && temEmailCarlos && temCpfCarlos && temCargoCarlos && temIniciaisCarlos) {
-            System.out.println("  [OK] Injeção do operador Carlos Eduardo em perfil.html 100% precisa!");
+        if (temIdAryel && temNomeAryel && temEmailAryel && temCpfAryel && temCargoAryel && temIniciaisAryel) {
+            System.out.println("  [OK] Injeção do operador Aryel Jesus em perfil.html 100% precisa!");
         } else {
             System.err.println("  [ERRO] Falhou injeção em perfil.html!");
             falhas++;

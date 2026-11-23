@@ -1,8 +1,8 @@
 package br.uepa.foxfit.dao;
 
 import br.uepa.foxfit.database.Conexao;
-import br.uepa.foxfit.model.MatriculaRecente;
 import br.uepa.foxfit.model.ResumoDashboard;
+import br.uepa.foxfit.model.ResumoDashboard.MatriculaRecente;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -17,11 +17,7 @@ import java.util.List;
  */
 public class DashboardDAO {
 
-    /**
-     * Carrega em uma única chamada todos os 4 indicadores e as 5 matrículas mais recentes.
-     */
     public ResumoDashboard carregarResumo() throws SQLException {
-
         try (Connection conexao = Conexao.conectar()) {
             int alunosAtivos = contarAlunosAtivos(conexao);
             int matriculasNoMes = contarMatriculasNoMes(conexao);

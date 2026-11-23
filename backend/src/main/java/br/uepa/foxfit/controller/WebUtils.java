@@ -1,4 +1,4 @@
-package br.uepa.foxfit.web;
+package br.uepa.foxfit.controller;
 
 import br.uepa.foxfit.dao.UsuarioDAO;
 import br.uepa.foxfit.model.Usuario;
@@ -213,6 +213,14 @@ public final class WebUtils {
             html = html.replaceAll(
                     "(id=[\"']perfil-cargo[\"'][^>]*value=[\"'])[^\"']*([\"'])",
                     "$1" + Matcher.quoteReplacement(cargo) + "$2"
+            );
+        }
+
+        // Oculta o item "Usuários" na barra lateral para perfis não administradores (RBAC)
+        if (!usuario.isAdmin()) {
+            html = html.replaceAll(
+                    "\\s*<li[^>]*>\\s*<a[^>]*href=[\"'](?:[^\"']*/)?cadastro\\.html[\"'][^>]*>.*?</a>\\s*</li>",
+                    ""
             );
         }
 

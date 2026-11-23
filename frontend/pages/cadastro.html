@@ -61,7 +61,7 @@
         </hgroup>
       </header>
 
-      <form id="form-cadastro" class="formulario-padrao" action="cadastro.html" method="post">
+      <form id="form-cadastro" class="formulario-padrao" action="/usuarios/cadastrar" method="post">
         <input type="hidden" id="cad-id" name="idUsuario" value="">
 
         <fieldset class="grade-campos-acesso">
@@ -121,7 +121,7 @@
         </fieldset>
       </form>
     </section>
-
+    <!-- FORMULARIO_EDICAO_USUARIO -->
     <section class="modulo-sistema" aria-labelledby="titulo-tabela-operadores">
       <header class="cabecalho-modulo">
         <hgroup>
@@ -145,123 +145,17 @@
             </tr>
           </thead>
           <tbody id="corpo-tabela-operadores">
-            <tr>
-              <th scope="row">#USR-001</th>
-              <td>Fernanda Sousa</td>
-              <td>fernanda.sousa@foxfit.com.br</td>
-              <td>345.890.123-00</td>
-              <td>Administrador</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="1"
-                  aria-label="Editar usuária Fernanda Sousa">Editar</button>
-                <button type="button" class="btn-excluir" data-id="1"
-                  aria-label="Excluir usuária Fernanda Sousa">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#USR-002</th>
-              <td>Carlos Eduardo Almeida</td>
-              <td>carlos.almeida@foxfit.com.br</td>
-              <td>418.220.910-34</td>
-              <td>Operador</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="2"
-                  aria-label="Editar usuário Carlos Eduardo Almeida">Editar</button>
-                <button type="button" class="btn-excluir" data-id="2"
-                  aria-label="Excluir usuário Carlos Eduardo Almeida">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#USR-003</th>
-              <td>Beatriz Helena Mendes</td>
-              <td>beatriz.mendes@foxfit.com.br</td>
-              <td>289.401.655-71</td>
-              <td>Operador</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-usuario" data-id="3"
-                  aria-label="Editar usuária Beatriz Helena Mendes">Editar</button>
-                <button type="button" class="btn-excluir" data-id="3"
-                  aria-label="Excluir usuária Beatriz Helena Mendes">Excluir</button>
-              </td>
-            </tr>
+            <!-- LINHAS_USUARIOS -->
           </tbody>
           <tfoot>
             <tr>
               <td colspan="5">Total de usuários credenciados no sistema</td>
-              <td colspan="2">3 usuários ativos</td>
+              <td colspan="2"><!-- TOTAL_USUARIOS --></td>
             </tr>
           </tfoot>
         </table>
       </section>
     </section>
-
-    <dialog id="modal-editar-usuario" class="modal-sistema" popover aria-labelledby="titulo-modal-editar-usuario">
-      <article>
-        <header class="cabecalho-modulo">
-          <hgroup>
-            <h2 id="titulo-modal-editar-usuario">Editar Usuário / Redefinir Senha</h2>
-          </hgroup>
-        </header>
-
-        <form id="form-editar-usuario" class="formulario-padrao" action="cadastro.html" method="post">
-          <input type="hidden" id="edit-usuario-id" name="idUsuario" value="2">
-
-          <fieldset>
-            <legend>Informações do Usuário Selecionado</legend>
-
-            <label for="edit-usuario-nome">
-              Nome Completo
-              <input type="text" id="edit-usuario-nome" name="nomeCompleto" value="Carlos Eduardo Almeida" required>
-            </label>
-
-            <label for="edit-usuario-email">
-              E-mail Corporativo
-              <input type="email" id="edit-usuario-email" name="email" value="carlos.almeida@foxfit.com.br" required>
-            </label>
-
-            <label for="edit-usuario-cpf">
-              CPF
-              <input type="text" id="edit-usuario-cpf" name="cpf" value="418.220.910-34" maxlength="14" required>
-            </label>
-
-            <label for="edit-usuario-cargo">
-              Cargo / Função (Nível de Acesso)
-              <select id="edit-usuario-cargo" name="cargo" required>
-                <option value="OPERADOR" selected>Operador (Recepção / Atendimento)</option>
-                <option value="ADMIN">Administrador (Acesso Total)</option>
-              </select>
-            </label>
-
-            <label for="edit-usuario-senha">
-              Nova Senha (Opcional para redefinição)
-              <input type="password" id="edit-usuario-senha" name="novaSenha"
-                placeholder="Deixe em branco para manter a atual" minlength="8">
-            </label>
-
-            <label for="edit-usuario-status">
-              Status da Conta
-              <select id="edit-usuario-status" name="status" required>
-                <option value="ATIVO" selected>Ativo</option>
-                <option value="INATIVO">Inativo</option>
-              </select>
-            </label>
-
-            <footer class="acoes-formulario">
-              <button type="button" id="btn-fechar-modal-usuario" class="btn btn-secundario"
-                popovertarget="modal-editar-usuario" popovertargetaction="hide">
-                Cancelar
-              </button>
-              <button type="submit" id="btn-salvar-edicao-usuario" class="btn btn-primario">
-                Salvar Alterações
-              </button>
-            </footer>
-          </fieldset>
-        </form>
-      </article>
-    </dialog>
   </main>
   <script src="../assets/js/sessao.js"></script>
 </body>
