@@ -39,7 +39,8 @@ Sistema web para gestão operacional, administrativa e financeira de academias.
 | **Gestão de Alunos** | `alunos.html` | ✅ Concluído | Cadastro, listagem, filtro por nome/CPF/status, edição e exclusão de alunos. |
 | **Professores** | `professores.html` | 🚧 Em desenvolvimento | Front-end concluído (CREF, especialidade e turno); integração Java/DAO em andamento. |
 | **Matrículas** | `matriculas.html` | 🚧 Em desenvolvimento | Front-end concluído (vínculo aluno-plano, vigência e renovação); integração Java/DAO em andamento. |
-| **Usuários e Acesso** | `login.html`, `cadastro.html`, `perfil.html` | 🚧 Em desenvolvimento | Front-end concluído (RBAC e perfil); autenticação com validação na tabela `usuarios` em andamento. |
+| **Meu Perfil e Acesso** | `perfil.html`, `login.html` | ✅ Concluído | Edição de nome/e-mail, alteração segura de senha com validações, bloqueio de e-mail duplicado, autenticação com cookies/sessão e DAO integrado. |
+| **Usuários e Cadastro** | `cadastro.html` | 🚧 Em desenvolvimento | Front-end concluído (RBAC); cadastro e permissões de operadores em andamento. |
 
 ---
 
@@ -183,6 +184,9 @@ Com o servidor ativo (`Servidor FoxFit iniciado!`), acesse:
 | `POST` | `/alunos/cadastrar` | Cadastra novo aluno. |
 | `POST` | `/alunos/atualizar` | Atualiza cadastro de aluno existente. |
 | `POST` | `/alunos/excluir` | Remove aluno sem vínculos ativos. |
+| `GET` | `/pages/perfil.html` | Renderiza a tela de Meu Perfil com dados do operador logado e banners de status. |
+| `POST` | `/perfil/atualizar` | Atualiza os dados funcionais (nome e e-mail corporativo) do operador. |
+| `POST` | `/perfil/alterar-senha` | Valida senha atual e atualiza a senha de acesso (mínimo de 8 caracteres). |
 
 ---
 

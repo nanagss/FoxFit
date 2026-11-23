@@ -187,6 +187,10 @@ public final class WebUtils {
         );
 
         // Preenche também dados do perfil se for a página perfil.html
+        html = html.replaceAll(
+                "(id=[\"']perfil-id[\"'][^>]*value=[\"'])[^\"']*([\"'])",
+                "$1" + usuario.getId() + "$2"
+        );
         if (usuario.getNomeCompleto() != null && !usuario.getNomeCompleto().isBlank()) {
             html = html.replaceAll(
                     "(id=[\"']perfil-nome[\"'][^>]*value=[\"'])[^\"']*([\"'])",

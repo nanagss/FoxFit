@@ -126,6 +126,21 @@ public class ServidorFoxFit {
                 logoutHandler
         );
 
+        // Rotas de Meu Perfil
+        PaginaPerfilHandler perfilHandler = new PaginaPerfilHandler();
+        servidor.createContext(
+                "/pages/perfil.html",
+                perfilHandler
+        );
+        servidor.createContext(
+                "/perfil/atualizar",
+                new AtualizarPerfilHandler()
+        );
+        servidor.createContext(
+                "/perfil/alterar-senha",
+                new AlterarSenhaHandler()
+        );
+
         Path raiz = Path.of("frontend").toAbsolutePath().normalize();
 
         servidor.createContext("/", requisicao -> {

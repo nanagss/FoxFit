@@ -14,6 +14,11 @@ public class Conexao {
 
     private static final String USUARIO = "postgres";
 
+    public static boolean isConfigurado() {
+        String senha = System.getenv("FOXFIT_DB_PASSWORD");
+        return senha != null && !senha.isBlank();
+    }
+
     public static Connection conectar() throws SQLException {
 
         String senha = System.getenv("FOXFIT_DB_PASSWORD");
