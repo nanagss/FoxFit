@@ -58,6 +58,18 @@ public class Usuario {
         return senhaOriginal;
     }
 
+    public String getSenha() {
+        return senhaOriginal;
+    }
+
+    public Usuario comNomeEEmail(String novoNome, String novoEmail) {
+        return new Usuario(this.id, novoNome, novoEmail, this.cpf, this.cargo, this.status, this.senhaOriginal);
+    }
+
+    public Usuario comSenha(String novaSenha) {
+        return new Usuario(this.id, this.nomeCompleto, this.email, this.cpf, this.cargo, this.status, novaSenha);
+    }
+
     public String getIniciais() {
         if (nomeCompleto == null || nomeCompleto.isBlank()) {
             return "?";
