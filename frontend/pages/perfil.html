@@ -7,6 +7,7 @@
   <meta name="description" content="Edição de Perfil e Alteração de Senha do Operador Logado na Academia FOX FIT">
   <title>FOX FIT | Meu Perfil</title>
   <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../assets/js/sessao.js" defer></script>
 </head>
 
 <body class="layout-sistema">
@@ -105,6 +106,8 @@
       </header>
 
       <form id="form-alterar-senha" class="formulario-padrao" action="perfil.html" method="post">
+        <div id="mensagem-alterar-senha" role="alert" style="display:none; margin-bottom: 16px;"></div>
+
         <fieldset>
           <legend>Redefinição de Senha Pessoal</legend>
 
@@ -130,9 +133,9 @@
             <button type="reset" id="btn-limpar-senha" class="btn btn-secundario">
               Limpar
             </button>
-            <button type="submit" id="btn-atualizar-senha" class="btn btn-primario">
-              Atualizar Senha
-            </button>
+              <button type="submit" id="btn-atualizar-senha" class="btn btn-primario" disabled>
+                Atualizar Senha
+              </button>
           </footer>
         </fieldset>
       </form>
