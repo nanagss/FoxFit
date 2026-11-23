@@ -11,13 +11,13 @@ const USUARIOS_FOXFIT = [
     email: "fernanda.sousa@foxfit.com.br",
     cpf: "345.890.123-00",
     cargo: "ADMIN",
-    senha: "vasco2026",
+    senha: "fernanda26",
     status: "ATIVO"
   },
   {
     id: 2,
-    nomeCompleto: "Carlos Eduardo Almeida",
-    email: "carlos.almeida@foxfit.com.br",
+    nomeCompleto: "Aryel Jesus",
+    email: "aryel.jesus@foxfit.com.br",
     cpf: "418.220.910-34",
     cargo: "OPERADOR",
     senha: "trembala",
@@ -118,6 +118,16 @@ function aplicarPerfilOperador(usuario) {
   const inputCargo = document.getElementById("perfil-cargo");
   if (inputCargo) {
     inputCargo.value = cargoFormatado;
+  }
+
+  // Oculta a opção "Usuários" na barra lateral para perfis que não são ADMIN (RBAC)
+  const isAdmin = usuario.cargo && usuario.cargo.toUpperCase() === "ADMIN";
+  if (!isAdmin) {
+    document.querySelectorAll('.menu-lateral a[href$="cadastro.html"], nav a[href$="cadastro.html"]').forEach((link) => {
+      const item = link.closest("li");
+      if (item) item.remove();
+      else link.remove();
+    });
   }
 
   // Garante a remoção da área "Telefone / Ramal" caso ainda exista no DOM

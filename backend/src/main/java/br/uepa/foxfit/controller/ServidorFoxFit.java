@@ -82,10 +82,24 @@ public class ServidorFoxFit {
         rotas.put("/planos/atualizar", planos);
         rotas.put("/planos/excluir", planos);
 
-        // 7. Fluxo Financeiro
+        // 7. Controle de Matrículas (RF05)
+        BaseHandler matriculas = new MatriculaController();
+        rotas.put("/pages/matriculas.html", matriculas);
+        rotas.put("/matriculas/cadastrar", matriculas);
+        rotas.put("/matriculas/renovar", matriculas);
+        rotas.put("/matriculas/cancelar", matriculas);
+
+        // 8. Fluxo Financeiro
         BaseHandler financeiro = new FinanceiroController();
         rotas.put("/pages/financeiro.html", financeiro);
         rotas.put("/financeiro/pagar", financeiro);
+
+        // 9. Gestão de Usuários (Admin)
+        BaseHandler usuarios = new UsuarioController();
+        rotas.put("/pages/cadastro.html", usuarios);
+        rotas.put("/usuarios/cadastrar", usuarios);
+        rotas.put("/usuarios/atualizar", usuarios);
+        rotas.put("/usuarios/excluir", usuarios);
 
         return rotas;
     }
