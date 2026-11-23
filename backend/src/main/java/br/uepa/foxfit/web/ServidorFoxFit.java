@@ -37,9 +37,38 @@ public class ServidorFoxFit {
                 new AtualizarAlunoHandler()
         );
 
+        // Formulário de edição de professores
+        servidor.createContext(
+                "/professores/editar",
+                new EditarProfessorHandler()
+        );
+
         servidor.createContext(
                 "/alunos/listar",
                 new ListarAlunosHandler()
+        );
+
+        // Rota de cadastro de professores
+        servidor.createContext(
+                "/professores/cadastrar",
+                new CadastroProfessorHandler()
+        );
+
+        // Página dinâmica de professores
+        servidor.createContext(
+                "/pages/professores.html",
+                new PaginaProfessoresHandler()
+        );
+
+        // Desativação de professores
+        servidor.createContext(
+                "/professores/desativar",
+                new DesativarProfessorHandler()
+        );
+
+        servidor.createContext(
+                "/professores/atualizar",
+                new AtualizarProfessorHandler()
         );
 
         // Rotas de Dashboard

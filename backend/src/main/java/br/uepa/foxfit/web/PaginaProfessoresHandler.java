@@ -140,7 +140,7 @@ public class PaginaProfessoresHandler implements HttpHandler {
                         </form>
                         <form action="/professores/desativar"
                               method="post"
-                              style="display:inline;"
+                              style="display:inline;">
                           <input type="hidden"
                                  name="idProfessor"
                                  value="%d">

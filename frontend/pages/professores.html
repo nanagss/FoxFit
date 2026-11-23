@@ -57,8 +57,9 @@
         </hgroup>
       </header>
 
-      <form id="form-professor" class="formulario-padrao" action="professores.html" method="post">
-        <input type="hidden" id="prof-id" name="idProfessor" value="">
+      <form id="form-professor" class="formulario-padrao"
+            action="/professores/cadastrar" method="post">
+      <input type="hidden" id="prof-id" name="idProfessor" value="">
 
         <fieldset>
           <legend>Qualificação Técnica e Dados do Professor</legend>
@@ -141,86 +142,6 @@
             </tr>
           </thead>
           <tbody id="corpo-tabela-professores">
-            <tr>
-              <th scope="row">#PRF-001</th>
-              <td>Rodrigo Vasconcelos Lima</td>
-              <td>312.448.901-20</td>
-              <td>148290-G/SP</td>
-              <td>Musculação</td>
-              <td>Manhã</td>
-              <td>(11) 98412-3011</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="1"
-                  aria-label="Editar professor Rodrigo Vasconcelos Lima">Editar</button>
-                <button type="button" class="btn-excluir" data-id="1"
-                  aria-label="Excluir professor Rodrigo Vasconcelos Lima">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PRF-002</th>
-              <td>Patrícia Duarte Nogueira</td>
-              <td>298.761.540-66</td>
-              <td>162410-G/SP</td>
-              <td>Funcional</td>
-              <td>Tarde</td>
-              <td>(11) 97234-8890</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="2"
-                  aria-label="Editar professora Patrícia Duarte Nogueira">Editar</button>
-                <button type="button" class="btn-excluir" data-id="2"
-                  aria-label="Excluir professora Patrícia Duarte Nogueira">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PRF-003</th>
-              <td>Henrique Moura Cavalcanti</td>
-              <td>405.129.883-15</td>
-              <td>139875-G/SP</td>
-              <td>Cross</td>
-              <td>Noite</td>
-              <td>(11) 99104-5521</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="3"
-                  aria-label="Editar professor Henrique Moura Cavalcanti">Editar</button>
-                <button type="button" class="btn-excluir" data-id="3"
-                  aria-label="Excluir professor Henrique Moura Cavalcanti">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PRF-004</th>
-              <td>Juliana Borges Santana</td>
-              <td>356.890.214-08</td>
-              <td>175302-G/SP</td>
-              <td>Dança</td>
-              <td>Noite</td>
-              <td>(11) 98550-1920</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="4"
-                  aria-label="Editar professora Juliana Borges Santana">Editar</button>
-                <button type="button" class="btn-excluir" data-id="4"
-                  aria-label="Excluir professora Juliana Borges Santana">Excluir</button>
-              </td>
-            </tr>
-            <tr>
-              <th scope="row">#PRF-005</th>
-              <td>Marcelo Tavares Gusmão</td>
-              <td>219.540.778-91</td>
-              <td>128904-G/SP</td>
-              <td>Lutas</td>
-              <td>Noite</td>
-              <td>(11) 97781-6403</td>
-              <td><span class="badge-status status-ativo">Ativo</span></td>
-              <td class="celula-acoes">
-                <button type="button" class="btn-editar" popovertarget="modal-editar-professor" data-id="5"
-                  aria-label="Editar professor Marcelo Tavares Gusmão">Editar</button>
-                <button type="button" class="btn-excluir" data-id="5"
-                  aria-label="Excluir professor Marcelo Tavares Gusmão">Excluir</button>
-              </td>
-            </tr>
           </tbody>
           <tfoot>
             <tr>
@@ -231,82 +152,6 @@
         </table>
       </section>
     </section>
-
-    <dialog id="modal-editar-professor" class="modal-sistema" popover aria-labelledby="titulo-modal-editar-professor">
-      <article>
-        <header class="cabecalho-modulo">
-          <hgroup>
-            <h2 id="titulo-modal-editar-professor">Editar Informações do Professor</h2>
-          </hgroup>
-        </header>
-
-        <form id="form-editar-professor" class="formulario-padrao" action="professores.html" method="post">
-          <input type="hidden" id="edit-prof-id" name="idProfessor" value="1">
-
-          <fieldset>
-            <legend>Dados do Professor Selecionado</legend>
-
-            <label for="edit-prof-nome">
-              Nome Completo
-              <input type="text" id="edit-prof-nome" name="nome" value="Rodrigo Vasconcelos Lima" required>
-            </label>
-
-            <label for="edit-prof-cpf">
-              CPF
-              <input type="text" id="edit-prof-cpf" name="cpf" value="312.448.901-20" maxlength="14" required>
-            </label>
-
-            <label for="edit-prof-cref">
-              Registro CREF
-              <input type="text" id="edit-prof-cref" name="cref" value="148290-G/SP" required>
-            </label>
-
-            <label for="edit-prof-especialidade">
-              Especialidade
-              <select id="edit-prof-especialidade" name="especialidade" required>
-                <option value="Musculação" selected>Musculação</option>
-                <option value="Funcional">Funcional</option>
-                <option value="Cross">Cross</option>
-                <option value="Dança">Dança</option>
-                <option value="Lutas">Lutas</option>
-              </select>
-            </label>
-
-            <label for="edit-prof-turno">
-              Turno de Atuação
-              <select id="edit-prof-turno" name="turno" required>
-                <option value="Manhã" selected>Manhã</option>
-                <option value="Tarde">Tarde</option>
-                <option value="Noite">Noite</option>
-              </select>
-            </label>
-
-            <label for="edit-prof-telefone">
-              Telefone / Celular
-              <input type="tel" id="edit-prof-telefone" name="telefone" value="(11) 98412-3011" required>
-            </label>
-
-            <label for="edit-prof-status">
-              Status do Professor
-              <select id="edit-prof-status" name="status" required>
-                <option value="ATIVO" selected>Ativo</option>
-                <option value="INATIVO">Inativo</option>
-              </select>
-            </label>
-
-            <footer class="acoes-formulario">
-              <button type="button" id="btn-fechar-modal-professor" class="btn btn-secundario"
-                popovertarget="modal-editar-professor" popovertargetaction="hide">
-                Cancelar
-              </button>
-              <button type="submit" id="btn-salvar-edicao-professor" class="btn btn-primario">
-                Salvar Alterações
-              </button>
-            </footer>
-          </fieldset>
-        </form>
-      </article>
-    </dialog>
   </main>
   <script src="../assets/js/sessao.js"></script>
 </body>
